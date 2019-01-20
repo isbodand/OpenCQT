@@ -1,0 +1,6 @@
+//defines macros for program version
+#include <cstdio>
+
+#define OpenCQT_MAJOR @OpenCQT_VERSION_MAJOR@
+#define OpenCQT_MINOR @OpenCQT_VERSION_MINOR@
+#define OpenCQT_VERSION @OpenCQT_VERSION@

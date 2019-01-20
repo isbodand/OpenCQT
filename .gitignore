@@ -1,0 +1,10 @@
+build/
+
+*.exe
+*.obj
+*.o
+*.out
+
+*.local.*
+
+compile_commands.json
