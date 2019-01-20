@@ -1,0 +1,21 @@
+pool:
+  vmImage: 'Ubuntu 16.04'
+
+jobs:
+  - job: Clean
+    displayName: Clean the stuff
+    continueOnError: true
+    steps:
+      - bash: rm -rf ./build/
+
+  - job: CreateBuildDir
+    displayName: Create dir to build in
+    continueOnError: false
+    dependsOn: Clean
+    steps:
+      - bash: mkdir build
+
+  - job: RunTests
+    displayName: Run All Tests
+    dependsOn: Clean
+

@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.11)
 
+set(CMAKE_CXX_COMPILER_VERSION 17)
 project(InfoParse)
 
 set(InfoParse_VERSION_MAJOR 0)
@@ -11,11 +12,17 @@ configure_file(
     "${PROJECT_SOURCE_DIR}/versioning.hpp"
 )
 
-set(InfoParse_SOURCES 
-    RawParseOption.cpp ParseOptionEmptyException.cpp
-)
-set(InfoParse_HEADERS versioning.hpp 
-    RawParseOption.hpp ParseOptionEmptyException.hpp
+set(InfoParse_SOURCES
+        MatchResult.cpp
+        ParseOptionEmptyException.cpp
+        Parser.cpp
+        )
+set(InfoParse_HEADERS
+        versioning.hpp unless.hpp
+        options/ParseOption.hpp
+        MatchResult.hpp
+        ParseOptionEmptyException.hpp
+        Parser.hpp
 )
 
 add_library(infoparse ${InfoParse_HEADERS} ${InfoParse_SOURCES})

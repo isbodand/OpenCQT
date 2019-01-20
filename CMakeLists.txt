@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.11)
 
+set(CMAKE_CXX_COMPILER_VERSION 17)
 project(OpenCQT)
 
 set(OpenCQT_VERSION_MAJOR 0)

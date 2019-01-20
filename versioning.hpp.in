@@ -1,6 +1,12 @@
 //defines macros for program version
-#include <cstdio>
-
 #define OpenCQT_MAJOR @OpenCQT_VERSION_MAJOR@
 #define OpenCQT_MINOR @OpenCQT_VERSION_MINOR@
-#define OpenCQT_VERSION @OpenCQT_VERSION@
+#define OpenCQT_VERSION "@OpenCQT_VERSION@"
+
+#include <string>
+
+namespace OpenCqt {
+    static const std::string getVersion() {
+        return OpenCQT_VERSION;
+    }
+}

@@ -8,3 +8,6 @@ build/
 *.local.*
 
 compile_commands.json
+
+.idea/
+*.imp

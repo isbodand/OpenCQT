@@ -3,12 +3,15 @@
 #include <exception>
 #include <sstream>
 
-class ParseOptionEmptyException : std::exception {
-    bool shouldStore;
+namespace InfoParse {
 
-    ParseOptionEmptyException(bool should) : 
-        shouldStore(should) {
-    }
+    class ParseOptionEmptyException : std::exception {
+        bool shouldStore;
 
-    const char* what() const noexcept override; 
-};
+        explicit ParseOptionEmptyException(bool should) :
+                shouldStore(should) {
+        }
+
+        const char* what() const noexcept override;
+    };
+}
