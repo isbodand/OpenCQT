@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.11)
 
-set(CMAKE_CXX_COMPILER_VERSION 17)
+set(CMAKE_CXX_STANDARD 17)
 project(InfoParse)
 
 set(InfoParse_VERSION_MAJOR 0)
@@ -16,7 +16,8 @@ set(InfoParse_SOURCES
         MatchResult.cpp
         ParseOptionEmptyException.cpp
         Parser.cpp
-        )
+)
+
 set(InfoParse_HEADERS
         versioning.hpp unless.hpp
         options/ParseOption.hpp
