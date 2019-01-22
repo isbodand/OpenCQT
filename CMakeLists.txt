@@ -18,8 +18,16 @@ configure_file(
     "${PROJECT_SOURCE_DIR}/versioning.hpp"
 )
 
+if(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    conan_basic_setup()
+else()
+    message(WARNING "The file conanbuildinfo.cmake doesn't exist, you have to run conan install first")
+endif()
+
+
 set(PROJECT_SOURCES main.cpp)
 set(PROJECT_HEADERS versioning.hpp)
 
 add_executable(ocqt ${PROJECT_SOURCES} ${PROJECT_HEADERS})
-target_link_libraries(ocqt infoparse)
+target_link_libraries(ocqt infoparse ${CONAN_LIBS})

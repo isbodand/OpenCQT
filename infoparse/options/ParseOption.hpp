@@ -24,7 +24,7 @@ namespace InfoParse {
     static const char separatorSpace = ' ';
 
     template<class T>
-    class RawParseOption {
+    class ParseOption {
         std::string longOption;
         char shortOption;
         bool takesValue;
@@ -32,18 +32,18 @@ namespace InfoParse {
 
         bool found = false;
         long appeared = 0;
-        void* value = nullptr;
+        T* value = nullptr;
 
     public:
-        RawParseOption(const std::string& option);
+        explicit ParseOption(const std::string& option);
 
-        RawParseOption(const std::string& option, bool takesValue);
+        ParseOption(const std::string& option, bool takesValue);
 
-        RawParseOption(char shortOpt, std::string longOpt);
+        ParseOption(char shortOpt, std::string longOpt);
 
-        RawParseOption(char shortOpt, std::string longOpt, bool takesValue);
+        ParseOption(char shortOpt, std::string longOpt, bool takesValue);
 
-        virtual ~RawParseOption();
+        virtual ~ParseOption();
 
         /**
          * Returns current value of the ParseOption
@@ -66,6 +66,8 @@ namespace InfoParse {
          *         and a bool whether there was a match
          */
         MatchResult match(std::string& args);
+
+    private:
         void noValueParse(std::string& args);
         void noValueLongParse(std::string& args);
         void noValueShortParse(std::string& args);
@@ -75,43 +77,43 @@ namespace InfoParse {
     };
 
     template<class T>
-    RawParseOption<T>::RawParseOption(const std::string& option) :
+    ParseOption<T>::ParseOption(const std::string& option) :
             longOption(option),
             shortOption(option[0]),
             takesValue(false) {
     }
 
     template<class T>
-    RawParseOption<T>::RawParseOption(char shortOpt, std::string longOpt) :
+    ParseOption<T>::ParseOption(char shortOpt, std::string longOpt) :
             shortOption(shortOpt),
             longOption(std::move(longOpt)),
             takesValue(false) {
     }
 
     template<class T>
-    RawParseOption<T>::RawParseOption(const std::string& option, bool takesValue) :
+    ParseOption<T>::ParseOption(const std::string& option, bool takesValue) :
             shortOption(option[0]),
             longOption(option),
             takesValue(takesValue) {
     }
 
     template<class T>
-    RawParseOption<T>::RawParseOption(char shortOpt, std::string longOpt, bool takesValue) :
+    ParseOption<T>::ParseOption(char shortOpt, std::string longOpt, bool takesValue) :
             shortOption(shortOpt),
             longOption(std::move(longOpt)),
             takesValue(false) {
     }
 
     template<class T>
-    T RawParseOption<T>::getValue() {
+    T ParseOption<T>::getValue() {
         if (value == nullptr) {
             throw ParseOptionEmptyException(takesValue);
         }
-        return *transmutingFunction(value);
+        return *value;
     }
 
     template<class T>
-    MatchResult RawParseOption<T>::match(std::string& args) {
+    MatchResult ParseOption<T>::match(std::string& args) {
         found = false;
         if (takesValue) {
             valueParse(args);
@@ -122,7 +124,7 @@ namespace InfoParse {
     }
 
     template<class T>
-    void RawParseOption<T>::valueParse(std::string& args) {
+    void ParseOption<T>::valueParse(std::string& args) {
         valueLongParse(args);
         if (!found && acceptShortOption) {
             valueShortParse(args);
@@ -130,7 +132,7 @@ namespace InfoParse {
     }
 
     template<class T>
-    void RawParseOption<T>::valueShortParse(std::string& args) {
+    void ParseOption<T>::valueShortParse(std::string& args) {
         const auto& matchSequence = std::string({separatorSpace, shortOptNotation, shortOption, separatorSpace});
         size_t shortPos = args.find(matchSequence);
         unless (shortPos == -1) {
@@ -150,7 +152,7 @@ namespace InfoParse {
     }
 
     template<class T>
-    void RawParseOption<T>::valueLongParse(std::string& args) {
+    void ParseOption<T>::valueLongParse(std::string& args) {
         size_t longPos = args.find(longOptNotation + longOption);
         unless (longPos == -1) {
             found = true;
@@ -164,7 +166,7 @@ namespace InfoParse {
     }
 
     template<class T>
-    void RawParseOption<T>::noValueParse(std::string& args) {
+    void ParseOption<T>::noValueParse(std::string& args) {
         noValueLongParse(args);
         if (!found && acceptShortOption) {
             noValueShortParse(args);
@@ -172,7 +174,7 @@ namespace InfoParse {
     }
 
     template<class T>
-    void RawParseOption<T>::noValueShortParse(std::string& args) {
+    void ParseOption<T>::noValueShortParse(std::string& args) {
         const auto& matchSequence = std::string({separatorSpace, shortOptNotation, shortOption, separatorSpace});
         size_t shortPos = args.find(matchSequence);
         unless (shortPos == -1) {
@@ -186,7 +188,7 @@ namespace InfoParse {
     }
 
     template<class T>
-    void RawParseOption<T>::noValueLongParse(std::string& args) {
+    void ParseOption<T>::noValueLongParse(std::string& args) {
         size_t longPos = args.find(longOptNotation + longOption);
         unless (longPos == -1) {
             found = true;
@@ -198,28 +200,28 @@ namespace InfoParse {
     }
 
     template<class T>
-    const std::string& RawParseOption<T>::getLongOption() const {
+    const std::string& ParseOption<T>::getLongOption() const {
         return longOption;
     }
 
     template<class T>
-    bool RawParseOption<T>::doesAcceptShortOption() const {
+    bool ParseOption<T>::doesAcceptShortOption() const {
         return acceptShortOption;
     }
 
     template<class T>
-    void RawParseOption<T>::setAcceptShortOption(bool acceptShortOption) {
-        RawParseOption::acceptShortOption = acceptShortOption;
+    void ParseOption<T>::setAcceptShortOption(bool acceptShortOption) {
+        ParseOption::acceptShortOption = acceptShortOption;
     }
 
     template<class T>
-    RawParseOption<T>::~RawParseOption() {
+    ParseOption<T>::~ParseOption() {
         delete value;
         value = nullptr;
     }
 
     template<class T>
-    bool RawParseOption<T>::isTakesValue() const {
+    bool ParseOption<T>::isTakesValue() const {
         return takesValue;
     }
 }

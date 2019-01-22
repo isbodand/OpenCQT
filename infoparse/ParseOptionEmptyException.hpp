@@ -8,6 +8,7 @@ namespace InfoParse {
     class ParseOptionEmptyException : std::exception {
         bool shouldStore;
 
+    public:
         explicit ParseOptionEmptyException(bool should) :
                 shouldStore(should) {
         }
