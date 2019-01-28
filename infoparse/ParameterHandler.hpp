@@ -37,9 +37,9 @@ namespace InfoParse {
                 if (matchRes.isSuccessful()) {
                     argsToMatch = matchRes.getResultString();
                     if (parameter.isTakesValue()) {
-                        retVal.second[parameter.getLongOption()] = parameter.getValue();
+                        retVal.second[parameter.getOptionName()] = parameter.getValue();
                     } else {
-                        retVal.second[parameter.getLongOption()] = T();
+                        retVal.second[parameter.getOptionName()] = T();
                     }
                 }
             }
