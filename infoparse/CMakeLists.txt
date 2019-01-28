@@ -16,10 +16,11 @@ set(InfoParse_SOURCES
         MatchResult.cpp
         ParseOptionEmptyException.cpp
         ParameterHandler.cpp
+        utils.cpp
         )
 
 set(InfoParse_HEADERS
-        versioning.hpp unless.hpp
+        versioning.hpp utils.hpp
         options/ParseOption.hpp
         MatchResult.hpp
         ParseOptionEmptyException.hpp

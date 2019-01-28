@@ -7,4 +7,8 @@
 
 #define unless(x) if (!(x))
 
+namespace InfoParse {
+    std::string makeMonolithArgs(int argc, char** argv);
+}
+
 #endif //OPENCQT_UNLESS_HPP
