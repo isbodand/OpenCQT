@@ -51,7 +51,7 @@ namespace InfoParse {
          */
         T getValue();
 
-        const std::string& getLongOption() const;
+        const std::string& getOptionName() const;
 
         bool doesAcceptShortOption() const;
         void setAcceptShortOption(bool acceptShortOption);
@@ -74,6 +74,81 @@ namespace InfoParse {
         void valueParse(std::string& args);
         void valueLongParse(std::string& args);
         void valueShortParse(std::string& args);
+    };
+
+    template<>
+    class ParseOption<bool> {
+        std::string longOption;
+        char shortOption;
+        bool acceptShortOption = true;
+
+        bool found = false;
+        long appeared = 0;
+        bool val = false;
+
+    public:
+        explicit ParseOption(const std::string& option) :
+            longOption(option),
+            shortOption(option[0]) {
+        }
+        ParseOption(char shortOpt, std::string longOpt) :
+            shortOption(shortOpt),
+            longOption(longOpt) {
+        }
+
+        bool getValue() {
+            return val;
+        }
+
+        const std::string& getOptionName() const {
+            return longOption;
+        }
+
+        virtual ~ParseOption() {};
+
+        MatchResult match(const std::string& args) {
+            found = false;
+            std::string argsToParse = args;
+            longParse(argsToParse);
+            unless (found) {
+                shortParse(argsToParse);
+            }
+            return MatchResult(found, argsToParse);
+        }
+    private:
+        void longParse(std::string& args) {
+            size_t longPos = args.find(longOptNotation + longOption);
+            unless (longPos == -1) {
+                found = true;
+                ++appeared;
+                const auto longStart = args.begin() + longPos;
+                const auto longEnd = longStart + (longOption.length() + 2);
+                args.erase(longStart, longEnd);
+            }
+        }
+
+        void shortParse(std::string& args) {
+            shortBareParse(args);
+            unless (found) {
+                shortBulkParse(args);
+            }
+        }
+
+        void shortBulkParse(std::string& args) {
+        }
+
+        void shortBareParse(std::string& args) {
+            const auto& matchSequence = std::string({separatorSpace, shortOptNotation, shortOption, separatorSpace});
+            size_t shortPos = args.find(matchSequence);
+            unless (shortPos == -1) {
+                found = true;
+                ++appeared;
+                auto shortStart = 0 + shortPos + 1;
+                const auto shortEnd = shortStart + shortOptNotationLen + 1;
+                const auto shortLength = shortEnd - shortStart;
+                args.erase(shortStart, shortLength);
+            }
+        }
     };
 
     template<class T>
@@ -200,7 +275,7 @@ namespace InfoParse {
     }
 
     template<class T>
-    const std::string& ParseOption<T>::getLongOption() const {
+    const std::string& ParseOption<T>::getOptionName() const {
         return longOption;
     }
 
