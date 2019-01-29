@@ -321,7 +321,14 @@ namespace InfoParse {
         } until (foundBulk || startSearch >= args.length());
 
         if (foundBulk) {
-            //todo
+            size_t bulkLength = bulkEnd - bulkStart;
+            std::string extractedBulk = args.substr(bulkStart, bulkLength);
+            args.erase(bulkStart, bulkLength);
+            size_t shortOptPos = extractedBulk.find(shortOption);
+            unless (shortOptPos == -1) {
+                //todo found
+            }
+            // todo insert
         }
     }
 
