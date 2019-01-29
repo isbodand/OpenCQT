@@ -6,6 +6,7 @@
 #define OPENCQT_UNLESS_HPP
 
 #define unless(x) if (!(x))
+#define until(x) while (!(x))
 
 namespace InfoParse {
     std::string makeMonolithArgs(int argc, char** argv);

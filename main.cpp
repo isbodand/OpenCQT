@@ -1,40 +1,32 @@
 #include <iostream>
 #include <sstream>
-#include <string>
 
 #include "rang.hpp"
 #include "infoparse/ParameterHandler.hpp"
-#include "infoparse/options/ParseOption.hpp"
-#include "infoparse/versioning.hpp"
-#include "versioning.hpp"
 
 namespace ip = InfoParse;
 
-std::string makeMonolithArgs(int argc, char** argv);
-
 int main(int argc, char** argv) {
-    std::string monolithArgs = makeMonolithArgs(argc, argv);
+    std::string monolithArgs = ip::makeMonolithArgs(argc, argv);
 
     ip::ParameterHandler<std::string> stringHandler;
-    stringHandler.addParameter(ip::ParseOption<std::string>("alpha"));
-    stringHandler.addParameter(ip::ParseOption<std::string>("beta"));
-    stringHandler.addParameter(ip::ParseOption<std::string>("gamma", true));
+    //    stringHandler.addParameter(ip::ParseOption<std::string>("obstruct"));
+    //    stringHandler.addParameter(ip::ParseOption<std::string>("slurp"));
+    stringHandler.addParameter(ip::ParseOption<std::string>("polymerization", true));
+
+    ip::ParameterHandler<bool> flagHandler;
+    flagHandler.addParameter(ip::ParseOption<bool>("alpha"));
+    flagHandler.addParameter(ip::ParseOption<bool>("beta"));
+    flagHandler.addParameter(ip::ParseOption<bool>("gamma"));
 
     auto parsed = stringHandler.parse(monolithArgs);
     for (const auto& item : *parsed.first) {
         std::cout << item << std::endl;
     }
-    for (const auto& item : parsed.second) {
+    auto flags = flagHandler.parse(monolithArgs);
+    for (const auto& item : flags.second) {
         std::cout << item.first << " -> " << item.second << std::endl;
     }
     return 0;
 }
 
-std::string makeMonolithArgs(int argc, char** argv) {
-    std::ostringstream retStream;
-    retStream << " ";
-    for (int i = 1; i < argc; ++i) {
-        retStream << argv[i] << " ";
-    }
-    return retStream.str();
-}

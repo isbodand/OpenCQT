@@ -1,3 +1,5 @@
+#include <utility>
+
 #pragma once
 
 #include <string>
@@ -8,7 +10,7 @@
 #include <functional>
 
 #include "../MatchResult.hpp"
-#include "../unless.hpp"
+#include "../utils.hpp"
 #include "../ParseOptionEmptyException.hpp"
 
 namespace InfoParse {
@@ -87,69 +89,37 @@ namespace InfoParse {
         bool val = false;
 
     public:
-        explicit ParseOption(const std::string& option) :
+        explicit ParseOption(const std::string& option);
+        ParseOption(char shortOpt, std::string longOpt);
+
+        bool getValue();
+
+        const std::string& getOptionName() const;
+
+        virtual ~ParseOption() = default;
+
+        bool isTakesValue();
+
+        MatchResult match(const std::string& args);
+    private:
+        void longParse(std::string& args);
+
+        void shortParse(std::string& args);
+
+        void shortBulkParse(std::string& args);
+
+        void shortBareParse(std::string& args);
+    };
+
+    ParseOption<bool>::ParseOption(const std::string& option) :
             longOption(option),
             shortOption(option[0]) {
-        }
-        ParseOption(char shortOpt, std::string longOpt) :
+    }
+
+    ParseOption<bool>::ParseOption(char shortOpt, std::string longOpt) :
             shortOption(shortOpt),
-            longOption(longOpt) {
-        }
-
-        bool getValue() {
-            return val;
-        }
-
-        const std::string& getOptionName() const {
-            return longOption;
-        }
-
-        virtual ~ParseOption() {};
-
-        MatchResult match(const std::string& args) {
-            found = false;
-            std::string argsToParse = args;
-            longParse(argsToParse);
-            unless (found) {
-                shortParse(argsToParse);
-            }
-            return MatchResult(found, argsToParse);
-        }
-    private:
-        void longParse(std::string& args) {
-            size_t longPos = args.find(longOptNotation + longOption);
-            unless (longPos == -1) {
-                found = true;
-                ++appeared;
-                const auto longStart = args.begin() + longPos;
-                const auto longEnd = longStart + (longOption.length() + 2);
-                args.erase(longStart, longEnd);
-            }
-        }
-
-        void shortParse(std::string& args) {
-            shortBareParse(args);
-            unless (found) {
-                shortBulkParse(args);
-            }
-        }
-
-        void shortBulkParse(std::string& args) {
-        }
-
-        void shortBareParse(std::string& args) {
-            const auto& matchSequence = std::string({separatorSpace, shortOptNotation, shortOption, separatorSpace});
-            size_t shortPos = args.find(matchSequence);
-            unless (shortPos == -1) {
-                found = true;
-                ++appeared;
-                auto shortStart = 0 + shortPos + 1;
-                const auto shortEnd = shortStart + shortOptNotationLen + 1;
-                const auto shortLength = shortEnd - shortStart;
-                args.erase(shortStart, shortLength);
-            }
-        }
-    };
+            longOption(std::move(longOpt)) {
+    }
 
     template<class T>
     ParseOption<T>::ParseOption(const std::string& option) :
@@ -286,7 +256,7 @@ namespace InfoParse {
 
     template<class T>
     void ParseOption<T>::setAcceptShortOption(bool acceptShortOption) {
-        ParseOption::acceptShortOption = acceptShortOption;
+        this->acceptShortOption = acceptShortOption;
     }
 
     template<class T>
@@ -295,8 +265,72 @@ namespace InfoParse {
         value = nullptr;
     }
 
-    template<class T>
-    bool ParseOption<T>::isTakesValue() const {
-        return takesValue;
+    MatchResult ParseOption<bool>::match(const std::string& args) {
+        found = false;
+        std::string argsToParse = args;
+        longParse(argsToParse);
+        unless (found) {
+            shortParse(argsToParse);
+        }
+        return MatchResult(found, argsToParse);
     }
+
+    void ParseOption<bool>::longParse(std::string& args) {
+        size_t longPos = args.find(longOptNotation + longOption);
+        unless (longPos == -1) {
+            found = true;
+            ++appeared;
+            const auto longStart = args.begin() + longPos;
+            const auto longEnd = longStart + (longOption.length() + 2);
+            args.erase(longStart, longEnd);
+        }
+    }
+
+    void ParseOption<bool>::shortParse(std::string& args) {
+        shortBareParse(args);
+        unless (found) {
+            shortBulkParse(args);
+        }
+    }
+
+    void ParseOption<bool>::shortBareParse(std::string& args) {
+        const auto& matchSequence = std::string({separatorSpace, shortOptNotation, shortOption, separatorSpace});
+        size_t shortPos = args.find(matchSequence);
+        unless (shortPos == -1) {
+            found = true;
+            ++appeared;
+            auto shortStart = 0 + shortPos + 1;
+            const auto shortEnd = shortStart + shortOptNotationLen + 1;
+            const auto shortLength = shortEnd - shortStart;
+            args.erase(shortStart, shortLength);
+        }
+    }
+
+    void ParseOption<bool>::shortBulkParse(std::string& args) {
+        const auto& bulkSequence = std::string({separatorSpace, shortOptNotation});
+        size_t startSearch = 0;
+        bool foundBulk = false;
+        size_t bulkStart = 0;
+        size_t bulkEnd = 0;
+
+        do {
+            size_t possibleBulkStart = args.find(bulkSequence, startSearch);
+            size_t possibleBulkEnd = args.find(' ', possibleBulkStart + 1);
+            foundBulk = possibleBulkEnd - possibleBulkStart > 2;
+            startSearch = possibleBulkEnd + 1;
+        } until (foundBulk || startSearch >= args.length());
+
+        if (foundBulk) {
+            //todo
+        }
+    }
+
+    bool ParseOption<bool>::isTakesValue() { return true; }
+
+    const std::string& ParseOption<bool>::getOptionName() const { return longOption; }
+
+    bool ParseOption<bool>::getValue() { return val; }
+
+    template<class T>
+    bool ParseOption<T>::isTakesValue() const { return takesValue; }
 }
