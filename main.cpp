@@ -1,5 +1,6 @@
 #include <iostream>
 #include <sstream>
+#include <vector>
 
 #include "rang.hpp"
 #include "infoparse/ParameterHandler.hpp"
@@ -8,6 +9,9 @@ namespace ip = InfoParse;
 
 int main(int argc, char** argv) {
     std::string monolithArgs = ip::makeMonolithArgs(argc, argv);
+
+    auto a = "asd";
+    std::vector<typeof(a)> av;
 
     ip::ParameterHandler<std::string> stringHandler;
     //    stringHandler.addParameter(ip::ParseOption<std::string>("obstruct"));
@@ -23,6 +27,7 @@ int main(int argc, char** argv) {
     for (const auto& item : *parsed.first) {
         std::cout << item << std::endl;
     }
+    std::cout << "+" << std::endl;
     auto flags = flagHandler.parse(monolithArgs);
     for (const auto& item : flags.second) {
         std::cout << item.first << " -> " << item.second << std::endl;
