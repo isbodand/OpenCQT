@@ -17,15 +17,18 @@ set(InfoParse_SOURCES
         ParseOptionEmptyException.cpp
         ParameterHandler.cpp
         utils.cpp
+        TypeInferingParameterHandler.cpp
         )
 
 set(InfoParse_HEADERS
         versioning.hpp utils.hpp
         options/ParseOption.hpp
+        options/FlagOption.hpp
         MatchResult.hpp
         ParseOptionEmptyException.hpp
         ParameterHandler.hpp
-        )
+        TypeInferingParameterHandler.hpp
+        options/ValueOption.hpp)
 
 if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
     include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)

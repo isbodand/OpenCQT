@@ -1,5 +1,7 @@
 #include <utility>
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wparentheses"
 #pragma once
 
 #include <string>
@@ -36,7 +38,7 @@ namespace InfoParse {
         long appeared = 0;
         T* value = nullptr;
 
-    public:
+    protected:
         explicit ParseOption(const std::string& option);
 
         ParseOption(const std::string& option, bool takesValue);
@@ -45,6 +47,7 @@ namespace InfoParse {
 
         ParseOption(char shortOpt, std::string longOpt, bool takesValue);
 
+    public:
         virtual ~ParseOption();
 
         /**
@@ -93,6 +96,7 @@ namespace InfoParse {
         ParseOption(char shortOpt, std::string longOpt);
 
         bool getValue();
+        long getAppeared() const;
 
         const std::string& getOptionName() const;
 
@@ -278,7 +282,7 @@ namespace InfoParse {
     void ParseOption<bool>::longParse(std::string& args) {
         size_t longPos = args.find(longOptNotation + longOption);
         unless (longPos == -1) {
-            found = true;
+            found = val = true;
             ++appeared;
             const auto longStart = args.begin() + longPos;
             const auto longEnd = longStart + (longOption.length() + 2);
@@ -297,7 +301,7 @@ namespace InfoParse {
         const auto& matchSequence = std::string({separatorSpace, shortOptNotation, shortOption, separatorSpace});
         size_t shortPos = args.find(matchSequence);
         unless (shortPos == -1) {
-            found = true;
+            found = val = true;
             ++appeared;
             auto shortStart = 0 + shortPos + 1;
             const auto shortEnd = shortStart + shortOptNotationLen + 1;
@@ -315,8 +319,14 @@ namespace InfoParse {
 
         do {
             size_t possibleBulkStart = args.find(bulkSequence, startSearch);
+            if (possibleBulkStart == -1) {
+                break;
+            }
             size_t possibleBulkEnd = args.find(' ', possibleBulkStart + 1);
-            foundBulk = possibleBulkEnd - possibleBulkStart > 2;
+            if (foundBulk = possibleBulkEnd - possibleBulkStart > 2) {
+                bulkStart = possibleBulkStart;
+                bulkEnd = possibleBulkEnd;
+            }
             startSearch = possibleBulkEnd + 1;
         } until (foundBulk || startSearch >= args.length());
 
@@ -326,13 +336,17 @@ namespace InfoParse {
             args.erase(bulkStart, bulkLength);
             size_t shortOptPos = extractedBulk.find(shortOption);
             unless (shortOptPos == -1) {
-                //todo found
+                extractedBulk.erase(shortOptPos, 1);
+                found = val = true;
+                ++appeared;
             }
-            // todo insert
+            args.insert(bulkStart, extractedBulk);
         }
     }
 
     bool ParseOption<bool>::isTakesValue() { return true; }
+
+    long ParseOption<bool>::getAppeared() const { return appeared; }
 
     const std::string& ParseOption<bool>::getOptionName() const { return longOption; }
 
@@ -341,3 +355,5 @@ namespace InfoParse {
     template<class T>
     bool ParseOption<T>::isTakesValue() const { return takesValue; }
 }
+
+#pragma clang diagnostic pop
