@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD 17)
 project(InfoParse)
 
 set(InfoParse_VERSION_MAJOR 0)
-set(InfoParse_VERSION_MINOR 1)
+set(InfoParse_VERSION_MINOR 2-a)
 set(InfoParse_VERSION "${InfoParse_VERSION_MAJOR}.${InfoParse_VERSION_MINOR}")
 
 configure_file(
@@ -13,22 +13,12 @@ configure_file(
 )
 
 set(InfoParse_SOURCES
-        MatchResult.cpp
-        ParseOptionEmptyException.cpp
-        ParameterHandler.cpp
         utils.cpp
-        TypeInferingParameterHandler.cpp
         )
 
 set(InfoParse_HEADERS
         versioning.hpp utils.hpp
-        options/ParseOption.hpp
-        options/FlagOption.hpp
-        MatchResult.hpp
-        ParseOptionEmptyException.hpp
-        ParameterHandler.hpp
-        TypeInferingParameterHandler.hpp
-        options/ValueOption.hpp)
+        Option.hpp)
 
 if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
     include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)

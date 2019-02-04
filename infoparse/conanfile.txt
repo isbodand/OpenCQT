@@ -1,5 +1,0 @@
-[requires]
-rang/3.0.0@rang/stable
-
-[generators]
-cmake
