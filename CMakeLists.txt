@@ -8,6 +8,7 @@ set(OpenCQT_VERSION_MINOR 1)
 set(OpenCQT_VERSION "${OpenCQT_VERSION_MAJOR}.${OpenCQT_VERSION_MINOR}")
 
 add_subdirectory(infoparse)
+add_subdirectory(croquette)
 
 if(NOT RELEASE)
     set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -30,4 +31,4 @@ set(PROJECT_SOURCES main.cpp)
 set(PROJECT_HEADERS versioning.hpp)
 
 add_executable(ocqt ${PROJECT_SOURCES} ${PROJECT_HEADERS})
-target_link_libraries(ocqt infoparse ${CONAN_LIBS})
+target_link_libraries(ocqt infoparse libCroquette ${CONAN_LIBS})

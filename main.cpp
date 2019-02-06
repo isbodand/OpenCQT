@@ -29,8 +29,8 @@
 #include "infoparse/OptionsParser.hpp"
 
 int main(int argc, char** argv) {
-    int cookieCount;
-    int cookieSweetness;
+    int cookieCount = 0;
+    int cookieSweetness = 0;
     std::string cookie;
     bool cocaine;
     bool meth;
@@ -44,8 +44,7 @@ int main(int argc, char** argv) {
     parser.addOption("use-meth", 'm', &meth);
     parser.addOption("use-blue-meth", 'b', &heisenberg);
 
-    std::string args = " This -b is a -s 45 command -r InfoCotta line --cookie-count 12 -H parameter -m";
-    std::string retArgs = parser.parse(args);
+    auto retArgs = InfoParse::splitByWhitespace(parser.parse(argc, argv));
 
     std::cout << "Cookie: " << cookie << std::endl
               << "Use-Cocaine-In-Recipe: " << (cocaine ? "true" : "false") << std::endl
@@ -53,8 +52,7 @@ int main(int argc, char** argv) {
               << "Blue-Meth: " << (heisenberg ? "true" : "false") << std::endl
               << "Cookie-Count: " << cookieCount << std::endl
               << "Cookie-Sweetness: " << cookieSweetness << std::endl
-              << "Original : [" << args << "]" << std::endl
-              << "Processed: [" << retArgs << "]" << std::endl;
+              << "Remaining: #" << retArgs.size() << std::endl;
 
     return 0;
 }

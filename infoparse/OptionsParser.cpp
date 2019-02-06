@@ -5,7 +5,6 @@
 #include "OptionsParser.hpp"
 
 #include <iterator>
-#include <iostream>
 #include <regex>
 
 InfoParse::OptionsParser::OptionsParser() = default;
@@ -17,9 +16,7 @@ std::string InfoParse::OptionsParser::parse(int argc, char** argv) {
 }
 
 std::string InfoParse::OptionsParser::parse(const std::string& args) {
-    std::string parsable(explodeBundledFlags(args));
-    std::cout << "[" << parsable << "]" << std::endl;
-    std::cout << "[" << equalizeWhitespace(parsable) << "]" << std::endl;
+    std::string parsable(equalizeWhitespace(explodeBundledFlags(args)));
     for (const auto& handler : optionHandlers) {
         parsable = handler.second.second(handler.second.first, parsable);
     }
@@ -41,14 +38,13 @@ std::string InfoParse::OptionsParser::explodeBundledFlags(const std::string& arg
 
         std::string bundle = parsable.substr(bundleStart, bundleSize + 1);
         parsable.erase(bundleStart, bundleSize + 1);
-        std::cout << "[" << bundle << "] -> ";
         std::stringstream explodedBundleStream;
         for (const auto& ch : bundle) {
-            if (ch == ' ' || ch == '-') {/*nothing*/}
-            else { explodedBundleStream << " -" << ch << ' '; }
+            unless (ch == ' ' || ch == '-') {
+                explodedBundleStream << " -" << ch << ' ';
+            }
         }
         std::string explodedBundle = explodedBundleStream.str();
-        std::cout << "[" << explodedBundle << "]" << std::endl;
 
         parsable.insert(bundleStart, explodedBundle);
         bundleStart++;

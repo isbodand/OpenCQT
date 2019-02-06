@@ -1,6 +1,6 @@
-#define InfoParse_MAJOR "0"
-#define InfoParse_MINOR "2-a"
-#define InfoParse_VERSION "0.2-a"
+#define InfoParse_MAJOR "1"
+#define InfoParse_MINOR "0"
+#define InfoParse_VERSION "1.0"
 
 #include <string>
 namespace InfoParse {

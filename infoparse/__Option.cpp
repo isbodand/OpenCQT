@@ -36,16 +36,11 @@ std::string InfoParse::__Option<bool>::match(const std::string& args) const {
     const auto longSequence = std::string(" --") + longName + " ";
     const auto shortSequence = std::string(" -") + shortName + " ";
 
-    std::cout << "bool __Option" << std::endl;
-
     unless ((startMatch = parsable.find(longSequence)) == -1) {
-        std::size_t matchLength = startMatch + longSequence.length() - 1;
-        parsable.erase(startMatch, matchLength);
+        parsable.erase(startMatch, longSequence.length() - 1);
         *exporter = true;
     } else unless ((startMatch = parsable.find(shortSequence)) == -1) {
-        std::size_t matchLength = startMatch + shortSequence.length() - 1;
-        parsable.erase(startMatch, matchLength);
-
+        parsable.erase(startMatch, shortSequence.length() - 1);
         *exporter = true;
     }
 

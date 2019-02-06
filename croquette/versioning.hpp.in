@@ -1,0 +1,12 @@
+#define LibCroquette_MAJOR "@libCroquette_VERSION_MAJOR@"
+#define LibCroquette_MINOR "@libCroquette_VERSION_MINOR@"
+#define LibCroquette_VERSION "@libCroquette_VERSION@"
+
+#include <string>
+//@formatter:off
+namespace LibCqt {
+static const std::string getVersion() {
+return LibCroquette_VERSION;
+}
+}
+//@formatter:on

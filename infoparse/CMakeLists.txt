@@ -3,9 +3,13 @@ cmake_minimum_required(VERSION 3.11)
 set(CMAKE_CXX_STANDARD 17)
 project(InfoParse)
 
-set(InfoParse_VERSION_MAJOR 0)
-set(InfoParse_VERSION_MINOR 2-a)
+set(InfoParse_VERSION_MAJOR 1)
+set(InfoParse_VERSION_MINOR 0)
 set(InfoParse_VERSION "${InfoParse_VERSION_MAJOR}.${InfoParse_VERSION_MINOR}")
+
+if (NOT RELEASE)
+    set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+endif ()
 
 configure_file(
         "${PROJECT_SOURCE_DIR}/versioning.hpp.in"
