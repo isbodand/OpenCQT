@@ -17,5 +17,9 @@ jobs:
 
   - job: RunTests
     displayName: Run All Tests
-    dependsOn: Clean
-
+    dependsOn: CreateBuildDir
+    steps:
+      - bash: cd build
+      - bash: cmake ..
+      - bash: make -j
+#      - bash: make test # sad

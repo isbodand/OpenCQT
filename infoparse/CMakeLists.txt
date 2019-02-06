@@ -13,12 +13,11 @@ configure_file(
 )
 
 set(InfoParse_SOURCES
-        utils.cpp
-        )
+        utils.cpp __Option.cpp OptionsParser.cpp OptionsParser.hpp)
 
 set(InfoParse_HEADERS
         versioning.hpp utils.hpp
-        Option.hpp)
+        __Option.hpp __OptionHandler.hpp OptionsParser.cpp OptionsParser.hpp)
 
 if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
     include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)

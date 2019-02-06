@@ -1,6 +1,58 @@
+/*
+ * InfoSoft Croquette Open Source implementation
+ *
+ *****************************************************************************
+ * Copyright 2018 bodand && contributors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *****************************************************************************
+ *
+ * Note:
+ * The InfoSoft Croquette standard is not equivalent to this repository or its
+ * code and is in no form related to the contents of the repository. Modifications
+ * in the standard which were induced because of this repository and codebase
+ * are merely coincidental and still do not mean a connection between the standard
+ * and this code. `bodand` is the sole link between these two projects, as he
+ * wishes to see his abomination come to life.
+ */
 
+#include "infoparse/OptionsParser.hpp"
 
 int main(int argc, char** argv) {
+    int cookieCount;
+    int cookieSweetness;
+    std::string cookie;
+    bool cocaine;
+    bool meth;
+    bool heisenberg;
+
+    InfoParse::OptionsParser parser;
+    parser.addOption("cookie-count", &cookieCount);
+    parser.addOption("cookie-sweetness", 's', &cookieSweetness);
+    parser.addOption("cookie", 'r', &cookie);
+    parser.addOption("use-cocaine", 'H', &cocaine);
+    parser.addOption("dump-lefover-meth", 'm', &meth);
+    parser.addOption("ask-heisenber-for-blue-meth", 'b', &heisenberg);
+
+    std::string args = " This is a -s 45 command -r InfoCotta line --cookie-count 12 parameter -Hmc string";
+    std::string retArgs = parser.parse(args);
+
+    std::cout << "Cookie: " << cookie << std::endl
+              << "Use-Cocaine-In-Recipe: " << (cocaine ? "true" : "false") << std::endl
+              << "Cookie-Count: " << cookieCount << std::endl
+              << "Cookie-Sweetness: " << cookieSweetness << std::endl
+              << "Original : [" << args << "]" << std::endl
+              << "Processed: [" << retArgs << "]" << std::endl;
 
     return 0;
 }
