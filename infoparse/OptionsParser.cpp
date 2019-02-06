@@ -4,17 +4,22 @@
 
 #include "OptionsParser.hpp"
 
+#include <iterator>
+#include <iostream>
+#include <regex>
+
 InfoParse::OptionsParser::OptionsParser() = default;
 
 InfoParse::OptionsParser::~OptionsParser() = default;
 
 std::string InfoParse::OptionsParser::parse(int argc, char** argv) {
-    return InfoParse::makeMonolithArgs(argc, argv);
+    return parse(InfoParse::makeMonolithArgs(argc, argv));
 }
 
 std::string InfoParse::OptionsParser::parse(const std::string& args) {
-    std::string parsable(args);
-    std::cout << explodeBundledFlags(args);
+    std::string parsable(explodeBundledFlags(args));
+    std::cout << "[" << parsable << "]" << std::endl;
+    std::cout << "[" << equalizeWhitespace(parsable) << "]" << std::endl;
     for (const auto& handler : optionHandlers) {
         parsable = handler.second.second(handler.second.first, parsable);
     }
@@ -31,21 +36,27 @@ std::string InfoParse::OptionsParser::explodeBundledFlags(const std::string& arg
         if (parsable[bundleStart + 2] == '-' && ++bundleStart) continue;
 
         std::size_t bundleEnd = parsable.find(' ', bundleStart + 1);
-        std::size_t bundleSize = bundleEnd - bundleStart - 2 /* " -" */;
+        std::size_t bundleSize = bundleEnd - bundleStart - 1;
         if (bundleSize <= 1 && ++bundleStart) continue;
 
-        std::string bundle = parsable.substr(bundleStart, bundleSize);
-        parsable.erase(bundleStart, bundleSize);
+        std::string bundle = parsable.substr(bundleStart, bundleSize + 1);
+        parsable.erase(bundleStart, bundleSize + 1);
+        std::cout << "[" << bundle << "] -> ";
         std::stringstream explodedBundleStream;
         for (const auto& ch : bundle) {
-            if (ch == ' ') { explodedBundleStream << ch; }
-            else if (ch == '-') { /*nothing*/}
-            else { explodedBundleStream << " -" << ch << " "; }
+            if (ch == ' ' || ch == '-') {/*nothing*/}
+            else { explodedBundleStream << " -" << ch << ' '; }
         }
         std::string explodedBundle = explodedBundleStream.str();
+        std::cout << "[" << explodedBundle << "]" << std::endl;
 
         parsable.insert(bundleStart, explodedBundle);
         bundleStart++;
     } while (true);
     return parsable;
+}
+
+std::string InfoParse::OptionsParser::equalizeWhitespace(const std::string& args) {
+    std::regex moreWhitespace("\\s+");
+    return std::regex_replace(args, moreWhitespace, " ");
 }

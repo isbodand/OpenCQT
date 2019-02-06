@@ -41,14 +41,16 @@ int main(int argc, char** argv) {
     parser.addOption("cookie-sweetness", 's', &cookieSweetness);
     parser.addOption("cookie", 'r', &cookie);
     parser.addOption("use-cocaine", 'H', &cocaine);
-    parser.addOption("dump-lefover-meth", 'm', &meth);
-    parser.addOption("ask-heisenber-for-blue-meth", 'b', &heisenberg);
+    parser.addOption("use-meth", 'm', &meth);
+    parser.addOption("use-blue-meth", 'b', &heisenberg);
 
-    std::string args = " This is a -s 45 command -r InfoCotta line --cookie-count 12 parameter -Hmc string";
+    std::string args = " This -b is a -s 45 command -r InfoCotta line --cookie-count 12 -H parameter -m";
     std::string retArgs = parser.parse(args);
 
     std::cout << "Cookie: " << cookie << std::endl
               << "Use-Cocaine-In-Recipe: " << (cocaine ? "true" : "false") << std::endl
+              << "Use-Meth: " << (meth ? "true" : "false") << std::endl
+              << "Blue-Meth: " << (heisenberg ? "true" : "false") << std::endl
               << "Cookie-Count: " << cookieCount << std::endl
               << "Cookie-Sweetness: " << cookieSweetness << std::endl
               << "Original : [" << args << "]" << std::endl

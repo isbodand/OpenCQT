@@ -2,6 +2,7 @@
 // Created by bodand on 2019-02-05.
 //
 
+#include <iostream>
 #include "__Option.hpp"
 
 InfoParse::__Option<bool>::__Option(std::string longName, char shortName, bool* exporter) :
@@ -35,13 +36,14 @@ std::string InfoParse::__Option<bool>::match(const std::string& args) const {
     const auto longSequence = std::string(" --") + longName + " ";
     const auto shortSequence = std::string(" -") + shortName + " ";
 
+    std::cout << "bool __Option" << std::endl;
+
     unless ((startMatch = parsable.find(longSequence)) == -1) {
         std::size_t matchLength = startMatch + longSequence.length() - 1;
         parsable.erase(startMatch, matchLength);
-
         *exporter = true;
     } else unless ((startMatch = parsable.find(shortSequence)) == -1) {
-        std::size_t matchLength = startMatch + longSequence.length() - 1;
+        std::size_t matchLength = startMatch + shortSequence.length() - 1;
         parsable.erase(startMatch, matchLength);
 
         *exporter = true;

@@ -36,6 +36,7 @@ namespace InfoParse {
 
     private:
         std::string explodeBundledFlags(const std::string& args);
+        std::string equalizeWhitespace(const std::string& args);
     };
 
     template<class T>
