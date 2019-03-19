@@ -6,6 +6,8 @@ namespace LibCroquette {
 class _ArcheType {
 protected:
     void* value;
+
+    _ArcheType();
 public:
 };
 
