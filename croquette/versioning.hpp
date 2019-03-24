@@ -4,9 +4,9 @@
 
 #include <string>
 //@formatter:off
-namespace LibCroquette {
-    static const std::string getVersion() {
-        return LibCroquette_VERSION;
-    }
+namespace LibCqt {
+static const std::string getVersion() {
+return LibCroquette_VERSION;
+}
 }
 //@formatter:on

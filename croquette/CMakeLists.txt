@@ -5,8 +5,8 @@ project(libCroquette CXX)
 
 set(libCroquette_VERSION_MAJOR 0)
 set(libCroquette_VERSION_MINOR 1)
-set(libCroquette_RELEASE_NOTE -α)
-set(libCroquette_VERSION "${libCroquette_VERSION_MAJOR}.${libCroquette_VERSION_MINOR}${libCroquette_RELEASE_NOTE}")
+set(libCroquette_RELEASE_NOTE α)
+set(libCroquette_VERSION "${libCroquette_VERSION_MAJOR}.${libCroquette_VERSION_MINOR}-${libCroquette_RELEASE_NOTE}")
 
 if (NOT RELEASE)
     set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -17,11 +17,19 @@ configure_file(
         "${PROJECT_SOURCE_DIR}/versioning.hpp"
 )
 
-set(libCroquette_SOURCESa
-        )
+set(libCroquette_SOURCES
+        types/Archetype.cpp
+        types/Archeutils.cpp
+        types/ScalarArchetype.cpp
+        types/ArrayArchetype.cpp
+        uniprint.cpp cqt.cpp)
 set(libCroquette_HEADERS
         versioning.hpp
-        )
+        types/Archetype.hpp
+        types/Archeutils.hpp
+        types/ScalarArchetype.hpp
+        types/ArrayArchetype.hpp
+        uniprint.hpp cqt.hpp)
 
 if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
     include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)

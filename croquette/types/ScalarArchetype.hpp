@@ -1,42 +1,39 @@
 #pragma once
 
-#define _Out_
+#include <iostream>
+#include <string>
 
 #include "Archetype.hpp"
 
 namespace LibCroquette {
 
 namespace _Inner {
-    union _InnerScalar {
+    union _InnerTrueScalar {
         int IntegerScalar;
         float FloatScalar;
         double DoubleScalar;
         long double LongDoubleScalar;
     };
-    
-    enum _InnerCurrentScalarValue {
+    using _ScalarInnerValue = _InnerTrueScalar;
+
+    enum _InnerCurrentTrueScalarValue {
         IntegerSubtype,
         FloatSubtype,
         DoubleSubtype,
         LongDoubleSubtype
     };
+    using _ScalarSubtype = _InnerCurrentTrueScalarValue;
 
-    class _InnerScalarArcheValue {
+    struct _InnerTrueScalarSubType {
         _ScalarInnerValue value;
         _ScalarSubtype subtype;
-
-    public:
-        int getCurrentValue(_Out_ void* pop)
     };
-
-    using _ScalarInnerValue = _InnerScalar;
-    using _ScalarSubtype = _InnerCurrentScalarValue;
-    using _ScalarValue = _InnerScalarArcheValue;
+    using _TrueScalarSubtype = _InnerTrueScalarSubType;
 }
 
 class _ScalarArchetype : public ArcheType {
-
-}
+public:
+};
 
 using ScalarArchetype = _ScalarArchetype;
 
