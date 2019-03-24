@@ -30,7 +30,7 @@ namespace LibCroquette {
 
   #define CQT_STRING(str) TEXT(str)
 #else
-    using _CqtChar = wchar_t;
+    using _CqtChar = char;
     using _CqtString = std::string;
 
     auto& _CqtSTDOUT = std::cout;
