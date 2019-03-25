@@ -18,18 +18,24 @@ configure_file(
 )
 
 set(libCroquette_SOURCES
+        uniprint.cpp cqt.cpp
         types/Archetype.cpp
         types/Archeutils.cpp
         types/ScalarArchetype.cpp
         types/ArrayArchetype.cpp
-        uniprint.cpp cqt.cpp)
+        public_types/TrueScalarType.cpp
+        public_types/CharacterScalar.cpp
+        )
 set(libCroquette_HEADERS
         versioning.hpp
+        uniprint.hpp cqt.hpp
         types/Archetype.hpp
         types/Archeutils.hpp
         types/ScalarArchetype.hpp
         types/ArrayArchetype.hpp
-        uniprint.hpp cqt.hpp)
+        public_types/TrueScalarType.hpp
+        public_types/CharacterScalar.hpp
+        )
 
 if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
     include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)

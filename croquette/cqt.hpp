@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "uniprint.hpp"
+
 namespace LibCroquette {
     int init();
 }

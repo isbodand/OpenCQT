@@ -6,47 +6,68 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
 
-#if defined(_WIN64) || defined(_WIN32)
+#if (defined(_WIN64) || defined(_WIN32)) && !defined(_CQT_WINDOWS)
 
+  #include <windows.h>
   #include <io.h>
   #include <fcntl.h>
-  #include <winnt.h>
 
   #define _CQT_WINDOWS
 #endif
 
 namespace LibCroquette {
 
-#ifdef _CQT_WINDOWS
-    using _CqtChar = wchar_t;
-    using _CqtString = std::wstring;
+#if defined(_CQT_WINDOWS) && !defined(_CQT_STRING_INIT)
+    using Char = wchar_t;
+    using String = std::wstring;
+    using StringStream = std::wstringstream;
 
-    auto& _CqtSTDOUT = std::wcout;
+  #ifndef CQT_STDOUT
+    #define CQT_STDOUT std::wcout
+  #endif
 
-    auto& _CqtSTDERR = std::wcerr;
+  #ifndef CQT_STDERR
+    #define CQT_STDERR std::wcerr
+  #endif
 
-    auto& _CqtSTDIN = std::wcin;
+  #ifndef CQT_STDIN
+    #define CQT_STDIN std::wcin
+  #endif
 
-  #define CQT_STRING(str) TEXT(str)
-#else
-    using _CqtChar = char;
-    using _CqtString = std::string;
+  #ifndef CQT_STRING
+    #define CQT_STRING(str) TEXT(str)
+  #endif
+  #define _CQT_STRING_INIT
+#elif !defined(_CQT_STRING_INIT)
+    using Char = char;
+    using String = std::string;
+    using StringStream = std::stringstream;
 
-    auto& _CqtSTDOUT = std::cout;
+  #ifndef CQT_STDOUT
+    #define CQT_STDOUT std::cout
+  #endif
 
-    auto& _CqtSTDERR = std::cerr;
+  #ifndef CQT_STDERR
+    #define CQT_STDERR std::cerr
+  #endif
 
-    auto& _CqtSTDIN = std::cin;
+  #ifndef CQT_STDIN
+    #define CQT_STDIN std::cin
+  #endif
 
-  #define CQT_STRING(str) str
+  #ifndef CQT_STRING
+    #define CQT_STRING(str) str
+  #endif
+  #define _CQT_STRING_INIT
 #endif
 
-    void uniPrint(const _CqtString& string);
+    void uniPrint(const String& string);
 
-    void uniError(const _CqtString& error);
+    void uniError(const String& error);
 
-    _CqtString uniReadStr();
+    String uniReadStr();
 
-    _CqtChar uniReadChar();
+    Char uniReadChar();
 }

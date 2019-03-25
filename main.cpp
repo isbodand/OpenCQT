@@ -26,12 +26,20 @@
  * wishes to see his abomination come to life.
  */
 
+// Parameter parser
 #include "infoparse/OptionsParser.hpp"
+// Croquette STD
+#include "croquette/cqt.hpp"
+
+namespace Cqt = LibCroquette;
 
 int main(int argc, char** argv) {
+    Cqt::init();
+    CQT_STDOUT << std::boolalpha;
+
     int cookieCount = 0;
     int cookieSweetness = 0;
-    std::string cookie;
+    Cqt::String cookie;
     bool cocaine;
     bool meth;
     bool heisenberg;
@@ -46,13 +54,13 @@ int main(int argc, char** argv) {
 
     auto retArgs = InfoParse::splitByWhitespace(parser.parse(argc, argv));
 
-    std::cout << "Cookie: " << cookie << std::endl
-              << "Use-Cocaine-In-Recipe: " << (cocaine ? "true" : "false") << std::endl
-              << "Use-Meth: " << (meth ? "true" : "false") << std::endl
-              << "Blue-Meth: " << (heisenberg ? "true" : "false") << std::endl
-              << "Cookie-Count: " << cookieCount << std::endl
-              << "Cookie-Sweetness: " << cookieSweetness << std::endl
-              << "Remaining: #" << retArgs.size() << std::endl;
+    CQT_STDOUT << CQT_STRING("Cookie: ") << cookie << std::endl
+               << CQT_STRING("Use-Cocaine-In-Recipe: ") << cocaine << std::endl
+               << CQT_STRING("Use-Meth: ") << meth << std::endl
+               << CQT_STRING("Blue-Meth: ") << heisenberg << std::endl
+               << CQT_STRING("Cookie-Count: ") << cookieCount << std::endl
+               << CQT_STRING("Cookie-Sweetness: ") << cookieSweetness << std::endl
+               << CQT_STRING("Remaining: #") << retArgs.size() << std::endl;
 
     return 0;
 }

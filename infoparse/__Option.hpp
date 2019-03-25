@@ -13,6 +13,8 @@ namespace InfoParse {
     namespace Internals {
         std::string __getOptionValueAsString(std::size_t startMatch, std::string& args,
                                              const std::string& name, const std::string& sequence);
+        std::wstring __getOptionValueAsWString(std::size_t startMatch, std::string& args,
+                                               const std::string& name, const std::string& sequence);
     }
 
     template<class T>
@@ -81,9 +83,16 @@ namespace InfoParse {
     template<class T>
     void __Option<T>::handleParameterParsing(std::size_t startMatch, std::string& args,
                                              const std::string& name, const std::string& sequence) const {
-        std::stringstream exportStream(Internals::__getOptionValueAsString(startMatch, args,
-                                                                           name, sequence));
-        exportStream >> *exporter;
+        if constexpr (!std::is_same_v<decltype(exporter), std::wstring*> &&
+                      !std::is_same_v<decltype(exporter), wchar_t*>) {
+            std::stringstream exportStream(Internals::__getOptionValueAsString(startMatch, args,
+                                                                               name, sequence));
+            exportStream >> *exporter;
+        } else {
+            std::wstringstream exportStream(Internals::__getOptionValueAsWString(startMatch, args,
+                                                                                 name, sequence));
+            exportStream >> *exporter;
+        }
     }
 
     template<class T>

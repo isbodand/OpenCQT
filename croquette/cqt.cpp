@@ -3,7 +3,6 @@
 //
 
 #include "cqt.hpp"
-#include "uniprint.hpp"
 
 int LibCroquette::init() {
 #ifdef _CQT_WINDOWS

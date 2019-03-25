@@ -17,7 +17,7 @@ configure_file(
 )
 
 set(InfoParse_SOURCES
-        utils.cpp __Option.cpp OptionsParser.cpp OptionsParser.hpp)
+        utils.cpp __Option.cpp OptionsParser.cpp OptionsParser.hpp __OptionHandler.cpp)
 
 set(InfoParse_HEADERS
         versioning.hpp utils.hpp
