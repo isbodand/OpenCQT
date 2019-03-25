@@ -6,6 +6,6 @@
 
 #include "uniprint.hpp"
 
-namespace LibCroquette {
+namespace LibCqt {
     int init();
 }

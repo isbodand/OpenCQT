@@ -17,24 +17,35 @@ configure_file(
         "${PROJECT_SOURCE_DIR}/versioning.hpp"
 )
 
-set(libCroquette_SOURCES
-        uniprint.cpp cqt.cpp
-        types/Archetype.cpp
-        types/Archeutils.cpp
-        types/ScalarArchetype.cpp
-        types/ArrayArchetype.cpp
-        public_types/TrueScalarType.cpp
-        public_types/CharacterScalar.cpp
-        )
 set(libCroquette_HEADERS
         versioning.hpp
         uniprint.hpp cqt.hpp
-        types/Archetype.hpp
-        types/Archeutils.hpp
-        types/ScalarArchetype.hpp
-        types/ArrayArchetype.hpp
-        public_types/TrueScalarType.hpp
-        public_types/CharacterScalar.hpp
+        types/archetypes/AnyArchetype.hpp
+        types/archetypes/ArchetypeUtilities.hpp
+        types/archetypes/ArrayArchetype.hpp
+        types/archetypes/HashArchetype.hpp
+        types/archetypes/ReferenceArchetype.hpp
+        types/archetypes/ScalarArchetype.hpp
+        # Types used as actual values in Croquette programs
+        # Archetypes may show their stinking head, but
+        # they are never instatiated by themselves
+        types/user_types/FlatArrayType.hpp          # Array with only scalars
+        types/user_types/ComplexArrayType.hpp       # Array with everything
+        types/user_types/TrueScalarType.hpp         # A Scalar number
+        types/user_types/CharacterScalarType.hpp    # A Scalar character implicitly number in calc
+        )
+
+set(libCroquette_SOURCES
+        uniprint.cpp cqt.cpp
+        types/archetypes/AnyArchetype.cpp
+        types/archetypes/ArrayArchetype.cpp
+        types/archetypes/HashArchetype.cpp
+        types/archetypes/ReferenceArchetype.cpp
+        types/archetypes/ScalarArchetype.cpp
+        types/user_types/FlatArrayType.cpp
+        types/user_types/ComplexArrayType.cpp
+        types/user_types/TrueScalarType.cpp
+        types/user_types/CharacterScalarType.cpp
         )
 
 if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)

@@ -13,19 +13,19 @@
 namespace InfoParse {
     template<class T>
     class __OptionHandler {
-        std::vector<__Option < T>> options;
+        std::vector<__Option<T>> options;
 
     public:
         __OptionHandler();
         virtual ~__OptionHandler();
 
-        void addOption(__Option <T> option);
+        void addOption(__Option<T> option);
 
         std::string handle(const std::string& args) const;
     };
 
     template<class T>
-    void __OptionHandler<T>::addOption(__Option <T> option) {
+    void __OptionHandler<T>::addOption(__Option<T> option) {
         options.push_back(option);
     }
 

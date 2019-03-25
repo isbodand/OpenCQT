@@ -30,37 +30,28 @@
 #include "infoparse/OptionsParser.hpp"
 // Croquette STD
 #include "croquette/cqt.hpp"
+#include "croquette/types/user_types/FlatArrayType.hpp"
+#include "croquette/types/user_types/CharacterScalarType.hpp"
+#include "croquette/types/user_types/ComplexArrayType.hpp"
 
-namespace Cqt = LibCroquette;
+namespace Cqt = LibCqt;
 
 int main(int argc, char** argv) {
     Cqt::init();
     CQT_STDOUT << std::boolalpha;
 
-    int cookieCount = 0;
-    int cookieSweetness = 0;
-    Cqt::String cookie;
-    bool cocaine;
-    bool meth;
-    bool heisenberg;
-
-    InfoParse::OptionsParser parser;
-    parser.addOption("cookie-count", &cookieCount);
-    parser.addOption("cookie-sweetness", 's', &cookieSweetness);
-    parser.addOption("cookie", 'r', &cookie);
-    parser.addOption("use-cocaine", 'H', &cocaine);
-    parser.addOption("use-meth", 'm', &meth);
-    parser.addOption("use-blue-meth", 'b', &heisenberg);
-
-    auto retArgs = InfoParse::splitByWhitespace(parser.parse(argc, argv));
-
-    CQT_STDOUT << CQT_STRING("Cookie: ") << cookie << std::endl
-               << CQT_STRING("Use-Cocaine-In-Recipe: ") << cocaine << std::endl
-               << CQT_STRING("Use-Meth: ") << meth << std::endl
-               << CQT_STRING("Blue-Meth: ") << heisenberg << std::endl
-               << CQT_STRING("Cookie-Count: ") << cookieCount << std::endl
-               << CQT_STRING("Cookie-Sweetness: ") << cookieSweetness << std::endl
-               << CQT_STRING("Remaining: #") << retArgs.size() << std::endl;
+    Cqt::ComplexArrayType array;
+    array.makeCellOfType<Cqt::FlatArrayType>();
+    array.getAs<Cqt::FlatArrayType>(0)->makeCell(1);
+    array.getAs<Cqt::FlatArrayType>(0)->makeCell(2);
+    array.makeCell(3);
+    array.makeCell(4);
+    array.makeCellOfType<Cqt::ComplexArrayType>();
+    array.getAs<Cqt::ComplexArrayType>(3)->makeCell(5);
+    array.getAs<Cqt::ComplexArrayType>(3)->makeCellOfType<Cqt::FlatArrayType>();
+    array.getAs<Cqt::ComplexArrayType>(3)->getAs<Cqt::FlatArrayType>(1)->makeCell(6);
+    array.makeCellOfType<Cqt::CharacterScalarType>(55);
+    CQT_STDOUT << array.asString();
 
     return 0;
 }

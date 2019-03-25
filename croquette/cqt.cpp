@@ -4,7 +4,7 @@
 
 #include "cqt.hpp"
 
-int LibCroquette::init() {
+int LibCqt::init() {
 #ifdef _CQT_WINDOWS
     _setmode(_fileno(stdout), _O_U16TEXT);
 #endif

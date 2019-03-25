@@ -17,7 +17,7 @@
   #define _CQT_WINDOWS
 #endif
 
-namespace LibCroquette {
+namespace LibCqt {
 
 #if defined(_CQT_WINDOWS) && !defined(_CQT_STRING_INIT)
     using Char = wchar_t;
@@ -37,8 +37,13 @@ namespace LibCroquette {
   #endif
 
   #ifndef CQT_STRING
-    #define CQT_STRING(str) TEXT(str)
+    #define CQT_STRING(STR) std::wstring{L##STR}
   #endif
+
+  #ifndef CQT_CHAR
+    #define CQT_CHAR(CH) L##CH
+  #endif
+
   #define _CQT_STRING_INIT
 #elif !defined(_CQT_STRING_INIT)
     using Char = char;
@@ -58,8 +63,13 @@ namespace LibCroquette {
   #endif
 
   #ifndef CQT_STRING
-    #define CQT_STRING(str) str
+    #define CQT_STRING(STR) std::string{STR}
   #endif
+
+  #ifndef CQT_CHAR
+    #define CQT_CHAR(CH) CH
+  #endif
+
   #define _CQT_STRING_INIT
 #endif
 

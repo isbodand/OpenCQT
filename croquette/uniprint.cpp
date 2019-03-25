@@ -4,21 +4,21 @@
 
 #include "uniprint.hpp"
 
-void LibCroquette::uniPrint(const LibCroquette::String& string) {
+void LibCqt::uniPrint(const LibCqt::String& string) {
     CQT_STDOUT << string;
 }
 
-LibCroquette::String LibCroquette::uniReadStr() {
+LibCqt::String LibCqt::uniReadStr() {
     String str;
     CQT_STDIN >> str;
     return std::move(str);
 }
 
-void LibCroquette::uniError(const LibCroquette::String& error) {
+void LibCqt::uniError(const LibCqt::String& error) {
     CQT_STDERR << error;
 }
 
-LibCroquette::Char LibCroquette::uniReadChar() {
+LibCqt::Char LibCqt::uniReadChar() {
     Char ch;
     CQT_STDIN >> ch;
     return ch;
