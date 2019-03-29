@@ -16,6 +16,8 @@ namespace LibCqt {
         String printEnd() override;
     public:
         FlatArrayType();
+        FlatArrayType(const FlatArrayType& copy);
+        explicit FlatArrayType(const Ptr<FlatArrayType>& ref);
     };
 }
 

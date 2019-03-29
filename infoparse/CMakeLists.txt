@@ -23,12 +23,4 @@ set(InfoParse_HEADERS
         versioning.hpp utils.hpp
         __Option.hpp __OptionHandler.hpp OptionsParser.cpp OptionsParser.hpp)
 
-if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    conan_basic_setup()
-else ()
-    message(WARNING "The file conanbuildinfo.cmake doesn't exist, you have to run conan install first")
-endif ()
-
 add_library(infoparse ${InfoParse_HEADERS} ${InfoParse_SOURCES})
-target_link_libraries(infoparse ${CONAN_LIBS})

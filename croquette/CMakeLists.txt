@@ -48,13 +48,7 @@ set(libCroquette_SOURCES
         types/user_types/CharacterScalarType.cpp
         )
 
-if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    conan_basic_setup()
-else ()
-    message(WARNING "The file conanbuildinfo.cmake doesn't exist, you have to run conan install first")
-endif ()
-
-add_library(croquette ${libCroquette_HEADERS} ${libCroquette_SOURCES})
+add_library(croquette STATIC ${libCroquette_HEADERS} ${libCroquette_SOURCES})
+add_library(cqt SHARED ${libCroquette_HEADERS} ${libCroquette_SOURCES})
 set_target_properties(croquette PROPERTIES LINKER_LANGUAGE CXX) # idk why need be though
-target_link_libraries(croquette ${CONAN_LIBS})
+set_target_properties(cqt PROPERTIES LINKER_LANGUAGE CXX) # idk why need be though

@@ -31,8 +31,9 @@
 // Croquette STD
 #include "croquette/cqt.hpp"
 #include "croquette/types/user_types/FlatArrayType.hpp"
-#include "croquette/types/user_types/CharacterScalarType.hpp"
 #include "croquette/types/user_types/ComplexArrayType.hpp"
+#include "croquette/types/archetypes/ArchetypeUtilities.hpp"
+#include "croquette/types/user_types/CharacterScalarType.hpp"
 
 namespace Cqt = LibCqt;
 
@@ -42,15 +43,16 @@ int main(int argc, char** argv) {
 
     Cqt::ComplexArrayType array;
     array.makeCellOfType<Cqt::FlatArrayType>();
-    array.getAs<Cqt::FlatArrayType>(0)->makeCell(1);
-    array.getAs<Cqt::FlatArrayType>(0)->makeCell(2);
-    array.makeCell(3);
-    array.makeCell(4);
-    array.makeCellOfType<Cqt::ComplexArrayType>();
-    array.getAs<Cqt::ComplexArrayType>(3)->makeCell(5);
-    array.getAs<Cqt::ComplexArrayType>(3)->makeCellOfType<Cqt::FlatArrayType>();
-    array.getAs<Cqt::ComplexArrayType>(3)->getAs<Cqt::FlatArrayType>(1)->makeCell(6);
-    array.makeCellOfType<Cqt::CharacterScalarType>(55);
+    for (int i = 0; i < 65; ++i) {
+        array.getAs<Cqt::FlatArrayType>(0)->makeCell(i);
+    }
+    array.makeCellOfType<Cqt::CharacterScalarType>(
+            Cqt::archetype_cast<Cqt::CharacterScalarType>(array.getAs<Cqt::FlatArrayType>(0))
+                                                  );
+    //    array.makeCellOfType<Cqt::FlatArrayType>(
+    //            Cqt::archetype_cast<Cqt::FlatArrayType>(array.getAs<Cqt::CharacterScalarType>(1))
+    //                                            );
+
     CQT_STDOUT << array.asString();
 
     return 0;

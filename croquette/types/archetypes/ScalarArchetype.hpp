@@ -5,6 +5,7 @@
 #pragma once
 
 #include "AnyArchetype.hpp"
+#include "../ImplementationTypes.hpp"
 
 namespace LibCqt {
     class ScalarArchetype : public AnyArchetype {
@@ -13,6 +14,10 @@ namespace LibCqt {
     public:
         ScalarArchetype();
         explicit ScalarArchetype(double value);
+        ScalarArchetype(const ScalarArchetype& copy);
+        explicit ScalarArchetype(const Ptr <ScalarArchetype>& ref);
+
+        double getValue() const;
     };
 }
 

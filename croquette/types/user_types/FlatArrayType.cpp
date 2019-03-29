@@ -13,3 +13,12 @@ LibCqt::String LibCqt::FlatArrayType::printStart() {
 LibCqt::String LibCqt::FlatArrayType::printEnd() {
     return CQT_STRING(")");
 }
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "hicpp-use-equals-default"
+
+LibCqt::FlatArrayType::FlatArrayType(const LibCqt::FlatArrayType& copy) : ArrayArchetype(copy) {}
+
+#pragma clang diagnostic pop
+
+LibCqt::FlatArrayType::FlatArrayType(const LibCqt::Ptr<LibCqt::FlatArrayType>& copy) : ArrayArchetype(copy.get()) {}

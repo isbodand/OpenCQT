@@ -13,6 +13,8 @@ namespace LibCqt {
 
         CharacterScalarType();
         explicit CharacterScalarType(double value);
+        explicit CharacterScalarType(const ScalarArchetype& copy);
+        explicit CharacterScalarType(const Ptr <LibCqt::ScalarArchetype>& ref);
     };
 }
 

@@ -14,3 +14,11 @@ LibCqt::String LibCqt::CharacterScalarType::asString() {
 }
 
 LibCqt::CharacterScalarType::CharacterScalarType(double value) : ScalarArchetype(value) {}
+
+LibCqt::CharacterScalarType::CharacterScalarType(const LibCqt::ScalarArchetype& copy)
+        : ScalarArchetype(copy) {
+}
+
+LibCqt::CharacterScalarType::CharacterScalarType(const LibCqt::Ptr<LibCqt::ScalarArchetype>& ref)
+        : ScalarArchetype(ref) {
+}

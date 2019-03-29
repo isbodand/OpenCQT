@@ -15,8 +15,9 @@ namespace LibCqt {
         String printStart() override;
         String printEnd() override;
     public:
-
         ComplexArrayType();
+        ComplexArrayType(const ComplexArrayType& copy);
+        explicit ComplexArrayType(const Ptr <ComplexArrayType>& copy);
     };
 }
 

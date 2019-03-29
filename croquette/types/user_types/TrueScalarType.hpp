@@ -13,6 +13,8 @@ namespace LibCqt {
 
         TrueScalarType();
         explicit TrueScalarType(double value);
+        explicit TrueScalarType(const ScalarArchetype& copy);
+        explicit TrueScalarType(const Ptr <LibCqt::ScalarArchetype>& ref);
     };
 }
 
