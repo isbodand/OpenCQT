@@ -13,14 +13,14 @@
 #include "ScalarArchetype.hpp"
 
 namespace LibCqt {
-    template<class T = ScalarArchetype, class U = T,
-             typename _1 = typename std::enable_if_t<std::is_default_constructible_v<T>>,
+    template<class ConT = ScalarArchetype, class DefT = ConT,
+             typename _1 = typename std::enable_if_t<std::is_default_constructible_v<ConT>>,
              typename _2 = typename std::enable_if_t<std::is_same_v<String,
-                                                                    decltype(std::declval<T>().asString())>>
+                                                                    decltype(std::declval<ConT>().asString())>>
             >
     class ArrayArchetype : public AnyArchetype {
     protected:
-        std::vector<Ptr<T>> cells;
+        std::vector<Ptr<ConT>> cells;
         virtual String printStart();
         virtual String printEnd();
 
@@ -42,7 +42,7 @@ namespace LibCqt {
 
         template<class C,
                  typename __1 = typename std::enable_if_t<std::is_default_constructible_v<C>>,
-                 typename __2 = typename std::enable_if_t<std::is_same_v<C, T> || std::is_base_of_v<C, T>>>
+                 typename __2 = typename std::enable_if_t<std::is_same_v<C, ConT> || std::is_base_of_v<C, ConT>>>
         std::size_t makeCellOfType();
 
         template<class C,
@@ -52,15 +52,20 @@ namespace LibCqt {
 
         String asString() override;
 
-        Ptr<T> operator[](std::size_t at);
+        Ptr<ConT> operator[](std::size_t at);
 
-        template<class R = U>
+        template<class R = DefT>
         Ptr<R> getAs(size_t at);
 
         std::size_t size();
 
-        const std::vector<Ptr<T>>& getCells() const;
+        const std::vector<Ptr<ConT>>& getCells() const;
     };
+    /// Pointer types
+    template<class T = ScalarArchetype, class U = T>
+    using ArrayArchetype_P = Ptr<ArrayArchetype<T, U>>;
+    template<class T = ScalarArchetype, class U = T>
+    using ArrayArchetype_R = Raw<ArrayArchetype<T, U>>;
 }
 
 template<class T, class U, typename _1, typename _2>

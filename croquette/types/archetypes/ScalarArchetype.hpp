@@ -18,7 +18,11 @@ namespace LibCqt {
         explicit ScalarArchetype(const Ptr <ScalarArchetype>& ref);
 
         double getValue() const;
+        void setValue(double _value);
     };
+    /// Pointer types
+    using ScalarArchetype_P = Ptr<ScalarArchetype>;
+    using ScalarArchetype_R = Raw<ScalarArchetype>;
 }
 
 

@@ -9,8 +9,11 @@
 namespace LibCqt {
     class TrueScalarType : public ScalarArchetype {
     public:
-        String asString() override;
+        using T = void;
+        using U = void;
+        using Archetype = ScalarArchetype;
 
+        String asString() override;
         TrueScalarType();
         explicit TrueScalarType(double value);
         explicit TrueScalarType(const ScalarArchetype& copy);

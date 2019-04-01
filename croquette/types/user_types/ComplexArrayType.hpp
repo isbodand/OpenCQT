@@ -11,6 +11,9 @@
 namespace LibCqt {
     class ComplexArrayType : public ArrayArchetype<AnyArchetype, TrueScalarType> {
     public:
+        using T = AnyArchetype;
+        using U = TrueScalarType;
+        using Archetype = ArrayArchetype<T, U>;
     protected:
         String printStart() override;
         String printEnd() override;

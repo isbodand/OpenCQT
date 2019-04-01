@@ -37,6 +37,11 @@
 
 namespace Cqt = LibCqt;
 
+template<class R, class T, class U = T,
+         typename = typename std::enable_if_t<std::is_base_of_v<Cqt::ArrayArchetype<T, U>, R>>>
+void arbitrary() {
+}
+
 int main(int argc, char** argv) {
     Cqt::init();
     CQT_STDOUT << std::boolalpha;
@@ -49,9 +54,9 @@ int main(int argc, char** argv) {
     array.makeCellOfType<Cqt::CharacterScalarType>(
             Cqt::archetype_cast<Cqt::CharacterScalarType>(array.getAs<Cqt::FlatArrayType>(0))
                                                   );
-    //    array.makeCellOfType<Cqt::FlatArrayType>(
-    //            Cqt::archetype_cast<Cqt::FlatArrayType>(array.getAs<Cqt::CharacterScalarType>(1))
-    //                                            );
+    array.makeCellOfType<Cqt::FlatArrayType>(
+            Cqt::archetype_cast<Cqt::FlatArrayType>(array.getAs<Cqt::CharacterScalarType>(1))
+                                            );
 
     CQT_STDOUT << array.asString();
 

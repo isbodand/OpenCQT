@@ -19,3 +19,7 @@ LibCqt::ScalarArchetype::ScalarArchetype(const LibCqt::ScalarArchetype& copy)
 LibCqt::ScalarArchetype::ScalarArchetype(const LibCqt::Ptr<LibCqt::ScalarArchetype>& ref)
         : ScalarArchetype(ref->getValue()) {
 }
+
+void LibCqt::ScalarArchetype::setValue(double _value) {
+    value = _value;
+}

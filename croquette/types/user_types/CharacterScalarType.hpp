@@ -9,6 +9,10 @@
 namespace LibCqt {
     class CharacterScalarType : public ScalarArchetype {
     public:
+        using T = void;
+        using U = void;
+        using Archetype = ScalarArchetype;
+
         String asString() override;
 
         CharacterScalarType();

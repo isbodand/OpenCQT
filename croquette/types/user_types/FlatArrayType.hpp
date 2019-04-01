@@ -11,6 +11,9 @@
 namespace LibCqt {
     class FlatArrayType : public ArrayArchetype<ScalarArchetype, TrueScalarType> {
     public:
+        using T = ScalarArchetype;
+        using U = TrueScalarType;
+        using Archetype = ArrayArchetype<T, U>;
     protected:
         String printStart() override;
         String printEnd() override;

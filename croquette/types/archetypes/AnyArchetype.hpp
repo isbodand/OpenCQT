@@ -5,6 +5,7 @@
 #pragma once
 
 #include "../../uniprint.hpp"
+#include "../ImplementationTypes.hpp"
 
 namespace LibCqt {
     typedef enum _ArchetypeType {
@@ -26,5 +27,8 @@ namespace LibCqt {
         ArchetypeType getCurrentType() const;
     };
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Pointer types
+    using AnyArchetype_P = Ptr<AnyArchetype>;
+    using AnyArchetype_R = Raw<AnyArchetype>;
 }
 

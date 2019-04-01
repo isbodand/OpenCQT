@@ -29,9 +29,15 @@ namespace LibCqt {
     template<class T>
     using Ins = std::unique_ptr<T>;
 
+    /**
+     * Reference for uniformity
+     */
+    template<class T>
+    using Ref = T&&;
+
     /// Manufacturing functions
 
-    /*Ptr<T>*/
+    /*Ptr<ConT>*/
     template<class T, class... Args>
     constexpr Ptr<T> mkPtr(Args... args) {
         return std::make_shared<T>(args...);
@@ -42,15 +48,24 @@ namespace LibCqt {
         return Ptr<T>(raw);
     }
 
-    /*Raw<T>*/
+    /*Raw<ConT>*/
     template<class T, class... Args>
     constexpr Raw<T> mkRaw(Args... args) {
         return new T(args...);
     }
 
-    /*Ins<T>*/
+    /*Ins<ConT>*/
     template<class T, class... Args>
     constexpr Ins<T> mkIns(Args... args) {
         return std::make_unique<T>(args...);
     }
+
+    ////// Type wrapper
+    template<class Type, class T = typename Type::T, class U = typename Type::U>
+    struct TypeWrapper {
+        using type = typename Type::Archetype;
+        using actual = Type;
+        using t = T;
+        using u = U;
+    };
 }

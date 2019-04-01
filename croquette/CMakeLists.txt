@@ -46,7 +46,7 @@ set(libCroquette_SOURCES
         types/user_types/ComplexArrayType.cpp
         types/user_types/TrueScalarType.cpp
         types/user_types/CharacterScalarType.cpp
-        )
+        types/archetypes/ArchetypeUtilities.cpp)
 
 add_library(croquette STATIC ${libCroquette_HEADERS} ${libCroquette_SOURCES})
 add_library(cqt SHARED ${libCroquette_HEADERS} ${libCroquette_SOURCES})
