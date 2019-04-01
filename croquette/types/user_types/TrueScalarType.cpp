@@ -14,6 +14,6 @@ LibCqt::String LibCqt::TrueScalarType::asString() {
 
 LibCqt::TrueScalarType::TrueScalarType(double value) : ScalarArchetype(value) {}
 
-LibCqt::TrueScalarType::TrueScalarType(const LibCqt::Ptr<LibCqt::ScalarArchetype>& ref) : ScalarArchetype(ref) {}
+LibCqt::TrueScalarType::TrueScalarType(CRf<LibCqt::Ptr<LibCqt::ScalarArchetype>> ref) : ScalarArchetype(ref) {}
 
-LibCqt::TrueScalarType::TrueScalarType(const LibCqt::ScalarArchetype& copy) : ScalarArchetype(copy) {}
+LibCqt::TrueScalarType::TrueScalarType(CRf<LibCqt::ScalarArchetype> copy) : ScalarArchetype(copy) {}

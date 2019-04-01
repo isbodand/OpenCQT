@@ -24,6 +24,10 @@ namespace LibCqt {
     using String = std::wstring;
     using StringStream = std::wstringstream;
 
+  #ifndef CQT_TO_STRING
+    #define CQT_TO_STRING(x) std::to_wstring((x))
+  #endif
+
   #ifndef CQT_STDOUT
     #define CQT_STDOUT std::wcout
   #endif
@@ -49,6 +53,10 @@ namespace LibCqt {
     using Char = char;
     using String = std::string;
     using StringStream = std::stringstream;
+
+  #ifndef CQT_TO_STRING
+    #define CQT_TO_STRING(x) std::to_string((x))
+  #endif
 
   #ifndef CQT_STDOUT
     #define CQT_STDOUT std::cout

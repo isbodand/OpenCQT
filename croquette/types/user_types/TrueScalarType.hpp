@@ -16,8 +16,8 @@ namespace LibCqt {
         String asString() override;
         TrueScalarType();
         explicit TrueScalarType(double value);
-        explicit TrueScalarType(const ScalarArchetype& copy);
-        explicit TrueScalarType(const Ptr <LibCqt::ScalarArchetype>& ref);
+        explicit TrueScalarType(CRf<ScalarArchetype> copy);
+        explicit TrueScalarType(CRf<Ptr<LibCqt::ScalarArchetype>> ref);
     };
 }
 

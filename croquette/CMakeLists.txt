@@ -33,6 +33,8 @@ set(libCroquette_HEADERS
         types/user_types/ComplexArrayType.hpp       # Array with everything
         types/user_types/TrueScalarType.hpp         # A Scalar number
         types/user_types/CharacterScalarType.hpp    # A Scalar character implicitly number in calc
+        types/user_types/HashmapType.hpp            # A Hash
+        types/user_types/OrderedMapType.hpp         # A Map
         )
 
 set(libCroquette_SOURCES
@@ -46,7 +48,10 @@ set(libCroquette_SOURCES
         types/user_types/ComplexArrayType.cpp
         types/user_types/TrueScalarType.cpp
         types/user_types/CharacterScalarType.cpp
-        types/archetypes/ArchetypeUtilities.cpp)
+        types/archetypes/ArchetypeUtilities.cpp
+        types/user_types/HashmapType.cpp
+        types/user_types/OrderedMapType.cpp
+        )
 
 add_library(croquette STATIC ${libCroquette_HEADERS} ${libCroquette_SOURCES})
 add_library(cqt SHARED ${libCroquette_HEADERS} ${libCroquette_SOURCES})

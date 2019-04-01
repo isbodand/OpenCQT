@@ -34,6 +34,8 @@
 #include "croquette/types/user_types/ComplexArrayType.hpp"
 #include "croquette/types/archetypes/ArchetypeUtilities.hpp"
 #include "croquette/types/user_types/CharacterScalarType.hpp"
+#include "croquette/types/user_types/HashmapType.hpp"
+#include "croquette/types/user_types/OrderedMapType.hpp"
 
 namespace Cqt = LibCqt;
 
@@ -57,8 +59,11 @@ int main(int argc, char** argv) {
     array.makeCellOfType<Cqt::FlatArrayType>(
             Cqt::archetype_cast<Cqt::FlatArrayType>(array.getAs<Cqt::CharacterScalarType>(1))
                                             );
+    array.makeCellOfType<Cqt::OrderedMapType>(
+            Cqt::archetype_cast<Cqt::OrderedMapType>(array.getAs<Cqt::FlatArrayType>(0))
+                                             );
 
-    CQT_STDOUT << array.asString();
+    CQT_STDOUT << array[3]->asString();
 
     return 0;
 }

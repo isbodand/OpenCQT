@@ -14,14 +14,14 @@ LibCqt::String LibCqt::ComplexArrayType::printEnd() {
     return CQT_STRING(")");
 }
 
-LibCqt::ComplexArrayType::ComplexArrayType(const LibCqt::Ptr<LibCqt::ComplexArrayType>& copy)
+LibCqt::ComplexArrayType::ComplexArrayType(CRf<LibCqt::Ptr<LibCqt::ComplexArrayType>> copy)
         : ArrayArchetype(*copy) {
 }
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "hicpp-use-equals-default"
 
-LibCqt::ComplexArrayType::ComplexArrayType(const LibCqt::ComplexArrayType& copy)
+LibCqt::ComplexArrayType::ComplexArrayType(CRf<LibCqt::ComplexArrayType> copy)
         : ArrayArchetype(copy) {
 }
 

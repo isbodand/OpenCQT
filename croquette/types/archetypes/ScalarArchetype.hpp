@@ -14,8 +14,8 @@ namespace LibCqt {
     public:
         ScalarArchetype();
         explicit ScalarArchetype(double value);
-        ScalarArchetype(const ScalarArchetype& copy);
-        explicit ScalarArchetype(const Ptr <ScalarArchetype>& ref);
+        ScalarArchetype(CRf<ScalarArchetype> copy);
+        explicit ScalarArchetype(CRf<Ptr<ScalarArchetype>> ref);
 
         double getValue() const;
         void setValue(double _value);

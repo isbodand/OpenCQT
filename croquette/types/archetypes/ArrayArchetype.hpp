@@ -30,9 +30,9 @@ namespace LibCqt {
         ArrayArchetype();
         ArrayArchetype(std::initializer_list<Ptr<AnyArchetype>> init);
         template<class _T, class _U = _T>
-        explicit ArrayArchetype(const ArrayArchetype<_T, _U>& ptr);
+        explicit ArrayArchetype(CRf<ArrayArchetype<_T, _U>> ptr);
         template<class _T, class _U = _T>
-        explicit ArrayArchetype(const Ptr<ArrayArchetype<_T, _U>>& ptr);
+        explicit ArrayArchetype(CRf<Ptr<ArrayArchetype<_T, _U>>> ptr);
         virtual ~ArrayArchetype();
 
         std::size_t makeCell();
@@ -59,7 +59,7 @@ namespace LibCqt {
 
         std::size_t size();
 
-        const std::vector<Ptr<ConT>>& getCells() const;
+        CRf<std::vector<Ptr<ConT>>> getCells() const;
     };
     /// Pointer types
     template<class T = ScalarArchetype, class U = T>
@@ -109,11 +109,8 @@ template<class T, class U, typename _1, typename _2>
 LibCqt::String LibCqt::ArrayArchetype<T, U, _1, _2>::asString() {
     StringStream stream;
     stream << printStart();
-    for (auto i = this->cells.begin(); i != cells.end(); ++i) {
+    for (auto i = this->cells.begin(); i != cells.end(); ++i != cells.end() && stream << CQT_STRING(", ")) {
         stream << (*i)->asString();
-        if (i + 1 != cells.end()) {
-            stream << CQT_STRING(", ");
-        }
     }
     stream << printEnd();
     return std::move(stream.str());
@@ -125,8 +122,7 @@ LibCqt::Ptr<T> LibCqt::ArrayArchetype<T, U, _1, _2>::operator[](std::size_t at) 
 }
 
 template<class T, class U, typename _1, typename _2>
-LibCqt::ArrayArchetype<T, U, _1, _2>::~ArrayArchetype() {
-}
+LibCqt::ArrayArchetype<T, U, _1, _2>::~ArrayArchetype() = default;
 
 template<class T, class U, typename _1, typename _2>
 template<class R>
@@ -141,18 +137,18 @@ std::size_t LibCqt::ArrayArchetype<T, U, _1, _2>::size() {
 
 template<class T, class U, typename _1, typename _2>
 template<class _T, class _U>
-LibCqt::ArrayArchetype<T, U, _1, _2>::ArrayArchetype(const LibCqt::Ptr<LibCqt::ArrayArchetype<_T, _U>>& ptr)
+LibCqt::ArrayArchetype<T, U, _1, _2>::ArrayArchetype(CRf<LibCqt::Ptr<LibCqt::ArrayArchetype<_T, _U>>> ptr)
         : ArrayArchetype(ptr->getCells()) {
 }
 
 template<class T, class U, typename _1, typename _2>
-const std::vector<LibCqt::Ptr<T>>& LibCqt::ArrayArchetype<T, U, _1, _2>::getCells() const {
+LibCqt::CRf<std::vector<LibCqt::Ptr<T>>> LibCqt::ArrayArchetype<T, U, _1, _2>::getCells() const {
     return cells;
 }
 
 template<class T, class U, typename _1, typename _2>
 template<class _T, class _U>
-LibCqt::ArrayArchetype<T, U, _1, _2>::ArrayArchetype(const LibCqt::ArrayArchetype<_T, _U>& ptr)
+LibCqt::ArrayArchetype<T, U, _1, _2>::ArrayArchetype(CRf<LibCqt::ArrayArchetype<_T, _U>> ptr)
         : ArrayArchetype(ptr.getCells()) {
 }
 

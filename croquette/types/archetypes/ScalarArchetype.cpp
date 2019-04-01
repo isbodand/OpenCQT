@@ -12,11 +12,11 @@ double LibCqt::ScalarArchetype::getValue() const {
     return value;
 }
 
-LibCqt::ScalarArchetype::ScalarArchetype(const LibCqt::ScalarArchetype& copy)
+LibCqt::ScalarArchetype::ScalarArchetype(CRf<LibCqt::ScalarArchetype> copy)
         : ScalarArchetype(copy.getValue()) {
 }
 
-LibCqt::ScalarArchetype::ScalarArchetype(const LibCqt::Ptr<LibCqt::ScalarArchetype>& ref)
+LibCqt::ScalarArchetype::ScalarArchetype(CRf<LibCqt::Ptr<LibCqt::ScalarArchetype>> ref)
         : ScalarArchetype(ref->getValue()) {
 }
 

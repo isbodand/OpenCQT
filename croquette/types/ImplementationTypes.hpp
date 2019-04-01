@@ -33,7 +33,13 @@ namespace LibCqt {
      * Reference for uniformity
      */
     template<class T>
-    using Ref = T&&;
+    using Ref = T&;
+
+    /**
+     * Const Reference for uniformity
+     */
+    template<class T>
+    using CRf = const T&;
 
     /// Manufacturing functions
 
@@ -61,11 +67,11 @@ namespace LibCqt {
     }
 
     ////// Type wrapper
-    template<class Type, class T = typename Type::T, class U = typename Type::U>
+    template<class Type>
     struct TypeWrapper {
         using type = typename Type::Archetype;
         using actual = Type;
-        using t = T;
-        using u = U;
+        using t = typename Type::T;
+        using u = typename Type::U;
     };
 }

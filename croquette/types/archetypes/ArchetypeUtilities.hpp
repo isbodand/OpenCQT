@@ -15,7 +15,7 @@
 
 namespace LibCqt {
     template<class R, class T, template<class> class ShdPtr>
-    Ptr<R> archetype_cast(const ShdPtr<T>& shared);
+    Ptr<R> archetype_cast(CRf<ShdPtr<T>> shared);
 
     namespace _Impl {
         template<class RWrapper, class InWrapper,
@@ -24,35 +24,46 @@ namespace LibCqt {
                  typename InType = typename InWrapper::actual,
                  typename InArche = typename InWrapper::type,
                  typename InT = typename InWrapper::t, typename InU = typename InWrapper::u>
-        constexpr Ptr<RType> archetype_cast(const Raw<InType>& in);
+        constexpr Ptr<RType> archetype_cast(CRf<Raw<InType>> in);
 
         /// Array -> Scalar
         template<class RType, class RArche, class RT, class RU,
                  class InType, class InArche, class InT, class InU>
         std::enable_if_t<std::is_same_v<RT, void> && std::is_same_v<RU, void> &&
-                         std::is_base_of_v<ScalarArchetype, RArche> &&
+                         std::is_base_of_v<ScalarArchetype, RType> &&
                          !(std::is_same_v<InT, void> || std::is_same_v<InU, void>) &&
-                         std::is_base_of_v<ArrayArchetype<InT, InU>, InArche>,
+                         std::is_base_of_v<ArrayArchetype<InT, InU>, InType>,
                 /**/ Ptr<RType>>
-        _archetype_cast(const Raw<InType>& array) {
+        _archetype_cast(CRf<Raw<InType>> array) {
             return mkPtr<RType>(array->size());
         }
 
-        //        /// Array -> Hash
-        //        template<template<template<class, class> class> class R,
-        //                template<class, class> class hT,
-        //                class aT, class aU = aT,
-        //                typename = typename std::enable_if_t<std::is_base_of_v<HashArchetype<hT>, R<hT>>>>
-        //        Ptr<R<hT>> _archetype_cast(const ArrayArchetype_R<aT, aU>& array);
+        /// Array -> Hash
+        template<class RType, class RArche, class RT, class RU,
+                 class InType, class InArche, class InT, class InU>
+        std::enable_if_t<!std::is_same_v<RT, void> && std::is_same_v<RU, void> &&
+                         (std::is_base_of_v<HashArchetype<Map>, RType> ||
+                          std::is_base_of_v<HashArchetype<Hashmap>, RType>) &&
+                         !(std::is_same_v<InT, void> || std::is_same_v<InU, void>) &&
+                         std::is_base_of_v<ArrayArchetype<InT, InU>, InType>,
+                /**/ Ptr<RType>>
+        _archetype_cast(CRf<Raw<InType>> array) {
+            auto ptr = mkPtr<RType>();
+            for (int i = 0; i < array->getCells().size(); ++i) {
+                ptr->template makeCellOfType<InU>(CQT_TO_STRING(i), array->getCells()[i]);
+            }
+            return ptr;
+        }
+
         /// Scalar -> Array
         template<class RType, class RArche, class RT, class RU,
                  class InType, class InArche, class InT, class InU>
         std::enable_if_t<!(std::is_same_v<RT, void> || std::is_same_v<RU, void>) &&
-                         std::is_base_of_v<ArrayArchetype<RT, RU>, RArche> &&
+                         std::is_base_of_v<ArrayArchetype<RT, RU>, RType> &&
                          std::is_same_v<InT, void> && std::is_same_v<InU, void> &&
-                         std::is_base_of_v<ScalarArchetype, InArche>,
+                         std::is_base_of_v<ScalarArchetype, InType>,
                 /**/ Ptr<RType>>
-        _archetype_cast(const Raw<InType>& array) {
+        _archetype_cast(CRf<Raw<InType>> array) {
             auto ptr = mkPtr<RType>();
             ptr->template makeCellOfType<InType>(*array);
             return ptr;
@@ -60,13 +71,13 @@ namespace LibCqt {
         //        /// Scalar -> Hash
         //        template<template<template<class, class> class> class R, template<class, class> class T,
         //                 typename = typename std::enable_if_t<std::is_base_of_v<HashArchetype<T>, R<T>>>>
-        //        Ptr<R<T>> _archetype_cast(const ScalarArchetype_R& scalar);
+        //        Ptr<R<T>> _archetype_cast(CRf<ScalarArchetype_R> scalar);
         //@formatter:on
     }
 }
 
 template<class R, class T, template<class> class ShdPtr>
-LibCqt::Ptr<R> LibCqt::archetype_cast(const ShdPtr<T>& shared) {
+LibCqt::Ptr<R> LibCqt::archetype_cast(CRf<ShdPtr<T>> shared) {
     auto&& ptr = shared.get();
     return _Impl::archetype_cast<TypeWrapper<R>, TypeWrapper<T>>(ptr);
 }
@@ -74,13 +85,13 @@ LibCqt::Ptr<R> LibCqt::archetype_cast(const ShdPtr<T>& shared) {
 ///// Array -> Hash
 //template<template<template<class, class> class> class R,
 //        template<class, class> class hT, class aT, class aU, typename>
-//LibCqt::Ptr<R<hT>> LibCqt::_Impl::_archetype_cast(const LibCqt::ArrayArchetype_R<aT, aU>& array) {
+//LibCqt::Ptr<R<hT>> LibCqt::_Impl::_archetype_cast(CRf<LibCqt::ArrayArchetype_R<aT, aU>> array) {
 //    return mkPtr<R<hT>>(array->getCells());
 //}
 //
 ///// Array -> Scalar
 //template<class R, class T, class U, typename>
-//LibCqt::Ptr<R> LibCqt::_Impl::_archetype_cast(const LibCqt::ArrayArchetype_R<T, U>& array) {
+//LibCqt::Ptr<R> LibCqt::_Impl::_archetype_cast(CRf<LibCqt::ArrayArchetype_R<T, U>> array) {
 //    return mkPtr<R>(array->size());
 //}
 
@@ -93,7 +104,7 @@ constexpr LibCqt::Ptr<RType> LibCqt::_Impl::archetype_cast(LibCqt::Raw<InType> c
 
 ///// Scalar -> Array
 //template<template<class, class> class R, class T, class U, typename>
-//LibCqt::Ptr<R<T, U>> LibCqt::_Impl::_archetype_cast(const LibCqt::ScalarArchetype_R& scalar) {
+//LibCqt::Ptr<R<T, U>> LibCqt::_Impl::_archetype_cast(CRf<LibCqt::ScalarArchetype_R> scalar) {
 //    return mkPtr<R<T, U>>(scalar->getValue());
 //}
 //
@@ -101,6 +112,6 @@ constexpr LibCqt::Ptr<RType> LibCqt::_Impl::archetype_cast(LibCqt::Raw<InType> c
 /////// Scalar -> Hash
 //template<template<template<class, class> class> class R,
 //        template<class, class> class T, typename>
-//LibCqt::Ptr<R<T>> LibCqt::_Impl::_archetype_cast(const LibCqt::ScalarArchetype_R& scalar) {
+//LibCqt::Ptr<R<T>> LibCqt::_Impl::_archetype_cast(CRf<LibCqt::ScalarArchetype_R> scalar) {
 //    return mkPtr<R<T>>(scalar->getValue());
 //}
