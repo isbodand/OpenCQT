@@ -39,31 +39,37 @@
 
 namespace Cqt = LibCqt;
 
-template<class R, class T, class U = T,
-         typename = typename std::enable_if_t<std::is_base_of_v<Cqt::ArrayArchetype<T, U>, R>>>
-void arbitrary() {
-}
-
 int main(int argc, char** argv) {
     Cqt::init();
     CQT_STDOUT << std::boolalpha;
 
     Cqt::ComplexArrayType array;
+
+    // >{@$}
     array.makeCellOfType<Cqt::FlatArrayType>();
+    // ^
+    // !{
+    // +{$!}>
+    // }{[$! == 65]}{[$!+1]}
+    // ˇ
     for (int i = 0; i < 65; ++i) {
         array.getAs<Cqt::FlatArrayType>(0)->makeCell(i);
     }
+    // >{$|}{$${0}}
     array.makeCellOfType<Cqt::CharacterScalarType>(
             Cqt::archetype_cast<Cqt::CharacterScalarType>(array.getAs<Cqt::FlatArrayType>(0))
                                                   );
+    // >{@$}{$${1}}
     array.makeCellOfType<Cqt::FlatArrayType>(
             Cqt::archetype_cast<Cqt::FlatArrayType>(array.getAs<Cqt::CharacterScalarType>(1))
                                             );
+    // >{@#}{$${1}}
     array.makeCellOfType<Cqt::OrderedMapType>(
-            Cqt::archetype_cast<Cqt::OrderedMapType>(array.getAs<Cqt::FlatArrayType>(0))
+            Cqt::archetype_cast<Cqt::OrderedMapType>(array.getAs<Cqt::CharacterScalarType>(1))
                                              );
 
-    CQT_STDOUT << array[3]->asString();
+
+    CQT_STDOUT << array.asString();
 
     return 0;
 }

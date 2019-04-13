@@ -33,7 +33,7 @@ namespace LibCqt {
                          std::is_base_of_v<ScalarArchetype, RType> &&
                          !(std::is_same_v<InT, void> || std::is_same_v<InU, void>) &&
                          std::is_base_of_v<ArrayArchetype<InT, InU>, InType>,
-                /**/ Ptr<RType>>
+                /*Scalar*/ Ptr<RType>>
         _archetype_cast(CRf<Raw<InType>> array) {
             return mkPtr<RType>(array->size());
         }
@@ -46,7 +46,7 @@ namespace LibCqt {
                           std::is_base_of_v<HashArchetype<Hashmap>, RType>) &&
                          !(std::is_same_v<InT, void> || std::is_same_v<InU, void>) &&
                          std::is_base_of_v<ArrayArchetype<InT, InU>, InType>,
-                /**/ Ptr<RType>>
+                /*Hash*/ Ptr<RType>>
         _archetype_cast(CRf<Raw<InType>> array) {
             auto ptr = mkPtr<RType>();
             for (int i = 0; i < array->getCells().size(); ++i) {
@@ -62,16 +62,27 @@ namespace LibCqt {
                          std::is_base_of_v<ArrayArchetype<RT, RU>, RType> &&
                          std::is_same_v<InT, void> && std::is_same_v<InU, void> &&
                          std::is_base_of_v<ScalarArchetype, InType>,
-                /**/ Ptr<RType>>
-        _archetype_cast(CRf<Raw<InType>> array) {
+                /*Array*/ Ptr<RType>>
+        _archetype_cast(CRf<Raw<InType>> scalar) {
             auto ptr = mkPtr<RType>();
-            ptr->template makeCellOfType<InType>(*array);
+            ptr->template makeCellOfType<InType>(*scalar);
             return ptr;
         }
-        //        /// Scalar -> Hash
-        //        template<template<template<class, class> class> class R, template<class, class> class T,
-        //                 typename = typename std::enable_if_t<std::is_base_of_v<HashArchetype<T>, R<T>>>>
-        //        Ptr<R<T>> _archetype_cast(CRf<ScalarArchetype_R> scalar);
+
+        /// Scalar -> Hash
+        template<class RType, class RArche, class RT, class RU,
+                 class InType, class InArche, class InT, class InU>
+        std::enable_if_t<!std::is_same_v<RT, void> && std::is_same_v<RU, void> &&
+                         (std::is_base_of_v<HashArchetype<Map>, RType> ||
+                          std::is_base_of_v<HashArchetype<Hashmap>, RType>) &&
+                         std::is_same_v<InT, void> && std::is_same_v<InU, void> &&
+                         std::is_base_of_v<ScalarArchetype, InType>,
+                /*Hash*/ Ptr<RType>>
+        _archetype_cast(CRf<Raw<InType>> scalar) {
+            auto ptr = mkPtr<RType>();
+            ptr->template makeCellOfType<InType>(CQT_STRING("0"), *scalar);
+            return ptr;
+        }
         //@formatter:on
     }
 }

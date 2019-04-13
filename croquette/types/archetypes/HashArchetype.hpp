@@ -8,6 +8,7 @@
 #include <map>
 #include <memory>
 #include <unordered_map>
+#include <algorithm>
 
 #include "AnyArchetype.hpp"
 
@@ -30,7 +31,6 @@ namespace LibCqt {
 
         HashArchetype();
 
-        // Can't outsource this one for some reason, will try later
         template<template<class, class> class OthContImpl>
         explicit HashArchetype(CRf<HashArchetype<OthContImpl>> copy);
 
@@ -59,6 +59,7 @@ LibCqt::HashArchetype<T>::HashArchetype() : AnyArchetype(LibCqt::Hash) {}
 //template<template<class, class> class ContImpl>
 //template<template<class, class> class OthContImpl>
 //LibCqt::HashArchetype<ContImpl>::HashArchetype(CRf<HashArchetype<OthContImpl>> copy)
+
 
 template<template<class, class> class ContImpl>
 LibCqt::String LibCqt::HashArchetype<ContImpl>::printStart() {
