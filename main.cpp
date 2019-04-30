@@ -27,7 +27,7 @@
  */
 
 // Parameter parser
-#include "infoparse/OptionsParser.hpp"
+#include <infoparse/OptionsParser.hpp>
 // Croquette STD
 #include "croquette/cqt.hpp"
 #include "croquette/types/user_types/FlatArrayType.hpp"
@@ -38,10 +38,20 @@
 #include "croquette/types/user_types/OrderedMapType.hpp"
 
 namespace Cqt = LibCqt;
+namespace ip = InfoParse;
 
 int main(int argc, char** argv) {
     Cqt::init();
+
+    Cqt::String str;
+
+    ip::OptionsParser parser;
+    parser.addOption("raft", &str);
+    parser.parse(ip::makeMonolithArgs(argc, argv));
+
     CQT_STDOUT << std::boolalpha;
+
+    CQT_STDOUT << str << std::endl;
 
     Cqt::ComplexArrayType array;
 
@@ -55,15 +65,15 @@ int main(int argc, char** argv) {
     for (int i = 0; i < 65; ++i) {
         array.getAs<Cqt::FlatArrayType>(0)->makeCell(i);
     }
-    // >{$|}{$${0}}
+    // >{$|}{@${0}}
     array.makeCellOfType<Cqt::CharacterScalarType>(
             Cqt::archetype_cast<Cqt::CharacterScalarType>(array.getAs<Cqt::FlatArrayType>(0))
                                                   );
-    // >{@$}{$${1}}
+    // >{@$}{$|{1}}
     array.makeCellOfType<Cqt::FlatArrayType>(
             Cqt::archetype_cast<Cqt::FlatArrayType>(array.getAs<Cqt::CharacterScalarType>(1))
                                             );
-    // >{@#}{$${1}}
+    // >{@#}{$|{1}}
     array.makeCellOfType<Cqt::OrderedMapType>(
             Cqt::archetype_cast<Cqt::OrderedMapType>(array.getAs<Cqt::CharacterScalarType>(1))
                                              );

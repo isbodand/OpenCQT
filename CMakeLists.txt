@@ -7,24 +7,28 @@ set(OpenCQT_VERSION_MAJOR 0)
 set(OpenCQT_VERSION_MINOR 1)
 set(OpenCQT_VERSION "${OpenCQT_VERSION_MAJOR}.${OpenCQT_VERSION_MINOR}")
 
-add_subdirectory(infoparse)
+# InfoParse
+find_package(InfoParse CONFIG REQUIRED)
+message("${InfoParse_DIR}")
+include_directories(${InfoParse_DIR}/../include)
+# Croquette STD
 add_subdirectory(croquette)
 
-if(NOT RELEASE)
+if (NOT RELEASE)
     set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-endif()
+endif ()
 
 configure_file(
-    "${PROJECT_SOURCE_DIR}/versioning.hpp.in"
-    "${PROJECT_SOURCE_DIR}/versioning.hpp"
+        "${PROJECT_SOURCE_DIR}/versioning.hpp.in"
+        "${PROJECT_SOURCE_DIR}/versioning.hpp"
 )
 
-if(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
     include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
     conan_basic_setup()
-else()
+else ()
     message(WARNING "The file conanbuildinfo.cmake doesn't exist, you have to run conan install first")
-endif()
+endif ()
 
 
 set(PROJECT_SOURCES main.cpp)
