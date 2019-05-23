@@ -6,6 +6,9 @@
 
 #include <memory>
 
+#define ENABLE_IF typename std::enable_if<
+#define THEN(T) ,T>::type
+
 namespace LibCqt {
     /**
      * Shared pointer typedef
@@ -41,6 +44,12 @@ namespace LibCqt {
     template<class T>
     using CRf = const T&;
 
+    /**
+     * RValue Reference for uniformity
+     */
+    template<class T>
+    using RRf = T&&;
+
     /// Manufacturing functions
 
     /*Ptr<ConT>*/
@@ -58,6 +67,11 @@ namespace LibCqt {
     template<class T, class... Args>
     constexpr Raw<T> mkRaw(Args... args) {
         return new T(args...);
+    }
+
+    template<class T>
+    constexpr void rmRaw(Raw<T> raw) {
+        delete raw;
     }
 
     /*Ins<ConT>*/
