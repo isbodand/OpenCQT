@@ -8,19 +8,25 @@
 
 namespace LibCqt {
     class OrderedMapType : public HashArchetype<Map> {
-
-    public:
+    public: // Types
         using T = Map<String, AnyArchetype_P>;
         using U = void;
         using Archetype = HashArchetype<Map>;
+        using _Archetype = HashArchetype;
 
-    protected:
-        String printStart() override;
-    public:
+    protected: // Overridden protected methods
+        String printStart() const override;
 
-        OrderedMapType();
-        OrderedMapType(CRf<OrderedMapType> copy);
+    public: // Constructors & destructor
+        OrderedMapType() = default;
+        OrderedMapType(Ref<OrderedMapType> cp) = default;
+        OrderedMapType(RRf<OrderedMapType> mv) noexcept = default;
         explicit OrderedMapType(CRf<Ptr<OrderedMapType>> ptrCopy);
+        OrderedMapType(Ref<HashArchetype<Map>> cpa);
+
+    public: // Operators
+        OrderedMapType& operator=(Ref<OrderedMapType> cp) = default;
+        OrderedMapType& operator=(RRf<OrderedMapType> mv) noexcept = default;
     };
 }
 

@@ -1,3 +1,5 @@
+#include <utility>
+
 //
 // Created by bodand on 2019-03-25.
 //
@@ -6,23 +8,40 @@
 
 LibCqt::ComplexArrayType::ComplexArrayType() = default;
 
-LibCqt::String LibCqt::ComplexArrayType::printStart() {
+LibCqt::String LibCqt::ComplexArrayType::printStart() const {
     return CQT_STRING("(");
 }
 
-LibCqt::String LibCqt::ComplexArrayType::printEnd() {
+LibCqt::String LibCqt::ComplexArrayType::printEnd() const {
     return CQT_STRING(")");
 }
 
 LibCqt::ComplexArrayType::ComplexArrayType(CRf<LibCqt::Ptr<LibCqt::ComplexArrayType>> copy)
-        : ArrayArchetype(*copy) {
+        : ArrayArchetype(*copy) {}
+
+LibCqt::ComplexArrayType::ComplexArrayType(std::initializer_list<LibCqt::Ptr<LibCqt::AnyArchetype>> init)
+        : ArrayArchetype(init) {}
+
+LibCqt::ComplexArrayType::ComplexArrayType(std::vector<LibCqt::Ptr<LibCqt::AnyArchetype>> init)
+        : ArrayArchetype(std::move(init)) {}
+
+LibCqt::ArrayType LibCqt::ComplexArrayType::getArrayType() const {
+    return arrayComplexArray;
 }
 
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "hicpp-use-equals-default"
+//&!off
+LibCqt::ComplexArrayType::ComplexArrayType(LibCqt::ArrayArchetype<LibCqt::ComplexArrayType::T,
+                                                                  LibCqt::ComplexArrayType::U>& cpa)
+    : ArrayArchetype(cpa) {}
+//&!on
 
-LibCqt::ComplexArrayType::ComplexArrayType(CRf<LibCqt::ComplexArrayType> copy)
-        : ArrayArchetype(copy) {
+LibCqt::ComplexArrayType::ComplexArrayType(CRf < std::vector<Raw < LibCqt::ComplexArrayType::T>>
+> init) {
+for (
+auto&& cell
+: init) {
+cells.
+push_back(mkPtr<T>(cell)
+);
 }
-
-#pragma clang diagnostic pop
+}

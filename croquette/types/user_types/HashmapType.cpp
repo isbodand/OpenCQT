@@ -4,15 +4,10 @@
 
 #include "HashmapType.hpp"
 
-LibCqt::HashmapType::HashmapType() = default;
-
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "hicpp-use-equals-default"
-
-LibCqt::HashmapType::HashmapType(LibCqt::CRf<LibCqt::HashmapType> copy) : HashArchetype(copy) {
+LibCqt::HashmapType::HashmapType(const LibCqt::Ptr<LibCqt::HashmapType>& ptrcp)
+        : HashmapType(*ptrcp) {
 }
 
-#pragma clang diagnostic pop
-
-LibCqt::HashmapType::HashmapType(LibCqt::CRf<LibCqt::Ptr<LibCqt::HashmapType>> copy) : HashArchetype(*copy) {
+LibCqt::HashmapType::HashmapType(LibCqt::HashArchetype<LibCqt::Hashmap>& cpa)
+        : HashArchetype(cpa) {
 }

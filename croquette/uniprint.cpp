@@ -4,6 +4,10 @@
 
 #include "uniprint.hpp"
 
+#include <locale>
+#include <codecvt>
+#include <string>
+
 void LibCqt::uniPrint(const LibCqt::String& string) {
     CQT_STDOUT << string;
 }
@@ -23,3 +27,13 @@ LibCqt::Char LibCqt::uniReadChar() {
     CQT_STDIN >> ch;
     return ch;
 }
+
+LibCqt::String LibCqt::operator ""_cqt(const char* str, std::size_t) {
+    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+#ifdef _CQT_WINDOWS
+    return converter.from_bytes(str);
+#else
+    return String(str);
+#endif
+}
+

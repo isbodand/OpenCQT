@@ -21,28 +21,53 @@ namespace LibCqt {
 
     template<template<class, class> class ContImpl>
     class HashArchetype : public AnyArchetype {
-    protected:
+    public: // Types
+        using T = ContImpl<String, AnyArchetype_P>;
+        using U = void;
+        using Archetype = HashArchetype<ContImpl>;
+        using _Archetype = HashArchetype;
+
+    protected: // Fields
         ContImpl<String, AnyArchetype_P> map;
-        virtual String printStart();
-        virtual String printEnd();
 
-    public:
-        String asString() override;
+    protected: // Virtual protected methods
+        virtual String printStart() const;
+        virtual String printEnd() const;
 
+    public: // Overridden methods
+        String asString() const override;
+
+    public: // Constructors & destructor
         HashArchetype();
-
-        template<template<class, class> class OthContImpl>
-        explicit HashArchetype(CRf<HashArchetype<OthContImpl>> copy);
+        HashArchetype(Ref<HashArchetype> cp) = default;
+        HashArchetype(RRf<HashArchetype> mv) noexcept = default;
+        template<template<class, class> class S>
+        explicit HashArchetype(CRf<Ptr<HashArchetype<S>>> ptrcp);
 
         virtual ~HashArchetype();
 
+    public: // Operators
+        HashArchetype& operator=(Ref<HashArchetype> cp) = default;
+        HashArchetype& operator=(RRf<HashArchetype> mv) noexcept = default;
+
+        bool operator==(const HashArchetype& rhs) const;
+        bool operator!=(const HashArchetype& rhs) const;
+    public: // Miscellaneous methods
+        template<class C>
+        ENABLE_IF std::is_default_constructible_v<C>
+                  && (std::is_same_v<C, AnyArchetype>
+                      || std::is_base_of_v<AnyArchetype, C>)THEN
+        (std::size_t) makeCellOfType(CRf<String> name);
         template<class C,
-                 typename = typename std::enable_if_t<std::is_default_constructible_v<C>>>
-        std::size_t makeCellOfType(CRf<String> name);
-        template<class C, class... Args>
-        std::size_t makeCellOfType(CRf<String> name, Args... args);
+                class... Args>
+        ENABLE_IF std::is_constructible_v<C, Args...>
+                  && (std::is_same_v<C, AnyArchetype>
+                      || std::is_base_of_v<AnyArchetype, C>)THEN
+        (std::size_t) makeCellOfType(CRf<String> name, Args... args);
         template<class R = AnyArchetype>
         Ptr<R> getAs(CRf<String> name);
+
+        std::size_t size() const;
 
         CRf<ContImpl<String, AnyArchetype_P>> getMap() const;
     };
@@ -54,7 +79,7 @@ namespace LibCqt {
 }
 
 template<template<class, class> class T>
-LibCqt::HashArchetype<T>::HashArchetype() : AnyArchetype(LibCqt::Hash) {}
+LibCqt::HashArchetype<T>::HashArchetype() : AnyArchetype(LibCqt::archHash) {}
 //
 //template<template<class, class> class ContImpl>
 //template<template<class, class> class OthContImpl>
@@ -62,17 +87,17 @@ LibCqt::HashArchetype<T>::HashArchetype() : AnyArchetype(LibCqt::Hash) {}
 
 
 template<template<class, class> class ContImpl>
-LibCqt::String LibCqt::HashArchetype<ContImpl>::printStart() {
+LibCqt::String LibCqt::HashArchetype<ContImpl>::printStart() const {
     return CQT_STRING("(");
 }
 
 template<template<class, class> class ContImpl>
-LibCqt::String LibCqt::HashArchetype<ContImpl>::printEnd() {
+LibCqt::String LibCqt::HashArchetype<ContImpl>::printEnd() const {
     return CQT_STRING(")");
 }
 
 template<template<class, class> class ContImpl>
-LibCqt::String LibCqt::HashArchetype<ContImpl>::asString() {
+LibCqt::String LibCqt::HashArchetype<ContImpl>::asString() const {
     StringStream stream;
     stream << printStart();
     for (auto&& i = this->map.begin(); i != map.end(); ++i != map.end() && stream << CQT_STRING(", ")) {
@@ -86,15 +111,21 @@ template<template<class, class> class ContImpl>
 LibCqt::HashArchetype<ContImpl>::~HashArchetype() = default;
 
 template<template<class, class> class ContImpl>
-template<class C, typename>
-std::size_t LibCqt::HashArchetype<ContImpl>::makeCellOfType(CRf<LibCqt::String> name) {
+template<class C>
+ENABLE_IF std::is_default_constructible_v<C>
+          && (std::is_same_v<C, LibCqt::AnyArchetype>
+              || std::is_base_of_v<LibCqt::AnyArchetype, C>)THEN
+(std::size_t) LibCqt::HashArchetype<ContImpl>::makeCellOfType(CRf<LibCqt::String> name) {
     map[name] = mkPtr<C>();
     return map.size();
 }
 
 template<template<class, class> class ContImpl>
 template<class C, class... Args>
-std::size_t LibCqt::HashArchetype<ContImpl>::makeCellOfType(CRf<LibCqt::String> name, Args... args) {
+ENABLE_IF std::is_constructible_v<C, Args...>
+          && (std::is_same_v<C, LibCqt::AnyArchetype>
+              || std::is_base_of_v<LibCqt::AnyArchetype, C>)THEN
+(std::size_t) LibCqt::HashArchetype<ContImpl>::makeCellOfType(CRf<LibCqt::String> name, Args... args) {
     map[name] = mkPtr<C>(args...);
     return map.size();
 }
@@ -102,7 +133,8 @@ std::size_t LibCqt::HashArchetype<ContImpl>::makeCellOfType(CRf<LibCqt::String> 
 template<template<class, class> class ContImpl>
 template<class R>
 LibCqt::Ptr<R> LibCqt::HashArchetype<ContImpl>::getAs(CRf<LibCqt::String> name) {
-    return std::dynamic_pointer_cast<R>(map[name]);
+    // note: static_pointer_cast doesn't work
+    return mkPtr<R>(*static_cast<R*>(map[name].get()));
 }
 
 template<template<class, class> class ContImpl>
@@ -111,10 +143,38 @@ LibCqt::CRf<ContImpl<LibCqt::String, LibCqt::AnyArchetype_P>> LibCqt::HashArchet
 }
 
 template<template<class, class> class ContImpl>
-template<template<class, class> class OthContImpl>
-LibCqt::HashArchetype<ContImpl>::HashArchetype(const LibCqt::HashArchetype<OthContImpl>& copy)
-        : AnyArchetype(LibCqt::Hash) {
-    for (auto&& i = copy.map.begin(); i != copy.map.end(); ++i) {
-        map[i->first] = i->second;
+std::size_t LibCqt::HashArchetype<ContImpl>::size() const {
+    return map.size();
+}
+
+template<template<class, class> class ContImpl>
+template<template<class, class> class S>
+LibCqt::HashArchetype<ContImpl>::HashArchetype(CRf<Ptr<LibCqt::HashArchetype<S>>> ptrcp)
+        : map(ptrcp->getMap()) {
+}
+
+template<template<class, class> class ContImpl>
+bool LibCqt::HashArchetype<ContImpl>::operator==(const HashArchetype& rhs) const {
+    if (getHashType() != rhs.getHashType())
+        return false;
+
+    if (rhs.map.size() != map.size())
+        return false;
+
+    bool eq = true;
+    auto i = map.begin();
+    auto j = rhs.map.begin();
+    while (eq && i != map.end()) {
+        eq = i->first == j->first
+             && *(i++)->second == *(j++)->second;
     }
+    eq = eq && i == map.end();
+
+    return static_cast<const AnyArchetype&>(*this) == static_cast<const AnyArchetype&>(rhs) &&
+           eq;
+}
+
+template<template<class, class> class ContImpl>
+bool LibCqt::HashArchetype<ContImpl>::operator!=(const HashArchetype& rhs) const {
+    return !(rhs == *this);
 }

@@ -4,20 +4,12 @@
 
 #include "OrderedMapType.hpp"
 
-LibCqt::OrderedMapType::OrderedMapType() = default;
-
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "hicpp-use-equals-default"
-
-LibCqt::OrderedMapType::OrderedMapType(LibCqt::CRf<LibCqt::OrderedMapType> copy) : HashArchetype(copy) {
-}
-
-#pragma clang diagnostic pop
-
 LibCqt::OrderedMapType::OrderedMapType(LibCqt::CRf<LibCqt::Ptr<LibCqt::OrderedMapType>> ptrCopy)
-        : HashArchetype(*ptrCopy) {
-}
+        : OrderedMapType(*ptrCopy) {}
 
-LibCqt::String LibCqt::OrderedMapType::printStart() {
+LibCqt::String LibCqt::OrderedMapType::printStart() const {
     return CQT_STRING("@(");
 }
+
+LibCqt::OrderedMapType::OrderedMapType(LibCqt::HashArchetype<LibCqt::Map>& cpa)
+        : HashArchetype(cpa) {}

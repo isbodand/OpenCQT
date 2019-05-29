@@ -8,11 +8,13 @@ set(OpenCQT_VERSION_MINOR 1)
 set(OpenCQT_VERSION "${OpenCQT_VERSION_MAJOR}.${OpenCQT_VERSION_MINOR}")
 
 # InfoParse
-find_package(InfoParse CONFIG REQUIRED)
-message("${InfoParse_DIR}")
+find_package(InfoParse REQUIRED)
+message(STATUS "Found InfoParse @ '${InfoParse_DIR}/../'")
 include_directories(${InfoParse_DIR}/../include)
 # Croquette STD
 add_subdirectory(croquette)
+# LibStarch
+add_subdirectory(starch)
 
 if (NOT RELEASE)
     set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -35,4 +37,5 @@ set(PROJECT_SOURCES main.cpp)
 set(PROJECT_HEADERS versioning.hpp)
 
 add_executable(ocqt ${PROJECT_SOURCES} ${PROJECT_HEADERS})
-target_link_libraries(ocqt infoparse croquette ${CONAN_LIBS})
+target_link_libraries(ocqt ips cqt ${CONAN_LIBS})
+set_target_properties(ocqt PROPERTIES LINKER_LANGUAGE CXX)

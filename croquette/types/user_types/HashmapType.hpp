@@ -9,13 +9,21 @@
 
 namespace LibCqt {
     class HashmapType : public HashArchetype<Hashmap> {
-    public:
+    public: // Types
         using T = Hashmap<String, AnyArchetype_P>;
         using U = void;
         using Archetype = HashArchetype<Hashmap>;
+        using _Archetype = HashArchetype;
 
-        HashmapType();
-        HashmapType(CRf<HashmapType> copy);
-        explicit HashmapType(CRf<Ptr<HashmapType>> copy);
+    public: // Constructors & destructor
+        HashmapType() = default;
+        HashmapType(Ref<HashmapType> cp) = default;
+        HashmapType(RRf<HashmapType> mv) noexcept = default;
+        explicit HashmapType(CRf<Ptr<HashmapType>> ptrcp);
+        HashmapType(Ref<HashArchetype<Hashmap>> cpa);
+
+    public: // Operators
+        HashmapType& operator=(Ref<HashmapType> cp) = default;
+        HashmapType& operator=(RRf<HashmapType> mv) noexcept = default;
     };
 }

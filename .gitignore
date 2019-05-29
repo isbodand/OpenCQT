@@ -1,4 +1,4 @@
-build/
+*build*/
 cmake-build-debug/
 
 *.exe
@@ -12,5 +12,8 @@ compile_commands.json
 
 .idea/
 *.imp
+
+.vscode/
+.vs/
 
 *.stackdump

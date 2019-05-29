@@ -1,3 +1,5 @@
+#include <utility>
+
 //
 // Created by bodand on 2019-03-25.
 //
@@ -6,19 +8,29 @@
 
 LibCqt::FlatArrayType::FlatArrayType() = default;
 
-LibCqt::String LibCqt::FlatArrayType::printStart() {
+LibCqt::String LibCqt::FlatArrayType::printStart() const {
     return CQT_STRING("$(");
 }
 
-LibCqt::String LibCqt::FlatArrayType::printEnd() {
+LibCqt::String LibCqt::FlatArrayType::printEnd() const {
     return CQT_STRING(")");
 }
 
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "hicpp-use-equals-default"
+LibCqt::FlatArrayType::FlatArrayType(CRf<LibCqt::Ptr<LibCqt::FlatArrayType>> copy)
+        : ArrayArchetype(copy.get()) {}
 
-LibCqt::FlatArrayType::FlatArrayType(CRf<LibCqt::FlatArrayType> copy) : ArrayArchetype(copy) {}
+LibCqt::FlatArrayType::FlatArrayType(std::initializer_list<LibCqt::Ptr<LibCqt::ScalarArchetype>> init)
+        : ArrayArchetype(init) {}
 
-#pragma clang diagnostic pop
+LibCqt::FlatArrayType::FlatArrayType(std::vector<LibCqt::Ptr<LibCqt::ScalarArchetype>> init)
+        : ArrayArchetype(std::move(init)) {}
 
-LibCqt::FlatArrayType::FlatArrayType(CRf<LibCqt::Ptr<LibCqt::FlatArrayType>> copy) : ArrayArchetype(copy.get()) {}
+LibCqt::ArrayType LibCqt::FlatArrayType::getArrayType() const {
+    return arrayFlatArray;
+}
+
+//&!off
+LibCqt::FlatArrayType::FlatArrayType(LibCqt::ArrayArchetype<LibCqt::FlatArrayType::T,
+                                                            LibCqt::FlatArrayType::U>& cpa)
+    : ArrayArchetype(cpa) {}
+//&!on

@@ -4,4 +4,4 @@
 
 #include "ReferenceArchetype.hpp"
 
-LibCqt::ReferenceArchetype::ReferenceArchetype() : AnyArchetype(LibCqt::Reference) {}
+LibCqt::ReferenceArchetype::ReferenceArchetype() : AnyArchetype(LibCqt::archReference) {}

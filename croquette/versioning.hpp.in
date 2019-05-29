@@ -1,12 +1,22 @@
-#define LibCroquette_MAJOR "@libCroquette_VERSION_MAJOR@"
-#define LibCroquette_MINOR "@libCroquette_VERSION_MINOR@"
-#define LibCroquette_VERSION "@libCroquette_VERSION@"
+﻿#pragma once
+
+#define LibCroquette_MAJOR @libCroquette_VERSION_MAJOR@
+#define LibCroquette_MINOR @libCroquette_VERSION_MINOR@
+#if defined(_WIN64) || defined(_WIN32)
+#  define LibCroquette_VERSION L"@libCroquette_VERSION@"
+#else
+#  define LibCroquette_VERSION "@libCroquette_VERSION@"
+#endif
 
 #include <string>
 //@formatter:off
 namespace LibCqt {
-static const std::string getVersion() {
-return LibCroquette_VERSION;
+#if defined(_WIN64) || defined(_WIN32)
+
+  static const std::wstring getVersion() {
+#else
+      static const std::string getVersion() {
+#endif
+      return LibCroquette_VERSION;
+  }
 }
-}
-//@formatter:on

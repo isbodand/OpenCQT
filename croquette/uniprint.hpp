@@ -41,7 +41,7 @@ namespace LibCqt {
   #endif
 
   #ifndef CQT_STRING
-    #define CQT_STRING(STR) std::wstring{L##STR}
+    #define CQT_STRING(STR) L##STR
   #endif
 
   #ifndef CQT_CHAR
@@ -88,4 +88,6 @@ namespace LibCqt {
     String uniReadStr();
 
     Char uniReadChar();
+
+  String operator ""_cqt(const char* str, std::size_t);
 }
