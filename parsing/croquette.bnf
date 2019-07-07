@@ -1,0 +1,132 @@
+// Assuming: char -> any one character
+//           letter -> any English alphabet character
+//           number -> double
+//           int -> int
+//           non-newline-char -> what could it be??
+
+// Code types
+// entry
+<code> ::= <code> <code-part>
+         | <code-part>
+         ;
+
+<code-part> ::= <operation>
+              | <loop>
+              | <definition>
+              ;
+
+<def-free-code> ::= <def-free-code> <def-free-code-part>
+                  | <def-free-code-part>
+                  ;
+
+<def-free-code-part> ::= <operation>
+                       | <loop>
+                       ;
+
+<init-code> ::= <def-free-code>;
+<step-code> ::= <def-free-code>;
+
+// Operations
+<operation> ::= "%{" <id> "}"                   // %{some_sub}
+              | <instr>                         // +
+              | <instr> <repeat>                // +#{5}
+              | <instr> <instr-param>           // >{#@}
+              | <instr> <instr-param> <repeat>  // >{@$}#{some_sub}
+              ;
+
+<instr> ::= '+' | '-' | '>' | '<'
+          | '^' | '˘' | '.' | ','
+          ;
+
+<repeat> ::= "#{" <val> '}';
+
+<instr-param> ::= '{' <type-ctor> '}';
+
+// Loops
+<loop> ::= <for-loop>
+         | <while-loop>
+         | <do-loop>
+         ;
+
+<for-loop> ::= "!{" '{' <init-code> '}''{' <cond> '}''{' <step-code> '}' <def-free-code> '}'
+             | "!{" '{' <init-code> '}''{' <cond> '}' <def-free-code> '}'
+             | "!{" '{' <cond> '}' <def-free-code> '}'
+             ;
+
+<while-loop> ::= <greek-qmark> '{' '{' <cond> '}' <def-free-code> '}';
+
+<do-loop> ::= "¿{" '{' <cond> '}' <def-free-code> '}';
+
+<greek-qmark> ::= ';' | ';'; // we are graceful and accept semi-colon
+
+<cond> ::= '[' <val> ']';
+
+<c-expr> ::= <val> '+' <val> | <val> '-' <val>
+           | <val> '*' <val> | <val> '/' <val>
+           | <val> '%' <val>
+           | <val> "==" <val> | <val> "!=" <val>
+           | <val> ">=" <val> | <val> ">" <val>
+           | <val> "<=" <val> | <val> "<" <val>
+           | <cond> '?' <val> ':' <val>
+           | '-' <val>
+           | <val>
+           ;
+
+<val> ::= '(' <c-expr> ')'
+        | <id>
+        | number
+        | '"' <text> '"'
+        ;
+
+// Definitions
+<definition> ::= <macro-def> | <sub-def>;
+
+<macro-def> ::= "macro " <id> <macro-param-list> "=" <text-line>
+              | "macro " <id> "=" <text-line>
+              ;
+
+<macro-param-list> ::= <macro-param-list> '{' <id> '}'
+                     | '{' <id> '}'
+                     ;
+
+<sub-def> ::= "sub " <id> <sub-type-list> '=' '{' <code> '}'
+            | "sub " <id> '#' number '=' '{' <code> '}'
+            | "sub " <id> '=' '{' <code> '}'
+            ;
+
+<sub-type-list> ::= <sub-type-list> <type-id>
+                  | <type-id>
+                  ;
+
+// Text stuff
+<id> ::= (letter | '_') <id-end>;
+
+<id-end> ::= <id-end> (letter | int | '_' | "'")
+           | (letter | int | '_' | "'")
+           ;
+
+<text> ::= <text> char
+         | char
+         ;
+
+<text-line> ::= (<text-line> <text-line-part>
+                | <text-line-part>) '\n'
+              ;
+
+<text-line-part> ::= "\\\n" | <non-newline-char>;
+
+// Types
+<type-ctor> ::= <type-id>
+              | <type-id> '{' <val> '}'
+              ;
+
+<type-id> ::= "$$" | "$|" | "@$" | "@@"
+            | "#$" | "#@" | "&$" | "%$"
+            ;
+
+// Assumed rules
+char ::= '_';
+letter ::= '_';
+number ::= '_';
+int ::= '_';
+non-newline-char ::= '_';

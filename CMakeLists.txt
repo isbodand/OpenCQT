@@ -34,7 +34,7 @@ endif ()
 
 
 set(PROJECT_SOURCES main.cpp)
-set(PROJECT_HEADERS versioning.hpp)
+set(PROJECT_HEADERS versioning.hpp parsing/Parser.cpp parsing/Parser.hpp parsing/ParserGrammar.cpp parsing/ParserGrammar.hpp)
 
 add_executable(ocqt ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 target_link_libraries(ocqt ips cqt ${CONAN_LIBS})

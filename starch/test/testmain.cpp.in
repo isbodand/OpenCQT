@@ -1,0 +1,4 @@
+#define BOOST_TEST_MODULE LibStarchTestModule
+
+//&!off ${Test_TEST_CASES}
+//&!on

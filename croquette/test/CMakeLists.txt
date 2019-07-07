@@ -1,6 +1,6 @@
 # Testing -> Boost.Test
 message(STATUS "[Croquette] Checking for Boost.Test for testing")
-find_package(Boost COMPONENTS unit_test_framework)
+find_package(Boost QUIET COMPONENTS unit_test_framework)
 if (Boost_FOUND)
     message(STATUS "[Croquette] Found Boost.Test, enabling testing")
     enable_testing()

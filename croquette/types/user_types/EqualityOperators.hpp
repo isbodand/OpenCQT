@@ -10,6 +10,7 @@
 #include "ComplexArrayType.hpp"
 
 namespace LibCqt {
+  // just found these, hope they are not important
   // Arrays
   bool operator==(CRf<FlatArrayType>, CRf<ComplexArrayType>) {
       return false;

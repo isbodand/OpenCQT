@@ -40,9 +40,21 @@
 #include "croquette/versioning.hpp"
 // OpenCQT
 #include "versioning.hpp"
+// LibStarch
+#include "starch/versioning.hpp"
+
+#include <boost/spirit/home/qi.hpp>
 
 namespace Cqt = LibCqt;
 namespace ip = InfoParse;
+namespace ls = LibStarch;
+
+namespace qi = boost::spirit::qi;
+namespace ascii = boost::spirit::ascii;
+
+void p(const char& c) {
+    std::cout << c << std::endl;
+}
 
 int main(int argc, char** argv) {
     Cqt::init();
@@ -57,38 +69,10 @@ int main(int argc, char** argv) {
     if (help) {
         CQT_STDOUT << CQT_STRING("OpenCQT v") << OpenCqt::getVersion() << CQT_STRING(" built with: \n")
                    << CQT_STRING("CroquetteSTD v") << Cqt::getVersion() << CQT_STRING("\n")
-                   << CQT_STRING("LibStarch v") << CQT_STRING("0") << CQT_STRING("\n")
+                   << CQT_STRING("LibStarch v") << ls::getWVersion() << CQT_STRING("\n")
                    << CQT_STRING("InfoParse v") << ip::getVersion() << std::endl;
         return 0;
     }
-
-    Cqt::ComplexArrayType array;
-
-    // >{@$}
-    array.makeCellOfType<Cqt::FlatArrayType>();
-    // ^
-    // !{
-    // +{$!}>
-    // }{[$! == 65]}{[$!+1]}
-    // ˇ
-    for (int i = 0; i < 65; ++i) {
-        array.getAs<Cqt::FlatArrayType>(0)->makeCell(i);
-    }
-    // >{$|}{@${0}}
-    array.makeCellOfType<Cqt::CharacterScalarType>(
-            Cqt::archetype_cast<Cqt::CharacterScalarType>(array.getAs<Cqt::FlatArrayType>(0))
-    );
-    // >{@$}{$|{1}}
-    array.makeCellOfType<Cqt::FlatArrayType>(
-            Cqt::archetype_cast<Cqt::FlatArrayType>(array.getAs<Cqt::CharacterScalarType>(1))
-    );
-    // >{@#}{$|{1}}
-    array.makeCellOfType<Cqt::OrderedMapType>(
-            Cqt::archetype_cast<Cqt::OrderedMapType>(array.getAs<Cqt::CharacterScalarType>(1))
-    );
-
-
-    CQT_STDOUT << array.asString();
 
     return 0;
 }

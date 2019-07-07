@@ -1,0 +1,18 @@
+#define LibStarch_MAJOR @LibStarch_VERSION_MAJOR@
+#define LibStarch_MINOR @LibStarch_VERSION_MINOR@
+#define LibStarch_WVERSION L"@LibStarch_VERSION@"
+#define LibStarch_VERSION "@LibStarch_VERSION@"
+
+
+#include <string>
+//@formatter:off&!off
+namespace LibStarch {
+	static const std::wstring getWVersion() {
+        return LibStarch_WVERSION;
+	}
+
+	static const std::string getVersion() {
+		return LibStarch_VERSION;
+	}
+}
+//@formatter:on&!on
