@@ -10,7 +10,7 @@
 #include <string>
 #include "val_subtrees/ValNode.hpp"
 
-#define interface class
+#define trait class
 #define unless(x) if(!(x))
 
 namespace LibStarch::Utils {
@@ -28,6 +28,28 @@ namespace LibStarch::Utils {
         instStepForward, instStepBackward,
         instStepInto, instStepOut,
         instPrint, instRead
+    };
+    enum Expr_ {
+        exprAddition,
+        exprSubtraction,
+        exprMultiplication,
+        exprDivision,
+        exprModulo,
+        exprValue,
+        exprNegate,
+        exprTernary,
+        exprEquality,
+        exprInequality,
+        exprGreaterThan,
+        exprGreaterOrEqual,
+        exprLessThan,
+        exprLessOrEqual
+    };
+    enum Val_ {
+        valValExpr,
+        valValText,
+        valValNumber,
+        valValID,
     };
     // Sub Parameters
     struct ASTSubParams_;
@@ -75,9 +97,11 @@ namespace LibStarch::Utils {
   }
 
   using ASTSubParams = Impl::ASTSubParams_;
+  using TypeCtor = Impl::ASTTypeCtor_;
   using Type = Impl::Types_;
   using Instruction = Impl::Instruction_;
-  using TypeCtor = Impl::ASTTypeCtor_;
+  using ValType = Impl::Val_;
+  using ExprType = Impl::Expr_;
 
   bool deq(double a, double b);
   bool dne(double a, double b);
@@ -90,4 +114,22 @@ namespace LibStarch::Utils {
 namespace std {
   std::string to_string(LibStarch::Utils::Type type);
   std::string to_string(LibStarch::Utils::Instruction type);
+  std::string to_string(LibStarch::AdditionExpression& expr);
+  std::string to_string(LibStarch::SubtractionExpression& expr);
+  std::string to_string(LibStarch::MultiplicationExpression& expr);
+  std::string to_string(LibStarch::DivisionExpression& expr);
+  std::string to_string(LibStarch::ModuloExpression& expr);
+  std::string to_string(LibStarch::ValueExpression& expr);
+  std::string to_string(LibStarch::NegateExpression& expr);
+  std::string to_string(LibStarch::TernaryExpression& expr);
+  std::string to_string(LibStarch::EqualityExpression& expr);
+  std::string to_string(LibStarch::InequalityExpression& expr);
+  std::string to_string(LibStarch::GreaterThanExpression& expr);
+  std::string to_string(LibStarch::GreaterOrEqualExpression& expr);
+  std::string to_string(LibStarch::LessThanExpression& expr);
+  std::string to_string(LibStarch::LessOrEqualExpression& expr);
+  std::string to_string(LibStarch::ValExpr& val);
+  std::string to_string(LibStarch::ValText& val);
+  std::string to_string(LibStarch::ValNumber& val);
+  std::string to_string(LibStarch::ValID& val);
 }

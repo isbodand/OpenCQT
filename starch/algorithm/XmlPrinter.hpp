@@ -28,6 +28,20 @@ namespace LibStarch::Algorithm {
       void visit(ASTForLoop& for_) override;
       void visit(ASTWhileLoop& while_) override;
       void visit(ASTDoLoop& do_) override;
+      void visit(AdditionExpression& expr) override;
+      void visit(SubtractionExpression& expr) override;
+      void visit(MultiplicationExpression& expr) override;
+      void visit(DivisionExpression& expr) override;
+      void visit(ModuloExpression& expr) override;
+      void visit(ValueExpression& expr) override;
+      void visit(NegateExpression& expr) override;
+      void visit(TernaryExpression& expr) override;
+      void visit(EqualityExpression& expr) override;
+      void visit(InequalityExpression& expr) override;
+      void visit(GreaterThanExpression& expr) override;
+      void visit(GreaterOrEqualExpression& expr) override;
+      void visit(LessThanExpression& expr) override;
+      void visit(LessOrEqualExpression& expr) override;
 
       /// Constructors & Destructor
   public:
@@ -41,15 +55,19 @@ namespace LibStarch::Algorithm {
   public:
       XMLPrinter& operator=(const XMLPrinter& cp) = default;
       XMLPrinter& operator=(XMLPrinter&& mv) noexcept = default;
+      operator bool();
 
       /// Fields
   private:
-      XmlType Xml = R"(<?xml version="1.0" encoding="UTF-8" ?>)";
+      XmlType Xml = R"(<?xml version="1.0" encoding="UTF-8" ?>)" "\n";
       XmlIterator insertPos = Xml.begin() + Xml.length();
+      int tab = 0;
 
       /// Methods
   private:
       void valInserter(const std::string& type, const ValNode& val);
       void insert(std::string& toInsert, unsigned long long int followUpInserPos);
+      std::string mkTags(const std::string& tag, std::string& start, std::string& fin);
+      std::string mkTags(const std::string& tags, const std::string& tagf, std::string& start, std::string& fin);
   };
 }

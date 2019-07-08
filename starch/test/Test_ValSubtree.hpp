@@ -15,7 +15,7 @@
 #include "../val_subtrees/ValText.hpp"
 #include "../cexpr/impl/AdditionExpressionImpl.hpp"
 #include "../val_subtrees/ValExpr.hpp"
-#include "../cexpr/ValueExpression.hpp"
+#include "../cexpr/impl/ValueExpressionImpl.hpp"
 
 #include <string>
 

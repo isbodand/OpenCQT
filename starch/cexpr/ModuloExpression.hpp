@@ -1,46 +1,21 @@
 //
-// Created by bodand on 2019-06-30.
+// Created by bodand on 2019-07-08.
 //
 
 #pragma once
 
-#include "impl/CExpressionImpl.hpp"
-#include <cmath>
+
+#include "CExpression.hpp"
+#include "Makeable.hpp"
 
 namespace LibStarch {
-  template<class L, class R>
-  class ModuloExpression : public CExpressionImpl<L, R> {
-  public: // Methods
-      double eval() const final;
-      std::string getPrintName() const override;
+  template<class, class>
+  class ModuloExpressionImpl;
 
-  public: // Constructors & Destructor
-      ModuloExpression() = delete;
-      ModuloExpression(const L& lhs, const R& rhs);
-      ModuloExpression(const ModuloExpression& cp) = default;
-      ModuloExpression(ModuloExpression&& mv) noexcept = default;
-
-      virtual ~ModuloExpression() = default;
-
-  public: // Operators
-      ModuloExpression& operator=(const ModuloExpression& cp) = default;
-      ModuloExpression& operator=(ModuloExpression&& mv) noexcept = default;
-
-  private: // Fields
-  private: // Methods
+  trait ModuloExpression : public virtual CExpression,
+                           public Makeable<ModuloExpressionImpl>,
+                           public Visiting::Visitable {
+  public:
+      void accept(Visiting::Visitor& visitor) override;
   };
-
-  template<class L, class R>
-  inline double ModuloExpression<L, R>::eval() const {
-      return std::fmod(this->left(), this->right());
-  }
-
-  template<class L, class R>
-  inline std::string ModuloExpression<L, R>::getPrintName() const {
-      return "Mod";
-  }
-
-  template<class L, class R>
-  inline ModuloExpression<L, R>::ModuloExpression(const L& lhs, const R& rhs)
-          : CExpressionImpl<L, R>(lhs, rhs, std::nullopt) {}
 }

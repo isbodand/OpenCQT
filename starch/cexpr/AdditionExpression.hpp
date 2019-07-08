@@ -6,38 +6,16 @@
 
 #include "CExpression.hpp"
 #include "../Utils.hpp"
+#include "Makeable.hpp"
 
 namespace LibStarch {
-  using Utils::Ptr;
-  using Utils::mkPtr;
+  template<class, class>
+  class AdditionExpressionImpl;
 
-  class AdditionExpression : public CExpression {
-      /// Interface
+  trait AdditionExpression : public virtual CExpression,
+                             public Makeable<AdditionExpressionImpl>,
+                             public Visiting::Visitable {
   public:
-      template<class L, class R>
-      static Ptr<AdditionExpression> construct(L lhs, R rhs);
-
-      /// Constructors
-  public:
-      AdditionExpression() = delete;
-
-  protected:
-      AdditionExpression(const AdditionExpression& cp) = default;
-      AdditionExpression(AdditionExpression&& mv) noexcept = default;
-
-      /// Destructor
-  public:
-      virtual ~AdditionExpression() = default;
-
-      /// Operators
-  public:
-      AdditionExpression& operator=(const AdditionExpression& cp) = default;
-      AdditionExpression& operator=(AdditionExpression&& mv) noexcept = default;
-
-      /// Fields
-  private:
-
-      /// Methods
-  private:
+      void accept(Visiting::Visitor& visitor) override;
   };
 }

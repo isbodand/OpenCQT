@@ -8,14 +8,12 @@
 
 #include "CExpressionImpl.hpp"
 #include "../AdditionExpression.hpp"
-#include "../help/Leftable.hpp"
-#include "../help/Rightable.hpp"
 
 namespace LibStarch {
   template<class L, class R>
-  class AdditionExpressionImpl :
-//          public AdditionExpression,
-          public CExpressionImpl<L, R> {
+  class AdditionExpressionImpl : public AdditionExpression,
+                                 public CExpressionImpl<L, R> {
+      using ImplOf = AdditionExpression;
   public: // Methods
       virtual double eval() const final;
       std::string getPrintName() const override;

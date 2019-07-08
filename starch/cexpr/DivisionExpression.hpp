@@ -1,45 +1,22 @@
 //
-// Created by bodand on 2019-06-30.
+// Created by bodand on 2019-07-08.
 //
 
 #pragma once
 
-#include "impl/CExpressionImpl.hpp"
+
+#include "../Utils.hpp"
+#include "CExpression.hpp"
+#include "Makeable.hpp"
 
 namespace LibStarch {
-  template<class L, class R>
-  class DivisionExpression : public CExpressionImpl<L, R> {
-  public: // Methods
-      double eval() const final;
-      std::string getPrintName() const override;
+  template<class, class>
+  class DivisionExpressionImpl;
 
-  public: // Constructors & Destructor
-      DivisionExpression() = delete;
-      DivisionExpression(const L& lhs, const R& rhs);
-      DivisionExpression(const DivisionExpression& cp) = default;
-      DivisionExpression(DivisionExpression&& mv) noexcept = default;
-
-      virtual ~DivisionExpression() = default;
-
-  public: // Operators
-      DivisionExpression& operator=(const DivisionExpression& cp) = default;
-      DivisionExpression& operator=(DivisionExpression&& mv) noexcept = default;
-
-  private: // Fields
-  private: // Methods
+  trait DivisionExpression : public virtual CExpression,
+                             public Makeable<DivisionExpressionImpl>,
+                             public Visiting::Visitable {
+  public:
+      void accept(Visiting::Visitor& visitor) override;
   };
-
-  template<class L, class R>
-  inline double DivisionExpression<L, R>::eval() const {
-      return this->left() / this->right();
-  }
-
-  template<class L, class R>
-  inline std::string DivisionExpression<L, R>::getPrintName() const {
-      return "Div";
-  }
-
-  template<class L, class R>
-  inline DivisionExpression<L, R>::DivisionExpression(const L& lhs, const R& rhs)
-          :CExpressionImpl<L, R>(lhs, rhs, std::nullopt) {}
 }

@@ -1,45 +1,22 @@
 //
-// Created by bodand on 2019-06-30.
+// Created by bodand on 2019-07-08.
 //
 
 #pragma once
 
-#include "impl/CExpressionImpl.hpp"
+
+#include "../Utils.hpp"
+#include "CExpression.hpp"
+#include "Makeable.hpp"
 
 namespace LibStarch {
-  template<class L, class R>
-  class GreaterOrEqualExpression : public CExpressionImpl<L, R> {
-  public: // Methods
-      double eval() const final;
-      std::string getPrintName() const override;
+  template<class, class>
+  class GreaterOrEqualExpressionImpl;
 
-  public: // Constructors & Destructor
-      GreaterOrEqualExpression() = delete;
-      GreaterOrEqualExpression(const L& lhs, const R& rhs);
-      GreaterOrEqualExpression(const GreaterOrEqualExpression& cp) = default;
-      GreaterOrEqualExpression(GreaterOrEqualExpression&& mv) noexcept = default;
-
-      virtual ~GreaterOrEqualExpression() = default;
-
-  public: // Operators
-      GreaterOrEqualExpression& operator=(const GreaterOrEqualExpression& cp) = default;
-      GreaterOrEqualExpression& operator=(GreaterOrEqualExpression&& mv) noexcept = default;
-
-  private: // Fields
-  private: // Methods
+  trait GreaterOrEqualExpression : public virtual CExpression,
+                                   public Makeable<GreaterOrEqualExpressionImpl>,
+                                   public Visiting::Visitable {
+  public:
+      void accept(Visiting::Visitor& visitor) override;
   };
-
-  template<class L, class R>
-  inline std::string GreaterOrEqualExpression<L, R>::getPrintName() const {
-      return "Ge";
-  }
-
-  template<class L, class R>
-  inline double GreaterOrEqualExpression<L, R>::eval() const {
-      return Utils::dge(this->left(), this->right());
-  }
-
-  template<class L, class R>
-  GreaterOrEqualExpression<L, R>::GreaterOrEqualExpression(const L& lhs, const R& rhs)
-          : CExpressionImpl<L, R>(lhs, rhs) {}
 }

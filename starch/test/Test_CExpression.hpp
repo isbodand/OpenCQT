@@ -12,19 +12,19 @@
 
 #include "../cexpr/impl/CExpressionImpl.hpp"
 #include "../cexpr/impl/AdditionExpressionImpl.hpp"
-#include "../cexpr/SubtractionExpression.hpp"
-#include "../cexpr/MultiplicationExpression.hpp"
-#include "../cexpr/DivisionExpression.hpp"
-#include "../cexpr/ModuloExpression.hpp"
-#include "../cexpr/EqualityExpression.hpp"
-#include "../cexpr/InequalityExpression.hpp"
-#include "../cexpr/LessOrEqualExpression.hpp"
-#include "../cexpr/GreaterThanExpression.hpp"
-#include "../cexpr/LessThanExpression.hpp"
-#include "../cexpr/GreaterOrEqualExpression.hpp"
-#include "../cexpr/ValueExpression.hpp"
-#include "../cexpr/NegateExpression.hpp"
-#include "../cexpr/TernaryExpression.hpp"
+#include "../cexpr/impl/SubtractionExpressionImpl.hpp"
+#include "../cexpr/impl/MultiplicationExpressionImpl.hpp"
+#include "../cexpr/impl/DivisionExpressionImpl.hpp"
+#include "../cexpr/impl/ModuloExpressionImpl.hpp"
+#include "../cexpr/impl/EqualityExpressionImpl.hpp"
+#include "../cexpr/impl/InequalityExpressionImpl.hpp"
+#include "../cexpr/impl/LessOrEqualExpressionImpl.hpp"
+#include "../cexpr/impl/GreaterThanExpressionImpl.hpp"
+#include "../cexpr/impl/LessThanExpressionImpl.hpp"
+#include "../cexpr/impl/GreaterOrEqualExpressionImpl.hpp"
+#include "../cexpr/impl/ValueExpressionImpl.hpp"
+#include "../cexpr/impl/NegateExpressionImpl.hpp"
+#include "../cexpr/impl/TernaryExpressionImpl.hpp"
 
 using namespace LibStarch;
 
@@ -41,28 +41,28 @@ BOOST_AUTO_TEST_CASE(Test_CExpression_PlusExpr) {
 }
 
 BOOST_AUTO_TEST_CASE(Test_CExpression_MinusExpr) {
-    SubtractionExpression expr(ValNumber(5.4), ValNumber(.2));
+    SubtractionExpressionImpl expr(ValNumber(5.4), ValNumber(.2));
 
     BOOST_REQUIRE_NE(&expr, nullptr);
     BOOST_CHECK_EQUAL(expr.eval(), 5.2);
 }
 
 BOOST_AUTO_TEST_CASE(Test_CExpression_TimesExpr) {
-    MultiplicationExpression expr(ValNumber(5.4), ValText("4"));
+    MultiplicationExpressionImpl expr(ValNumber(5.4), ValText("4"));
 
     BOOST_REQUIRE_NE(&expr, nullptr);
     BOOST_CHECK_EQUAL(expr.eval(), 21.6);
 }
 
 BOOST_AUTO_TEST_CASE(Test_CExpression_DivExpr, *boost::unit_test::tolerance(.00001)) {
-    DivisionExpression expr(ValNumber(5.4), ValText("4"));
+    DivisionExpressionImpl expr(ValNumber(5.4), ValText("4"));
 
     BOOST_REQUIRE_NE(&expr, nullptr);
     BOOST_CHECK_EQUAL(expr.eval(), 1.35);
 }
 
 BOOST_AUTO_TEST_CASE(Test_CExpression_ModExpr, *boost::unit_test::tolerance(.00001)) {
-    ModuloExpression expr(ValNumber(5.4), ValText("4"));
+    ModuloExpressionImpl expr(ValNumber(5.4), ValText("4"));
     double res = std::fmod(5.4, 4);
 
     BOOST_REQUIRE_NE(&expr, nullptr);
@@ -70,126 +70,126 @@ BOOST_AUTO_TEST_CASE(Test_CExpression_ModExpr, *boost::unit_test::tolerance(.000
 }
 
 BOOST_AUTO_TEST_CASE(Test_CExpression_EqExpr_false) {
-    EqualityExpression expr(ValNumber(1), ValNumber(2));
+    EqualityExpressionImpl expr(ValNumber(1), ValNumber(2));
 
     BOOST_REQUIRE_NE(&expr, nullptr);
     BOOST_CHECK_EQUAL(expr.eval(), 0.0);
 }
 
 BOOST_AUTO_TEST_CASE(Test_CExpression_EqExpr_true) {
-    EqualityExpression expr(ValNumber(1), ValNumber(1));
+    EqualityExpressionImpl expr(ValNumber(1), ValNumber(1));
 
     BOOST_REQUIRE_NE(&expr, nullptr);
     BOOST_CHECK_EQUAL(expr.eval(), 1.0);
 }
 
 BOOST_AUTO_TEST_CASE(Test_CExpression_NeExpr_false) {
-    InequalityExpression expr(ValNumber(1), ValNumber(1));
+    InequalityExpressionImpl expr(ValNumber(1), ValNumber(1));
 
     BOOST_REQUIRE_NE(&expr, nullptr);
     BOOST_CHECK_EQUAL(expr.eval(), 0.0);
 }
 
 BOOST_AUTO_TEST_CASE(Test_CExpression_NeExpr_true) {
-    InequalityExpression expr(ValNumber(1), ValNumber(2));
+    InequalityExpressionImpl expr(ValNumber(1), ValNumber(2));
 
     BOOST_REQUIRE_NE(&expr, nullptr);
     BOOST_CHECK_EQUAL(expr.eval(), 1.0);
 }
 
 BOOST_AUTO_TEST_CASE(Test_CExpression_GtExpr_false) {
-    GreaterThanExpression expr(ValNumber(1), ValNumber(2));
+    GreaterThanExpressionImpl expr(ValNumber(1), ValNumber(2));
 
     BOOST_REQUIRE_NE(&expr, nullptr);
     BOOST_CHECK_EQUAL(expr.eval(), 0.0);
 }
 
 BOOST_AUTO_TEST_CASE(Test_CExpression_GtExpr_true) {
-    GreaterThanExpression expr(ValNumber(2), ValNumber(1));
+    GreaterThanExpressionImpl expr(ValNumber(2), ValNumber(1));
 
     BOOST_REQUIRE_NE(&expr, nullptr);
     BOOST_CHECK_EQUAL(expr.eval(), 1.0);
 }
 
 BOOST_AUTO_TEST_CASE(Test_CExpression_LtExpr_false) {
-    LessThanExpression expr(ValNumber(2), ValNumber(1));
+    LessThanExpressionImpl expr(ValNumber(2), ValNumber(1));
 
     BOOST_REQUIRE_NE(&expr, nullptr);
     BOOST_CHECK_EQUAL(expr.eval(), 0.0);
 }
 
 BOOST_AUTO_TEST_CASE(Test_CExpression_LtExpr_true) {
-    LessThanExpression expr(ValNumber(1), ValNumber(2));
+    LessThanExpressionImpl expr(ValNumber(1), ValNumber(2));
 
     BOOST_REQUIRE_NE(&expr, nullptr);
     BOOST_CHECK_EQUAL(expr.eval(), 1.0);
 }
 
 BOOST_AUTO_TEST_CASE(Test_CExpression_GeExpr_false) {
-    GreaterOrEqualExpression expr(ValNumber(1), ValNumber(2));
+    GreaterOrEqualExpressionImpl expr(ValNumber(1), ValNumber(2));
 
     BOOST_REQUIRE_NE(&expr, nullptr);
     BOOST_CHECK_EQUAL(expr.eval(), 0.0);
 }
 
 BOOST_AUTO_TEST_CASE(Test_CExpression_GeExpr_true_eq) {
-    GreaterOrEqualExpression expr(ValNumber(1), ValNumber(1));
+    GreaterOrEqualExpressionImpl expr(ValNumber(1), ValNumber(1));
 
     BOOST_REQUIRE_NE(&expr, nullptr);
     BOOST_CHECK_EQUAL(expr.eval(), 1.0);
 }
 
 BOOST_AUTO_TEST_CASE(Test_CExpression_GeExpr_true_gt) {
-    GreaterOrEqualExpression expr(ValNumber(2), ValNumber(1));
+    GreaterOrEqualExpressionImpl expr(ValNumber(2), ValNumber(1));
 
     BOOST_REQUIRE_NE(&expr, nullptr);
     BOOST_CHECK_EQUAL(expr.eval(), 1.0);
 }
 
 BOOST_AUTO_TEST_CASE(Test_CExpression_LeExpr_false) {
-    LessOrEqualExpression expr(ValNumber(2), ValNumber(1));
+    LessOrEqualExpressionImpl expr(ValNumber(2), ValNumber(1));
 
     BOOST_REQUIRE_NE(&expr, nullptr);
     BOOST_CHECK_EQUAL(expr.eval(), 0.0);
 }
 
 BOOST_AUTO_TEST_CASE(Test_CExpression_LeExpr_true_eq) {
-    LessOrEqualExpression expr(ValNumber(1), ValNumber(1));
+    LessOrEqualExpressionImpl expr(ValNumber(1), ValNumber(1));
 
     BOOST_REQUIRE_NE(&expr, nullptr);
     BOOST_CHECK_EQUAL(expr.eval(), 1.0);
 }
 
 BOOST_AUTO_TEST_CASE(Test_CExpression_LeExpr_true_lt) {
-    LessOrEqualExpression expr(ValNumber(1), ValNumber(2));
+    LessOrEqualExpressionImpl expr(ValNumber(1), ValNumber(2));
 
     BOOST_REQUIRE_NE(&expr, nullptr);
     BOOST_CHECK_EQUAL(expr.eval(), 1.0);
 }
 
 BOOST_AUTO_TEST_CASE(Test_CExpression_ValueExpr) {
-    ValueExpression expr(ValNumber(42));
+    ValueExpressionImpl expr(ValNumber(42));
 
     BOOST_REQUIRE_NE(&expr, nullptr);
     BOOST_CHECK_EQUAL(expr.eval(), 42.0);
 }
 
 BOOST_AUTO_TEST_CASE(Test_CExpression_NegateExpr) {
-    NegateExpression expr(ValNumber(42));
+    NegateExpressionImpl expr(ValNumber(42));
 
     BOOST_REQUIRE_NE(&expr, nullptr);
     BOOST_CHECK_EQUAL(expr.eval(), -42.0);
 }
 
 BOOST_AUTO_TEST_CASE(Test_CExpression_TernaryEvalsTrue) {
-    TernaryExpression expr(ValNumber(1), ValNumber(2), std::optional(CondNode(ValueExpression(ValNumber(1)))));
+    TernaryExpressionImpl expr(ValNumber(1), ValNumber(2), std::optional(CondNode(ValueExpressionImpl(ValNumber(1)))));
 
     BOOST_REQUIRE_NE(&expr, nullptr);
     BOOST_CHECK_EQUAL(expr.eval(), 1);
 }
 
 BOOST_AUTO_TEST_CASE(Test_CExpression_TernaryEvalsFalse) {
-    TernaryExpression expr(ValNumber(1), ValNumber(2), std::optional(CondNode(ValueExpression(ValNumber(0)))));
+    TernaryExpressionImpl expr(ValNumber(1), ValNumber(2), std::optional(CondNode(ValueExpressionImpl(ValNumber(0)))));
 
     BOOST_REQUIRE_NE(&expr, nullptr);
     BOOST_CHECK_EQUAL(expr.eval(), 2);

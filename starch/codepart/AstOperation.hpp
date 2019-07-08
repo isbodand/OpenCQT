@@ -28,6 +28,7 @@ namespace LibStarch {
   public:
       ASTOperation() = default;
       ASTOperation(Instruction instr, Ptr<ValNode> rep, const std::optional<TypeCtor>& ctor);
+      ASTOperation(Instruction instr, Ptr<ValNode> rep);
       ASTOperation(const ASTOperation& cp) = delete;
       ASTOperation(ASTOperation&& mv) noexcept = default;
 

@@ -30,30 +30,26 @@ set(LibStarch_HEADERS versioning.hpp
         Utils.hpp
         Visitor.hpp
         Visitable.hpp
-        CondNode.hpp
         AstNode.hpp
         AstRoot.hpp
         AstCode.hpp
         AstInnerCode.hpp
         cexpr/impl/CExpressionImpl.hpp
         cexpr/impl/AdditionExpressionImpl.hpp
-        cexpr/SubtractionExpression.hpp
-        cexpr/MultiplicationExpression.hpp
-        cexpr/DivisionExpression.hpp
-        cexpr/ModuloExpression.hpp
-        cexpr/EqualityExpression.hpp
-        cexpr/LessOrEqualExpression.cpp
-        cexpr/InequalityExpression.hpp
-        cexpr/GreaterThanExpression.hpp
-        cexpr/LessThanExpression.hpp
-        cexpr/GreaterOrEqualExpression.hpp
-        cexpr/LessOrEqualExpression.hpp
-        cexpr/ValueExpression.hpp
-        cexpr/NegateExpression.hpp
-        cexpr/TernaryExpression.hpp
-        cexpr/help/Leftable.hpp
-        cexpr/help/Rightable.hpp
-        cexpr/help/Conditionable.hpp
+        cexpr/impl/SubtractionExpressionImpl.hpp
+        cexpr/impl/MultiplicationExpressionImpl.hpp
+        cexpr/impl/DivisionExpressionImpl.hpp
+        cexpr/impl/ModuloExpressionImpl.hpp
+        cexpr/impl/EqualityExpressionImpl.hpp
+        cexpr/impl/LessOrEqualExpressionImpl.cpp
+        cexpr/impl/InequalityExpressionImpl.hpp
+        cexpr/impl/GreaterThanExpressionImpl.hpp
+        cexpr/impl/LessThanExpressionImpl.hpp
+        cexpr/impl/GreaterOrEqualExpressionImpl.hpp
+        cexpr/impl/LessOrEqualExpressionImpl.hpp
+        cexpr/impl/ValueExpressionImpl.hpp
+        cexpr/impl/NegateExpressionImpl.hpp
+        cexpr/impl/TernaryExpressionImpl.hpp
         val_subtrees/ValNode.hpp
         val_subtrees/ValId.hpp
         val_subtrees/ValText.hpp
@@ -69,36 +65,32 @@ set(LibStarch_HEADERS versioning.hpp
         algorithm/XmlPrinter.hpp
         cexpr/CExpression.hpp
         cexpr/AdditionExpression.hpp
-        )
+        cexpr/DivisionExpression.cpp cexpr/DivisionExpression.hpp cexpr/EqualityExpression.cpp cexpr/EqualityExpression.hpp cexpr/Makeable.cpp cexpr/Makeable.hpp cexpr/GreaterOrEqualExpression.cpp cexpr/GreaterOrEqualExpression.hpp cexpr/GreaterThanExpression.cpp cexpr/GreaterThanExpression.hpp cexpr/InequalityExpression.cpp cexpr/InequalityExpression.hpp cexpr/LessOrEqualExpression.cpp cexpr/LessOrEqualExpression.hpp cexpr/ModuloExpression.cpp cexpr/ModuloExpression.hpp cexpr/MultiplicationExpression.cpp cexpr/MultiplicationExpression.hpp cexpr/NegateExpression.cpp cexpr/NegateExpression.hpp cexpr/SubtractionExpression.cpp cexpr/SubtractionExpression.hpp cexpr/TernaryExpression.cpp cexpr/TernaryExpression.hpp cexpr/ValueExpression.cpp cexpr/ValueExpression.hpp CondNode.cpp CondNode.hpp)
 
 set(LibStarch_SOURCES
         Utils.cpp
         Visitor.cpp
         Visitable.cpp
-        CondNode.cpp
         AstNode.cpp
         AstRoot.cpp
         AstCode.cpp
         AstInnerCode.cpp
         cexpr/impl/CExpressionImpl.cpp
         cexpr/impl/AdditionExpressionImpl.cpp
-        cexpr/SubtractionExpression.cpp
-        cexpr/MultiplicationExpression.cpp
-        cexpr/DivisionExpression.cpp
-        cexpr/ModuloExpression.cpp
-        cexpr/EqualityExpression.cpp
-        cexpr/InequalityExpression.cpp
-        cexpr/GreaterThanExpression.cpp
-        cexpr/LessThanExpression.cpp
-        cexpr/GreaterOrEqualExpression.cpp
-        cexpr/ValueExpression.cpp
-        cexpr/NegateExpression.cpp
-        cexpr/TernaryExpression.cpp
+        cexpr/impl/SubtractionExpressionImpl.cpp
+        cexpr/impl/MultiplicationExpressionImpl.cpp
+        cexpr/impl/DivisionExpressionImpl.cpp
+        cexpr/impl/ModuloExpressionImpl.cpp
+        cexpr/impl/EqualityExpressionImpl.cpp
+        cexpr/impl/InequalityExpressionImpl.cpp
+        cexpr/impl/GreaterThanExpressionImpl.cpp
+        cexpr/impl/LessThanExpressionImpl.cpp
+        cexpr/impl/GreaterOrEqualExpressionImpl.cpp
+        cexpr/impl/ValueExpressionImpl.cpp
+        cexpr/impl/NegateExpressionImpl.cpp
+        cexpr/impl/TernaryExpressionImpl.cpp
         cexpr/CExpression.cpp
         cexpr/AdditionExpression.cpp
-        cexpr/help/Leftable.cpp
-        cexpr/help/Rightable.cpp
-        cexpr/help/Conditionable.cpp
         val_subtrees/ValNode.cpp
         val_subtrees/ValId.cpp
         val_subtrees/ValText.cpp
@@ -116,7 +108,7 @@ set(LibStarch_SOURCES
 
 #set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -fpermissive) # enable funky-mode
 
-add_library(sch STATIC ${LibStarch_HEADERS} ${LibStarch_SOURCES})
+add_library(sch STATIC ${LibStarch_HEADERS} ${LibStarch_SOURCES} cexpr/LessThanExpression.cpp cexpr/LessThanExpression.hpp)
 add_library(starch SHARED ${LibStarch_HEADERS} ${LibStarch_SOURCES})
 set_target_properties(sch PROPERTIES LINKER_LANGUAGE CXX)
 set_target_properties(starch PROPERTIES LINKER_LANGUAGE CXX)

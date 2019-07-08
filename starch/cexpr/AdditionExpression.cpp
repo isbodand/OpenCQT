@@ -3,9 +3,9 @@
 //
 
 #include "AdditionExpression.hpp"
-#include "impl/AdditionExpressionImpl.hpp"
 
-template<class L, class R>
-LibStarch::Ptr<LibStarch::AdditionExpression> LibStarch::AdditionExpression::construct(L lhs, R rhs) {
-    return mkPtr<AdditionExpressionImpl<L, R>>(lhs, rhs);
+void LibStarch::AdditionExpression::accept(LibStarch::Visiting::Visitor& visitor) {
+    visitor.visit(*this);
 }
+
+

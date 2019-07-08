@@ -119,3 +119,75 @@ std::string std::to_string(LibStarch::Utils::Instruction type) {
     }
     return "";
 }
+
+std::string std::to_string(LibStarch::AdditionExpression& expr) {
+    return "AdditionExpression";
+}
+
+std::string std::to_string(LibStarch::SubtractionExpression& expr) {
+    return "SubtractionExpression";
+}
+
+std::string std::to_string(LibStarch::MultiplicationExpression& expr) {
+    return "MultiplicationExpression";
+}
+
+std::string std::to_string(LibStarch::DivisionExpression& expr) {
+    return "DivisionExpression";
+}
+
+std::string std::to_string(LibStarch::ModuloExpression& expr) {
+    return "ModuloExpression";
+}
+
+std::string std::to_string(LibStarch::ValueExpression& expr) {
+    return "ValueExpression";
+}
+
+std::string std::to_string(LibStarch::NegateExpression& expr) {
+    return "NegateExpression";
+}
+
+std::string std::to_string(LibStarch::TernaryExpression& expr) {
+    return "TernaryExpression";
+}
+
+std::string std::to_string(LibStarch::EqualityExpression& expr) {
+    return "EqualityExpression";
+}
+
+std::string std::to_string(LibStarch::InequalityExpression& expr) {
+    return "InequalityExpression";
+}
+
+std::string std::to_string(LibStarch::GreaterThanExpression& expr) {
+    return "GreaterThanExpression";
+}
+
+std::string std::to_string(LibStarch::GreaterOrEqualExpression& expr) {
+    return "GreaterOrEqualExpression";
+}
+
+std::string std::to_string(LibStarch::LessThanExpression& expr) {
+    return "LessThanExpression";
+}
+
+std::string std::to_string(LibStarch::LessOrEqualExpression& expr) {
+    return "LessOrEqualExpression";
+}
+
+std::string std::to_string(LibStarch::ValExpr& val) {
+    return "ValExpr";
+}
+
+std::string std::to_string(LibStarch::ValText& val) {
+    return "ValText";
+}
+
+std::string std::to_string(LibStarch::ValNumber& val) {
+    return "ValNumber";
+}
+
+std::string std::to_string(LibStarch::ValID& val) {
+    return "ValID";
+}

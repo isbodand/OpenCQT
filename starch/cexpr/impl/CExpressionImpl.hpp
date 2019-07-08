@@ -9,7 +9,6 @@
 #include <sstream>
 
 #include "../../val_subtrees/ValNode.hpp"
-#include "../../CondNode.hpp"
 #include "../../Utils.hpp"
 #include "../CExpression.hpp"
 
@@ -19,17 +18,20 @@ namespace LibStarch {
   using Utils::mkPtr;
 
   template<class L, class R>
-  class CExpressionImpl : public CExpression {
+  class CExpressionImpl : public virtual CExpression {
   public: // Methods
       const L* getLeft() const;
       const R* getRight() const;
       double left() const;
       double right() const;
-      const std::optional<CondNode>& getCondition() const;
+      const std::optional<CondNode>& getCond() const override;
 
       void leftAsString(std::ostream& os) const override;
       void rightAsString(std::ostream& os) const override;
       void condAsString(std::ostream& os) const override;
+
+      Anything getAnyLeft() const override;
+      Anything getAnyRight() const override;
 
   public: // Constructors & Destructor
       CExpressionImpl() = delete;
@@ -60,10 +62,7 @@ namespace LibStarch {
                                                 const std::optional<CondNode>& cond)
           : lhs(mkPtr<L>(std::move(lhs))),
             rhs(mkPtr<R>(std::move(rhs))),
-            cond() {
-      if (cond) {
-          *this->cond = *cond;
-      }
+            CExpression(cond) {
   }
 
   template<class L, class R>
@@ -77,13 +76,8 @@ namespace LibStarch {
   }
 
   template<class L, class R>
-  inline const std::optional<CondNode>& CExpressionImpl<L, R>::getCondition() const {
-      return cond;
-  }
-
-  template<class L, class R>
   inline CExpressionImpl<L, R>::CExpressionImpl(L lhs, R rhs)
-          : CExpressionImpl<L, R>(std::move(lhs), std::move(rhs), std::nullopt) {}
+          : CExpressionImpl<L, R>(std::move(lhs), std::move(rhs), nullptr) {}
 
   template<class L, class R>
   inline double CExpressionImpl<L, R>::left() const {
@@ -99,30 +93,65 @@ namespace LibStarch {
   inline CExpressionImpl<L, R>::CExpressionImpl(L lhs)
           : lhs(std::make_unique<L>(std::move(lhs))),
             rhs(),
-            cond() {
+            CExpression(nullptr) {
   }
 
   template<class L, class R>
   inline void CExpressionImpl<L, R>::leftAsString(std::ostream& os) const {
-      if (lhs)
-          os << *lhs;
+      if (this->getLeft())
+          os << *this->getLeft();
       else
           os << "[empty]";
   }
 
   template<class L, class R>
   inline void CExpressionImpl<L, R>::rightAsString(std::ostream& os) const {
-      if (rhs)
-          os << *rhs;
+      if (this->getRight())
+          os << *this->getRight();
       else
           os << "[empty]";
   }
 
   template<class L, class R>
   inline void CExpressionImpl<L, R>::condAsString(std::ostream& os) const {
-      if (cond.has_value())
-          os << *cond;
+      if (this->getCond().has_value())
+          os << *this->getCond();
       else
           os << "[empty]";
+  }
+
+  template<class L, class R>
+  inline Anything CExpressionImpl<L, R>::getAnyLeft() const {
+      return {getLeft(), []() -> Utils::ValType {
+        if constexpr (std::is_same_v<L, ValText>) {
+            return Utils::Impl::valValText;
+        } else if constexpr (std::is_same_v<L, ValExpr>) {
+            return Utils::Impl::valValExpr;
+        } else if constexpr (std::is_same_v<L, ValNumber>) {
+            return Utils::Impl::valValNumber;
+        } else if constexpr (std::is_same_v<L, ValID>) {
+            return Utils::Impl::valValID;
+        }
+      }()};
+  }
+
+  template<class L, class R>
+  inline Anything CExpressionImpl<L, R>::getAnyRight() const {
+      return {getRight(), []() -> Utils::ValType {
+        if constexpr (std::is_same_v<L, ValText>) {
+            return Utils::Impl::valValText;
+        } else if constexpr (std::is_same_v<L, ValExpr>) {
+            return Utils::Impl::valValExpr;
+        } else if constexpr (std::is_same_v<L, ValNumber>) {
+            return Utils::Impl::valValNumber;
+        } else if constexpr (std::is_same_v<L, ValID>) {
+            return Utils::Impl::valValID;
+        }
+      }()};
+  }
+
+  template<class L, class R>
+  const std::optional<CondNode>& CExpressionImpl<L, R>::getCond() const {
+      return cond;
   }
 }

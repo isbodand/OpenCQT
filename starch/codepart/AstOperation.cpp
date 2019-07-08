@@ -1,9 +1,8 @@
-#include <utility>
-
 //
 // Created by bodand on 2019-07-01.
 //
 
+#include <utility>
 #include "AstOperation.hpp"
 
 LibStarch::ASTOperation::ASTOperation(Instruction instr, Ptr<ValNode> rep,
@@ -34,4 +33,8 @@ void LibStarch::ASTOperation::accept(Visiting::Visitor& visitor) {
 
 LibStarch::ValNode& LibStarch::ASTOperation::getRep() {
     return *rep;
+}
+
+LibStarch::ASTOperation::ASTOperation(LibStarch::Instruction instr, LibStarch::Ptr<LibStarch::ValNode> rep)
+        : ASTOperation(instr, rep, std::nullopt) {
 }

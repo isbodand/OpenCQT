@@ -6,9 +6,21 @@
 
 #include <string>
 #include <ostream>
+#include <optional>
+
+#include "../Utils.hpp"
+#include "../CondNode.hpp"
 
 namespace LibStarch {
-  class CExpression {
+  using Utils::Ptr;
+  using Utils::mkPtr;
+  struct Any_ {
+      const void* value;
+      Utils::ValType type;
+  };
+  using Anything = Any_;
+
+  trait CExpression {
       /// Interface
   public:
       virtual double eval() const = 0;
@@ -16,6 +28,11 @@ namespace LibStarch {
       virtual void leftAsString(std::ostream& os) const = 0;
       virtual void rightAsString(std::ostream& os) const = 0;
       virtual void condAsString(std::ostream& os) const = 0;
+
+      virtual const std::optional<LibStarch::CondNode>& getCond() const = 0;
+
+      virtual Anything getAnyLeft() const = 0;
+      virtual Anything getAnyRight() const = 0;
 
       /// Constructors & Destructor
   public:

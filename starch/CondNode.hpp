@@ -7,11 +7,13 @@
 #include <ostream>
 #include <sstream>
 #include "Utils.hpp"
-#include "val_subtrees/ValExpr.hpp"
+//#include "val_subtrees/ValExpr.hpp"
 
 namespace LibStarch {
   using Utils::Ptr;
   using Utils::mkPtr;
+
+  class ValExpr;
 
   class CondNode {
   public: // Methods
@@ -22,7 +24,7 @@ namespace LibStarch {
       CondNode(ValNode* valNode);
 
       template<template<class, class> class E, class L, class R>
-      CondNode(E<L, R> expr) : val(std::make_shared<ValExpr>(std::move(expr))) {}
+      CondNode(E<L, R>* expr) : val(std::make_shared<ValExpr>(expr)) {}
 
       CondNode(const CondNode& cp) = default;
       CondNode(CondNode&& mv) noexcept = default;
