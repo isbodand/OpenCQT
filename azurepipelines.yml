@@ -22,4 +22,4 @@ jobs:
       - bash: cd build
       - bash: cmake ..
       - bash: make -j
-#      - bash: make test # sad
+      - bash: make test # sad
