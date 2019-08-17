@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<cqt:program xmlns:cqt="http://www.w3.org/1999/xhtml">
+    <cqt:code>
+        <cqt:operation type="StepForward">
+            <cqt:value type="Expression">
+                <cqt:ternary>
+                    <cqt:value type="Text">"1"</cqt:value>
+                    <cqt:value type="Expression">
+                        <cqt:addition>
+                            <cqt:value type="Expression">
+                                <cqt:greater-or-equal>
+                                    <cqt:value type="Expression">
+                                        <cqt:multiplication>
+                                            <cqt:value type="Number">6</cqt:value>
+                                            <cqt:value type="Number">7</cqt:value>
+                                        </cqt:multiplication>
+                                    </cqt:value>
+                                    <cqt:value type="Text">"45"</cqt:value>
+                                </cqt:greater-or-equal>
+                            </cqt:value>
+                            <cqt:value type="Text">"4"</cqt:value>
+                        </cqt:addition>
+                    </cqt:value>
+                </cqt:ternary>
+            </cqt:value>
+        </cqt:operation>
+        <cqt:operation type="Plus">
+            <cqt:value type="Expression">
+                <cqt:addition>
+                    <cqt:value type="Text">"0"</cqt:value>
+                    <cqt:value type="Number">2</cqt:value>
+
+                </cqt:addition>
+            </cqt:value>
+        </cqt:operation>
+    </cqt:code>
+</cqt:program>
