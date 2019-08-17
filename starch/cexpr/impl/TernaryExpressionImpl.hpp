@@ -18,7 +18,8 @@ namespace LibStarch {
 
   public: // Constructors & Destructor
       TernaryExpressionImpl() = delete;
-      TernaryExpressionImpl(const L& lhs, const R& rhs, CondNode* cond);
+      TernaryExpressionImpl(const L& lhs, const R& rhs,
+                            const std::optional<CondNode>& cond);
       TernaryExpressionImpl(const TernaryExpressionImpl& cp) = default;
       TernaryExpressionImpl(TernaryExpressionImpl&& mv) noexcept = default;
 
@@ -48,6 +49,6 @@ namespace LibStarch {
 
   template<class L, class R>
   inline TernaryExpressionImpl<L, R>::TernaryExpressionImpl(const L& lhs, const R& rhs,
-                                                            CondNode* cond)
+                                                            const std::optional<CondNode>& cond)
           : CExpressionImpl<L, R>(lhs, rhs, cond) {}
 }

@@ -50,7 +50,7 @@ namespace LibCqt {
       refGlobalReference
   } ReferenceType;
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /**
    * AnyArchetype
    * Represents any kind of cell in
@@ -96,12 +96,12 @@ namespace LibCqt {
        * Const Copy Constructor
        * Default
        */
-      AnyArchetype(CRf<AnyArchetype> cp) = default;
+      AnyArchetype(const AnyArchetype& cp) = default;
       /**
        * Move Constructor
        * Default
        */
-      AnyArchetype(RRf<AnyArchetype> mv) noexcept = default;
+      AnyArchetype(AnyArchetype&& mv) noexcept = default;
 
       /**
        * Destructor
@@ -114,12 +114,12 @@ namespace LibCqt {
        * Copy assignment
        * Default
        */
-      AnyArchetype& operator=(Ref<AnyArchetype> cp) = default;
+      AnyArchetype& operator=(AnyArchetype& cp) = default;
       /**
        * Move assignment
        * Default
        */
-      AnyArchetype& operator=(RRf<AnyArchetype> mv) noexcept = default;
+      AnyArchetype& operator=(AnyArchetype&& mv) noexcept = default;
       /**
        * Checks equality based on ArchetypeType
        * @param rhs The other AnyArchetype to be compared against
@@ -158,9 +158,9 @@ namespace LibCqt {
        */
       ArchetypeType getCurrentType() const;
   };
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /// Pointer types
-    using AnyArchetype_P = Ptr<AnyArchetype>;
-    using AnyArchetype_R = Raw<AnyArchetype>;
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /// Pointer types
+  using AnyArchetype_P = Ptr<AnyArchetype>;
+  using AnyArchetype_R = AnyArchetype*;
 }
 

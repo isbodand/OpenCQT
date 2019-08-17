@@ -7,15 +7,17 @@
 #include "ScalarArchetype.hpp"
 #include "AnyArchetype.hpp"
 
-LibCqt::ScalarArchetype::ScalarArchetype() : AnyArchetype(LibCqt::archScalar), value(0) {}
+LibCqt::ScalarArchetype::ScalarArchetype()
+        : AnyArchetype(LibCqt::archScalar), value(0) {}
 
-LibCqt::ScalarArchetype::ScalarArchetype(double value) : value(value) {}
+LibCqt::ScalarArchetype::ScalarArchetype(double value)
+        : value(value) {}
 
 double LibCqt::ScalarArchetype::getValue() const {
     return value;
 }
 
-LibCqt::ScalarArchetype::ScalarArchetype(CRf<LibCqt::Ptr<LibCqt::ScalarArchetype>> ref)
+LibCqt::ScalarArchetype::ScalarArchetype(const LibCqt::Ptr<LibCqt::ScalarArchetype>& ref)
         : ScalarArchetype(ref->getValue()) {
 }
 

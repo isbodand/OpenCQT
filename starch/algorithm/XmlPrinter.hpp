@@ -7,6 +7,7 @@
 #include <string>
 #include "../Visitor.hpp"
 #include "../AstRoot.hpp"
+#include "../cexpr/CExpression.hpp"
 
 namespace LibStarch::Algorithm {
   class XMLPrinter : public ::LibStarch::Visiting::Visitor {
@@ -68,6 +69,8 @@ namespace LibStarch::Algorithm {
       void valInserter(const std::string& type, const ValNode& val);
       void insert(std::string& toInsert, unsigned long long int followUpInserPos);
       std::string mkTags(const std::string& tag, std::string& start, std::string& fin);
-      std::string mkTags(const std::string& tags, const std::string& tagf, std::string& start, std::string& fin);
+      std::string mkTags(const std::string& tags, const std::string& tagf,
+                         std::string& start, std::string& fin);
+      void exprInserter(const LibStarch::CExpression& expr, const std::string& exprName);
   };
 }

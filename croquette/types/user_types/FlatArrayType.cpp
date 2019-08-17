@@ -16,7 +16,7 @@ LibCqt::String LibCqt::FlatArrayType::printEnd() const {
     return CQT_STRING(")");
 }
 
-LibCqt::FlatArrayType::FlatArrayType(CRf<LibCqt::Ptr<LibCqt::FlatArrayType>> copy)
+LibCqt::FlatArrayType::FlatArrayType(const LibCqt::Ptr<LibCqt::FlatArrayType>& copy)
         : ArrayArchetype(copy.get()) {}
 
 LibCqt::FlatArrayType::FlatArrayType(std::initializer_list<LibCqt::Ptr<LibCqt::ScalarArchetype>> init)

@@ -138,13 +138,13 @@ namespace LibStarch {
   template<class L, class R>
   inline Anything CExpressionImpl<L, R>::getAnyRight() const {
       return {getRight(), []() -> Utils::ValType {
-        if constexpr (std::is_same_v<L, ValText>) {
+        if constexpr (std::is_same_v<R, ValText>) {
             return Utils::Impl::valValText;
-        } else if constexpr (std::is_same_v<L, ValExpr>) {
+        } else if constexpr (std::is_same_v<R, ValExpr>) {
             return Utils::Impl::valValExpr;
-        } else if constexpr (std::is_same_v<L, ValNumber>) {
+        } else if constexpr (std::is_same_v<R, ValNumber>) {
             return Utils::Impl::valValNumber;
-        } else if constexpr (std::is_same_v<L, ValID>) {
+        } else if constexpr (std::is_same_v<R, ValID>) {
             return Utils::Impl::valValID;
         }
       }()};

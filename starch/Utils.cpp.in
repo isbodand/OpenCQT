@@ -77,22 +77,14 @@ namespace LibStarch::Utils {
 std::string std::to_string(LibStarch::Utils::Type type) {
     using namespace LibStarch::Utils;
     switch (type) {
-        case Impl::typeTrueScalar:
-            return "TrueScalar";
-        case Impl::typeCharScalar:
-            return "CharacterScalar";
-        case Impl::typeFlatArray:
-            return "FlatArray";
-        case Impl::typeCompArray:
-            return "ComplexArray";
-        case Impl::typeHashMap:
-            return "HashMap";
-        case Impl::typeTreeMap:
-            return "TreeMap";
-        case Impl::typeReference:
-            return "Reference";
-        case Impl::typeFunction:
-            return "Function";
+        case Impl::typeTrueScalar:return "TrueScalar";
+        case Impl::typeCharScalar:return "CharacterScalar";
+        case Impl::typeFlatArray:return "FlatArray";
+        case Impl::typeCompArray:return "ComplexArray";
+        case Impl::typeHashMap:return "HashMap";
+        case Impl::typeTreeMap:return "TreeMap";
+        case Impl::typeReference:return "Reference";
+        case Impl::typeFunction:return "Function";
     }
     return "";
 }
@@ -100,22 +92,14 @@ std::string std::to_string(LibStarch::Utils::Type type) {
 std::string std::to_string(LibStarch::Utils::Instruction type) {
     using namespace LibStarch::Utils;
     switch (type) {
-        case Impl::instPlus:
-            return "Plus";
-        case Impl::instMinus:
-            return "Minus";
-        case Impl::instStepForward:
-            return "StepForward";
-        case Impl::instStepBackward:
-            return "StepBackward";
-        case Impl::instStepInto:
-            return "StepInto";
-        case Impl::instStepOut:
-            return "StepOut";
-        case Impl::instPrint:
-            return "Print";
-        case Impl::instRead:
-            return "Read";
+        case Impl::instPlus:return "Plus";
+        case Impl::instMinus:return "Minus";
+        case Impl::instStepForward:return "StepForward";
+        case Impl::instStepBackward:return "StepBackward";
+        case Impl::instStepInto:return "StepInto";
+        case Impl::instStepOut:return "StepOut";
+        case Impl::instPrint:return "Print";
+        case Impl::instRead:return "Read";
     }
     return "";
 }

@@ -24,40 +24,42 @@ int main() {
     using namespace Utils;
 
     ASTRoot root(ASTCode({
-//                                 std::static_pointer_cast<ASTExtendedCodePart>(mkPtr<ASTOperation>(
-//                                         Impl::instStepForward,
-//                                         mkPtr<ValExpr>(
-//                                                 TernaryExpression::make(
-//                                                         ValText("1"),
-//                                                         ValExpr(
-//                                                                 AdditionExpression::make(
-//                                                                         ValExpr(
-//                                                                                 GreaterOrEqualExpression::make(
-//                                                                                         ValExpr(
-//                                                                                                 MultiplicationExpression::make(
-//                                                                                                         ValNumber(6),
-//                                                                                                         ValNumber(7)
-//                                                                                                 )
-//                                                                                         ),
-//                                                                                         ValText("45")
-//                                                                                 )
-//                                                                         ),
-//                                                                         ValText("4")
-//                                                                 )),
-//                                                         CondNode(
-//                                                                 EqualityExpression::make(
-//                                                                         ValExpr(
-//                                                                                 DivisionExpression::make(
-//                                                                                         ValNumber(1),
-//                                                                                         ValNumber(3)
-//                                                                                 )
-//                                                                         ),
-//                                                                         ValText("42")
-//                                                                 )
-//                                                         )
-//                                                 )
-//                                         )
-//                                 )),
+                                 // >#{[((1/3)=="42")]?"1":(((6*7)>="45")+"4")}
+                                 std::static_pointer_cast<ASTExtendedCodePart>(mkPtr<ASTOperation>(
+                                         Impl::instStepForward,
+                                         mkPtr<ValExpr>(
+                                                 TernaryExpression::make(
+                                                         ValText("1"),
+                                                         ValExpr(
+                                                                 AdditionExpression::make(
+                                                                         ValExpr(
+                                                                                 GreaterOrEqualExpression::make(
+                                                                                         ValExpr(
+                                                                                                 MultiplicationExpression::make(
+                                                                                                         ValNumber(6),
+                                                                                                         ValNumber(7)
+                                                                                                 )
+                                                                                         ),
+                                                                                         ValText("45")
+                                                                                 )
+                                                                         ),
+                                                                         ValText("4")
+                                                                 )),
+                                                         std::optional<CondNode>(
+                                                                 EqualityExpression::make(
+                                                                         ValExpr(
+                                                                                 DivisionExpression::make(
+                                                                                         ValNumber(1),
+                                                                                         ValNumber(3)
+                                                                                 )
+                                                                         ),
+                                                                         ValText("42")
+                                                                 )
+                                                         )
+                                                 )
+                                         )
+                                 )),
+                                 // +#{"0"+2}
                                  std::static_pointer_cast<ASTExtendedCodePart>(mkPtr<ASTOperation>(
                                          Impl::instPlus,
                                          mkPtr<ValExpr>(

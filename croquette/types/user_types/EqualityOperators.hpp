@@ -12,11 +12,11 @@
 namespace LibCqt {
   // just found these, hope they are not important
   // Arrays
-  bool operator==(CRf<FlatArrayType>, CRf<ComplexArrayType>) {
+  bool operator==(const FlatArrayType&, const ComplexArrayType&) {
       return false;
   }
 
-  bool operator==(CRf<ComplexArrayType>, CRf<FlatArrayType>) {
+  bool operator==(const ComplexArrayType&, const FlatArrayType&) {
       return false;
   }
 }

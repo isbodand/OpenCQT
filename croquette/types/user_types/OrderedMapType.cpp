@@ -4,7 +4,7 @@
 
 #include "OrderedMapType.hpp"
 
-LibCqt::OrderedMapType::OrderedMapType(LibCqt::CRf<LibCqt::Ptr<LibCqt::OrderedMapType>> ptrCopy)
+LibCqt::OrderedMapType::OrderedMapType(const LibCqt::Ptr<LibCqt::OrderedMapType>& ptrCopy)
         : OrderedMapType(*ptrCopy) {}
 
 LibCqt::String LibCqt::OrderedMapType::printStart() const {

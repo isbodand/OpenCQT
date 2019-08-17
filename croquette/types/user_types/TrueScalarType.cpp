@@ -6,11 +6,13 @@
 #include <locale>
 #include "TrueScalarType.hpp"
 
-LibCqt::TrueScalarType::TrueScalarType() : ScalarArchetype() {}
+LibCqt::TrueScalarType::TrueScalarType()
+        : ScalarArchetype() {}
 
-LibCqt::TrueScalarType::TrueScalarType(double value) : ScalarArchetype(value) {}
+LibCqt::TrueScalarType::TrueScalarType(double value)
+        : ScalarArchetype(value) {}
 
-LibCqt::TrueScalarType::TrueScalarType(CRf<LibCqt::Ptr<LibCqt::ScalarArchetype>> ref)
+LibCqt::TrueScalarType::TrueScalarType(const LibCqt::Ptr<LibCqt::ScalarArchetype>& ref)
         : ScalarArchetype(ref) {}
 
 LibCqt::TrueScalarType::TrueScalarType(LibCqt::ScalarArchetype& cp)

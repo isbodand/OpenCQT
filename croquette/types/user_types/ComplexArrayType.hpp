@@ -9,36 +9,38 @@
 #include "TrueScalarType.hpp"
 
 namespace LibCqt {
-    class ComplexArrayType : public ArrayArchetype<AnyArchetype, TrueScalarType> {
-    public: // Types
-        using T = AnyArchetype;
-        using U = TrueScalarType;
-        using Archetype = ArrayArchetype<T, U>;
+  class ComplexArrayType : public ArrayArchetype<AnyArchetype, TrueScalarType> {
+  public: // Types
+      using T = AnyArchetype;
+      using U = TrueScalarType;
+      using Archetype = ArrayArchetype<T, U>;
 
-    public: // Overridden methods
-        ArrayType getArrayType() const override;
+  public: // Overridden methods
+      ArrayType getArrayType() const override;
 
-    protected: // Overridden protected methods
-        String printStart() const override;
-        String printEnd() const override;
+  protected: // Overridden protected methods
+      String printStart() const override;
+      String printEnd() const override;
 
-    public: // Constructors & destructor
-        ComplexArrayType();
-        ComplexArrayType(CRf<ComplexArrayType> cp) = default;
-        ComplexArrayType(RRf<ComplexArrayType> mv) noexcept = default;
-        explicit ComplexArrayType(CRf<Ptr<ComplexArrayType>> copy);
-        ComplexArrayType(std::initializer_list<Ptr<T>> init);
-        ComplexArrayType(std::vector<Ptr<T>> init);
-        explicit ComplexArrayType(CRf<std::vector<Raw<T>>> init);
-        ComplexArrayType(Ref<ArrayArchetype<T, U>> cpa);
+  public: // Constructors & destructor
+      ComplexArrayType();
+      ComplexArrayType(const ComplexArrayType& cp) = default;
+      ComplexArrayType(ComplexArrayType&& mv) noexcept = default;
+      explicit ComplexArrayType(const Ptr <ComplexArrayType>& copy);
+      ComplexArrayType(std::initializer_list<Ptr < T>>
+      init);
+      ComplexArrayType(std::vector<Ptr < T>>
+      init);
+      explicit ComplexArrayType(const std::vector<T>*& init);
+      ComplexArrayType(ArrayArchetype <T, U>& cpa);
 
-        virtual ~ComplexArrayType() = default;
+      virtual ~ComplexArrayType() = default;
 
-    public: // Operators
-        ComplexArrayType& operator=(Ref<ComplexArrayType> cp) = default;
-        ComplexArrayType& operator=(RRf<ComplexArrayType> mv) noexcept = default;
+  public: // Operators
+      ComplexArrayType& operator=(ComplexArrayType& cp) = default;
+      ComplexArrayType& operator=(ComplexArrayType&& mv) noexcept = default;
 
 
-    };
+  };
 }
 

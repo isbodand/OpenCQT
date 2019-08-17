@@ -8,31 +8,31 @@
 #include "../archetypes/ScalarArchetype.hpp"
 
 namespace LibCqt {
-    class TrueScalarType : public ScalarArchetype {
-    public: // Type types
-        using T = void;
-        using U = void;
-        using Archetype = ScalarArchetype;
+  class TrueScalarType : public ScalarArchetype {
+  public: // Type types
+      using T = void;
+      using U = void;
+      using Archetype = ScalarArchetype;
 
-    public: // Overridden methods
-        ScalarType getScalarType() const override;
+  public: // Overridden methods
+      ScalarType getScalarType() const override;
 
-    public: // Constructors & destructor
-        TrueScalarType();
-        TrueScalarType(CRf<TrueScalarType> cp) = default;
-        TrueScalarType(RRf<TrueScalarType> mv) noexcept = default;
-        explicit TrueScalarType(double value);
-        explicit TrueScalarType(CRf<Ptr<LibCqt::ScalarArchetype>> ref);
-        TrueScalarType(Ref<ScalarArchetype> cpa);
+  public: // Constructors & destructor
+      TrueScalarType();
+      TrueScalarType(const TrueScalarType& cp) = default;
+      TrueScalarType(TrueScalarType&& mv) noexcept = default;
+      explicit TrueScalarType(double value);
+      explicit TrueScalarType(const Ptr <LibCqt::ScalarArchetype>& ref);
+      TrueScalarType(ScalarArchetype& cpa);
 
-        virtual ~TrueScalarType() = default;
+      virtual ~TrueScalarType() = default;
 
-    public: // Operators
-        TrueScalarType& operator=(Ref<TrueScalarType> cp) = default;
-        TrueScalarType& operator=(RRf<TrueScalarType> mv) noexcept = default;
-        TrueScalarType& operator=(Ref<ScalarArchetype> cpa) noexcept override;
-        TrueScalarType& operator=(RRf<ScalarArchetype> mva) noexcept override;
-    };
+  public: // Operators
+      TrueScalarType& operator=(TrueScalarType& cp) = default;
+      TrueScalarType& operator=(TrueScalarType&& mv) noexcept = default;
+      TrueScalarType& operator=(ScalarArchetype& cpa) noexcept override;
+      TrueScalarType& operator=(ScalarArchetype&& mva) noexcept override;
+  };
 }
 
 

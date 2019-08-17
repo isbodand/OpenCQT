@@ -7,10 +7,10 @@
 #include "AnyArchetype.hpp"
 
 namespace LibCqt {
-    class ReferenceArchetype : public AnyArchetype {
-    public:
-        ReferenceArchetype();
-    };
+  class ReferenceArchetype : public AnyArchetype {
+  public:
+      ReferenceArchetype();
+  };
 }
 
 

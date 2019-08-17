@@ -24,7 +24,8 @@ namespace LibStarch {
       CondNode(ValNode* valNode);
 
       template<template<class, class> class E, class L, class R>
-      CondNode(E<L, R>* expr) : val(std::make_shared<ValExpr>(expr)) {}
+      CondNode(E<L, R>* expr)
+              : val(std::make_shared<ValExpr>(expr)) {}
 
       CondNode(const CondNode& cp) = default;
       CondNode(CondNode&& mv) noexcept = default;

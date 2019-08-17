@@ -10,7 +10,8 @@ LibCqt::ArchetypeType LibCqt::AnyArchetype::getCurrentType() const {
     return currentType;
 }
 
-LibCqt::AnyArchetype::AnyArchetype(LibCqt::ArchetypeType currentType) : currentType(currentType) {}
+LibCqt::AnyArchetype::AnyArchetype(LibCqt::ArchetypeType currentType)
+        : currentType(currentType) {}
 
 LibCqt::String LibCqt::AnyArchetype::asString() const {
     return CQT_STRING("(>_<´) The printing of a decayed getScalarType is undefined behaviour you utter failure. "
@@ -18,7 +19,8 @@ LibCqt::String LibCqt::AnyArchetype::asString() const {
                       "This could result in immediate termination with less powerful and caring compilers.");
 }
 
-LibCqt::AnyArchetype::AnyArchetype() : currentType(LibCqt::archScalar) {}
+LibCqt::AnyArchetype::AnyArchetype()
+        : currentType(LibCqt::archScalar) {}
 
 bool LibCqt::AnyArchetype::operator==(const LibCqt::AnyArchetype& rhs) const {
     return currentType == rhs.currentType;

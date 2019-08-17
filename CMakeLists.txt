@@ -7,35 +7,17 @@ set(OpenCQT_VERSION_MAJOR 0)
 set(OpenCQT_VERSION_MINOR 1)
 set(OpenCQT_VERSION "${OpenCQT_VERSION_MAJOR}.${OpenCQT_VERSION_MINOR}")
 
-# InfoParse
-find_package(InfoParse REQUIRED)
-message(STATUS "Found InfoParse @ '${InfoParse_DIR}/../'")
-include_directories(${InfoParse_DIR}/../include)
-# Croquette STD
-add_subdirectory(croquette)
-# LibStarch
-add_subdirectory(starch)
-
-if (NOT RELEASE)
-    set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-endif ()
-
 configure_file(
         "${PROJECT_SOURCE_DIR}/versioning.hpp.in"
         "${PROJECT_SOURCE_DIR}/versioning.hpp"
 )
 
-if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    conan_basic_setup()
-else ()
-    message(WARNING "The file conanbuildinfo.cmake doesn't exist, you have to run conan install first")
-endif ()
-
+# Load the required libraries, local or not
+include(utilities/load_libs.cmake)
 
 set(PROJECT_SOURCES main.cpp)
 set(PROJECT_HEADERS versioning.hpp parsing/Parser.cpp parsing/Parser.hpp parsing/ParserGrammar.cpp parsing/ParserGrammar.hpp)
 
 add_executable(ocqt ${PROJECT_SOURCES} ${PROJECT_HEADERS})
-target_link_libraries(ocqt ips cqt ${CONAN_LIBS})
+target_link_libraries(ocqt cqt infoparse)
 set_target_properties(ocqt PROPERTIES LINKER_LANGUAGE CXX)

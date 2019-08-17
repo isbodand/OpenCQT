@@ -1,19 +1,26 @@
+## Build directories
 *build*/
 cmake-build-debug/
 
+## Output files
 *.exe
 *.obj
 *.o
 *.out
 
+## Local files for yours truly
 *.local.*
 
-compile_commands.json
-
+## IDE Files
 .idea/
 *.imp
 
 .vscode/
 .vs/
 
+## ??
+compile_commands.json
 *.stackdump
+
+## External Libraries
+libs

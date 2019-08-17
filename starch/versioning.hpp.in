@@ -5,14 +5,26 @@
 
 
 #include <string>
-//@formatter:off&!off
-namespace LibStarch {
-	static const std::wstring getWVersion() {
-        return LibStarch_WVERSION;
-	}
 
-	static const std::string getVersion() {
-		return LibStarch_VERSION;
-	}
+namespace LibStarch {
+  static std::wstring getWVersion() {
+      return LibStarch_WVERSION;
+  }
+
+  static std::string getVersion() {
+      return LibStarch_VERSION;
+  }
+
+#if defined(_WIN32) || defined(_WIN64)
+
+  static std::wstring getAutoVersion() {
+      return LibStarch_WVERSION;
+  }
+
+#else
+  static std::string getAutoVersion() {
+      return LibStarch_VERSION;
+  }
+#endif
 }
-//@formatter:on&!on
+

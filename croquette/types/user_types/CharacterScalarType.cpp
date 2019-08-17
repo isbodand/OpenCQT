@@ -7,7 +7,8 @@
 #include <locale>
 #include "CharacterScalarType.hpp"
 
-LibCqt::CharacterScalarType::CharacterScalarType() : ScalarArchetype(32) {}
+LibCqt::CharacterScalarType::CharacterScalarType()
+        : ScalarArchetype(32) {}
 
 LibCqt::String LibCqt::CharacterScalarType::asString() const {
     StringStream stream;
@@ -15,9 +16,10 @@ LibCqt::String LibCqt::CharacterScalarType::asString() const {
     return std::move(stream.str());
 }
 
-LibCqt::CharacterScalarType::CharacterScalarType(double value) : ScalarArchetype(value) {}
+LibCqt::CharacterScalarType::CharacterScalarType(double value)
+        : ScalarArchetype(value) {}
 
-LibCqt::CharacterScalarType::CharacterScalarType(CRf<LibCqt::Ptr<LibCqt::ScalarArchetype>> ref)
+LibCqt::CharacterScalarType::CharacterScalarType(const LibCqt::Ptr<LibCqt::ScalarArchetype>& ref)
         : ScalarArchetype(ref) {}
 
 LibCqt::CharacterScalarType::CharacterScalarType(LibCqt::ScalarArchetype& cpa)

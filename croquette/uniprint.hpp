@@ -20,9 +20,9 @@
 namespace LibCqt {
 
 #if defined(_CQT_WINDOWS) && !defined(_CQT_STRING_INIT)
-    using Char = wchar_t;
-    using String = std::wstring;
-    using StringStream = std::wstringstream;
+  using Char = wchar_t;
+  using String = std::wstring;
+  using StringStream = std::wstringstream;
 
   #ifndef CQT_TO_STRING
     #define CQT_TO_STRING(x) std::to_wstring((x))
@@ -50,9 +50,9 @@ namespace LibCqt {
 
   #define _CQT_STRING_INIT
 #elif !defined(_CQT_STRING_INIT)
-    using Char = char;
-    using String = std::string;
-    using StringStream = std::stringstream;
+  using Char = char;
+  using String = std::string;
+  using StringStream = std::stringstream;
 
   #ifndef CQT_TO_STRING
     #define CQT_TO_STRING(x) std::to_string((x))
@@ -81,13 +81,13 @@ namespace LibCqt {
   #define _CQT_STRING_INIT
 #endif
 
-    void uniPrint(const String& string);
+  void uniPrint(const String& string);
 
-    void uniError(const String& error);
+  void uniError(const String& error);
 
-    String uniReadStr();
+  String uniReadStr();
 
-    Char uniReadChar();
+  Char uniReadChar();
 
   String operator ""_cqt(const char* str, std::size_t);
 }

@@ -19,9 +19,9 @@ namespace LibCqt::Casts {
 
   template<>
   class array_cast<FlatArrayType> {
-      CRf<FlatArrayType> array;
+      const FlatArrayType& array;
   public:
-      explicit array_cast(CRf<FlatArrayType> array);
+      explicit array_cast(const FlatArrayType& array);
 
       operator FlatArrayType() const;
       operator ComplexArrayType() const;
@@ -29,18 +29,18 @@ namespace LibCqt::Casts {
 
   template<>
   class array_cast<ComplexArrayType> {
-      CRf<ComplexArrayType> array;
+      const ComplexArrayType& array;
   public:
-      array_cast(CRf<ComplexArrayType> array);
+      array_cast(const ComplexArrayType& array);
 
       operator FlatArrayType() const;
       operator ComplexArrayType() const;
   };
 
-  inline array_cast<ComplexArrayType>::array_cast(CRf<ComplexArrayType> array)
+  inline array_cast<ComplexArrayType>::array_cast(const ComplexArrayType& array)
           : array(array) {}
 
-  inline array_cast<FlatArrayType>::array_cast(CRf<FlatArrayType> array)
+  inline array_cast<FlatArrayType>::array_cast(const FlatArrayType& array)
           : array(array) {}
 
   inline array_cast<FlatArrayType>::operator FlatArrayType() const {
@@ -59,39 +59,36 @@ namespace LibCqt::Casts {
       FlatArrayType flat;
       for (const Ptr<AnyArchetype>& cell : array.getCells()) {
           switch (cell->getCurrentType()) {
-          case archScalar:
-              switch (cell->getScalarType()) {
-              case scalarAnyScalar:
-                  flat.makeCellOfType<ScalarArchetype>(std::static_pointer_cast<ScalarArchetype>(cell));
+              case archScalar:
+                  switch (cell->getScalarType()) {
+                      case scalarAnyScalar:
+                          flat.makeCellOfType<ScalarArchetype>(std::static_pointer_cast<ScalarArchetype>(cell));
+                          break;
+                      case scalarCharacterScalar:
+                          flat.makeCellOfType<CharacterScalarType>(
+                                  std::static_pointer_cast<CharacterScalarType>(cell));
+                          break;
+                      case scalarTrueScalar:flat.makeCell(std::static_pointer_cast<TrueScalarType>(cell));
+                          break;
+                  }
                   break;
-              case scalarCharacterScalar:
-                  flat.makeCellOfType<CharacterScalarType>(
-                          std::static_pointer_cast<CharacterScalarType>(cell));
+              case archArray:
+                  switch (cell->getArrayType()) {
+                      case arrayAnyArray:
+                      case arrayFlatArray:
+                          flat.makeCell(std::move(archetype_cast<TrueScalarType>(
+                                  std::static_pointer_cast<ArrayArchetype<>>(cell)
+                          )));
+                          break;
+                      case arrayComplexArray:
+                          flat.makeCell(std::move(archetype_cast<TrueScalarType>(
+                                  std::static_pointer_cast<ComplexArrayType>(cell)
+                          )));
+                          break;
+                  }
                   break;
-              case scalarTrueScalar:
-                  flat.makeCell(std::static_pointer_cast<TrueScalarType>(cell));
-                  break;
-              }
-              break;
-          case archArray:
-              switch (cell->getArrayType()) {
-              case arrayAnyArray:
-              case arrayFlatArray:
-                  flat.makeCell(std::move(archetype_cast<TrueScalarType>(
-                          std::static_pointer_cast<ArrayArchetype<>>(cell)
-                  )));
-                  break;
-              case arrayComplexArray:
-                  flat.makeCell(std::move(archetype_cast<TrueScalarType>(
-                          std::static_pointer_cast<ComplexArrayType>(cell)
-                  )));
-                  break;
-              }
-              break;
-          case archHash:
-              break;
-          case archReference:
-              break;
+              case archHash:break;
+              case archReference:break;
           }
       }
       return std::move(flat);

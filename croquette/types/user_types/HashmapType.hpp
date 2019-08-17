@@ -8,22 +8,22 @@
 #include "../archetypes/HashArchetype.hpp"
 
 namespace LibCqt {
-    class HashmapType : public HashArchetype<Hashmap> {
-    public: // Types
-        using T = Hashmap<String, AnyArchetype_P>;
-        using U = void;
-        using Archetype = HashArchetype<Hashmap>;
-        using _Archetype = HashArchetype;
+  class HashmapType : public HashArchetype<Hashmap> {
+  public: // Types
+      using T = Hashmap<String, AnyArchetype_P>;
+      using U = void;
+      using Archetype = HashArchetype<Hashmap>;
+      using _Archetype = HashArchetype;
 
-    public: // Constructors & destructor
-        HashmapType() = default;
-        HashmapType(Ref<HashmapType> cp) = default;
-        HashmapType(RRf<HashmapType> mv) noexcept = default;
-        explicit HashmapType(CRf<Ptr<HashmapType>> ptrcp);
-        HashmapType(Ref<HashArchetype<Hashmap>> cpa);
+  public: // Constructors & destructor
+      HashmapType() = default;
+      HashmapType(HashmapType& cp) = default;
+      HashmapType(HashmapType&& mv) noexcept = default;
+      explicit HashmapType(const Ptr <HashmapType>& ptrcp);
+      HashmapType(HashArchetype <Hashmap>& cpa);
 
-    public: // Operators
-        HashmapType& operator=(Ref<HashmapType> cp) = default;
-        HashmapType& operator=(RRf<HashmapType> mv) noexcept = default;
-    };
+  public: // Operators
+      HashmapType& operator=(HashmapType& cp) = default;
+      HashmapType& operator=(HashmapType&& mv) noexcept = default;
+  };
 }

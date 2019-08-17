@@ -27,8 +27,8 @@
  */
 
 // Parameter parser
-#include <OptionsParser.hpp>
-#include <versioning.hpp>
+#include <infoparse/OptionsParser.hpp>
+#include <infoparse/versioning.hpp>
 // Croquette STD
 #include "croquette/cqt.hpp"
 #include "croquette/types/user_types/FlatArrayType.hpp"
@@ -43,37 +43,42 @@
 // LibStarch
 #include "starch/versioning.hpp"
 
-#include <boost/spirit/home/qi.hpp>
-
-namespace Cqt = LibCqt;
+namespace cqt = LibCqt;
 namespace ip = InfoParse;
 namespace ls = LibStarch;
 
-namespace qi = boost::spirit::qi;
-namespace ascii = boost::spirit::ascii;
-
-void p(const char& c) {
-    std::cout << c << std::endl;
-}
+[[noreturn]] void help();
+[[noreturn]] void version();
 
 int main(int argc, char** argv) {
-    Cqt::init();
-
-    bool help;
+    cqt::init();
 
     ip::OptionsParser parser;
-    parser.addOption("help", &help);
+    parser.addOptions()
+                  ("help|h|?", help)
+                  ("version|v", version);
 
     auto files = parser.parse(argc, argv);
 
-    if (help) {
-        CQT_STDOUT << CQT_STRING("OpenCQT v") << OpenCqt::getVersion() << CQT_STRING(" built with: \n")
-                   << CQT_STRING("CroquetteSTD v") << Cqt::getVersion() << CQT_STRING("\n")
-                   << CQT_STRING("LibStarch v") << ls::getWVersion() << CQT_STRING("\n")
-                   << CQT_STRING("InfoParse v") << ip::getVersion() << std::endl;
-        return 0;
-    }
+    std::cout << "Files: " << files;
 
     return 0;
 }
 
+void help() {
+    CQT_STDOUT << CQT_STRING("OpenCQT v") << OpenCqt::getVersion() << CQT_CHAR('\n')
+               << CQT_STRING("Usage: ocqt [options] <files...>\n")
+               << CQT_STRING("Options: \n")
+               << CQT_STRING(" --help -h -?\t\tPrints this help message\n")
+               << CQT_STRING(" --version -v\t\tPrints the version of the program\n")
+               << std::endl;
+    std::exit(0);
+}
+
+void version() {
+    CQT_STDOUT << CQT_STRING("OpenCQT v") << OpenCqt::getVersion() << CQT_STRING(" built with:")
+               << CQT_STRING("\n- CroquetteSTD v") << cqt::getVersion()
+               << CQT_STRING("\n- LibStarch v") << ls::getAutoVersion()
+               << CQT_STRING("\n- InfoParse v") << ip::getAutoVersion() << std::endl;
+    std::exit(0);
+}

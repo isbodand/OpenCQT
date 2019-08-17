@@ -16,7 +16,7 @@ namespace LibCqt::Casts {
 
   template<>
   class scalar_cast<TrueScalarType> {
-      CRf<TrueScalarType> scalar;
+      const TrueScalarType& scalar;
   public:
       explicit scalar_cast(const TrueScalarType& scalar);
 
@@ -26,7 +26,7 @@ namespace LibCqt::Casts {
 
   template<>
   class scalar_cast<CharacterScalarType> {
-      CRf<CharacterScalarType> scalar;
+      const CharacterScalarType& scalar;
   public:
       explicit scalar_cast(const CharacterScalarType& scalar);
 

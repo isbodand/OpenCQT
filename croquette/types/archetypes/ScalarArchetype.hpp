@@ -10,54 +10,54 @@
 
 namespace LibCqt {
 
-    class ScalarArchetype : public AnyArchetype {
-    public: // Types
-        using T = void;
-        using U = void;
-        using Archetype = ScalarArchetype;
-        using _Archetype = ScalarArchetype;
+  class ScalarArchetype : public AnyArchetype {
+  public: // Types
+      using T = void;
+      using U = void;
+      using Archetype = ScalarArchetype;
+      using _Archetype = ScalarArchetype;
 
-    protected: // Values
-        double value;
+  protected: // Values
+      double value;
 
-    public: // Overridden methods
-        String asString() const override;
-        virtual ScalarType getScalarType() const override;
+  public: // Overridden methods
+      String asString() const override;
+      virtual ScalarType getScalarType() const override;
 
-    public: // Constructors & destructor
-        ScalarArchetype();
-        ScalarArchetype(CRf<ScalarArchetype> cp) = default;
-        ScalarArchetype(RRf<ScalarArchetype> mv) noexcept = default;
-        explicit ScalarArchetype(double value);
-        explicit ScalarArchetype(CRf<Ptr<ScalarArchetype>> ref);
+  public: // Constructors & destructor
+      ScalarArchetype();
+      ScalarArchetype(const ScalarArchetype& cp) = default;
+      ScalarArchetype(ScalarArchetype&& mv) noexcept = default;
+      explicit ScalarArchetype(double value);
+      explicit ScalarArchetype(const Ptr <ScalarArchetype>& ref);
 
-        virtual ~ScalarArchetype() = default;
+      virtual ~ScalarArchetype() = default;
 
-    public: // Virtual operators
-        virtual ScalarArchetype& operator=(Ref<ScalarArchetype> cp) = default;
-        virtual ScalarArchetype& operator=(RRf<ScalarArchetype> mv) noexcept = default;
+  public: // Virtual operators
+      virtual ScalarArchetype& operator=(ScalarArchetype& cp) = default;
+      virtual ScalarArchetype& operator=(ScalarArchetype&& mv) noexcept = default;
 
-    public: // Operators
-        bool operator==(const ScalarArchetype& rhs) const;
-        bool operator!=(const ScalarArchetype& rhs) const;
-        bool operator<(const ScalarArchetype& rhs) const;
-        bool operator>(const ScalarArchetype& rhs) const;
-        bool operator<=(const ScalarArchetype& rhs) const;
-        bool operator>=(const ScalarArchetype& rhs) const;
-        bool operator==(const double& rhs) const;
-        bool operator!=(const double& rhs) const;
-        bool operator<(const double& rhs) const;
-        bool operator>(const double& rhs) const;
-        bool operator<=(const double& rhs) const;
-        bool operator>=(const double& rhs) const;
+  public: // Operators
+      bool operator==(const ScalarArchetype& rhs) const;
+      bool operator!=(const ScalarArchetype& rhs) const;
+      bool operator<(const ScalarArchetype& rhs) const;
+      bool operator>(const ScalarArchetype& rhs) const;
+      bool operator<=(const ScalarArchetype& rhs) const;
+      bool operator>=(const ScalarArchetype& rhs) const;
+      bool operator==(const double& rhs) const;
+      bool operator!=(const double& rhs) const;
+      bool operator<(const double& rhs) const;
+      bool operator>(const double& rhs) const;
+      bool operator<=(const double& rhs) const;
+      bool operator>=(const double& rhs) const;
 
-    public: // Miscellaneous methods
-        double getValue() const;
-        void setValue(double _value);
-    };
-    /// Pointer types
-    using ScalarArchetype_P = Ptr<ScalarArchetype>;
-    using ScalarArchetype_R = Raw<ScalarArchetype>;
+  public: // Miscellaneous methods
+      double getValue() const;
+      void setValue(double _value);
+  };
+  /// Pointer types
+  using ScalarArchetype_P = Ptr<ScalarArchetype>;
+  using ScalarArchetype_R = ScalarArchetype*;
 }
 
 

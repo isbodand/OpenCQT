@@ -27,8 +27,10 @@
 #include "../Utils.hpp"
 
 #define TAB "  "
-
-void insert(std::string& toInsert);
+#define TAB_STREAM(strm, tab) \
+        for (int i = 0; i < (tab); ++i) { \
+            (strm) << TAB; \
+        }
 
 void LibStarch::Algorithm::XMLPrinter::visit(LibStarch::ASTRoot& root) {
     std::string rootXml("<cqt:program>\n\n</cqt:program>");
@@ -69,7 +71,7 @@ void LibStarch::Algorithm::XMLPrinter::visit(LibStarch::ASTInnerCode& icode) {
         part->accept(*this);
     }
     tab--;
-    insertPos += std::string("\n</cqt:inner-code>").length();
+    insertPos += fin.length();
 }
 
 void LibStarch::Algorithm::XMLPrinter::visit(LibStarch::ASTOperation& op) {
@@ -105,8 +107,7 @@ void LibStarch::Algorithm::XMLPrinter::visit(LibStarch::ValExpr& expr) {
     insert(exprXml, start.length());
     tab++;
     switch (expr.getTyp()) {
-        case Utils::Impl::exprAddition:
-            std::dynamic_pointer_cast<AdditionExpression>(expr.getExpr())->accept(*this);
+        case Utils::Impl::exprAddition:std::dynamic_pointer_cast<AdditionExpression>(expr.getExpr())->accept(*this);
             break;
         case Utils::Impl::exprSubtraction:
             std::dynamic_pointer_cast<SubtractionExpression>(expr.getExpr())->accept(*this);
@@ -114,26 +115,19 @@ void LibStarch::Algorithm::XMLPrinter::visit(LibStarch::ValExpr& expr) {
         case Utils::Impl::exprMultiplication:
             std::dynamic_pointer_cast<MultiplicationExpression>(expr.getExpr())->accept(*this);
             break;
-        case Utils::Impl::exprDivision:
-            std::dynamic_pointer_cast<DivisionExpression>(expr.getExpr())->accept(*this);
+        case Utils::Impl::exprDivision:std::dynamic_pointer_cast<DivisionExpression>(expr.getExpr())->accept(*this);
             break;
-        case Utils::Impl::exprModulo:
-            std::dynamic_pointer_cast<ModuloExpression>(expr.getExpr())->accept(*this);
+        case Utils::Impl::exprModulo:std::dynamic_pointer_cast<ModuloExpression>(expr.getExpr())->accept(*this);
             break;
-        case Utils::Impl::exprValue:
-            std::dynamic_pointer_cast<ValueExpression>(expr.getExpr())->accept(*this);
+        case Utils::Impl::exprValue:std::dynamic_pointer_cast<ValueExpression>(expr.getExpr())->accept(*this);
             break;
-        case Utils::Impl::exprNegate:
-            std::dynamic_pointer_cast<NegateExpression>(expr.getExpr())->accept(*this);
+        case Utils::Impl::exprNegate:std::dynamic_pointer_cast<NegateExpression>(expr.getExpr())->accept(*this);
             break;
-        case Utils::Impl::exprTernary:
-            std::dynamic_pointer_cast<TernaryExpression>(expr.getExpr())->accept(*this);
+        case Utils::Impl::exprTernary:std::dynamic_pointer_cast<TernaryExpression>(expr.getExpr())->accept(*this);
             break;
-        case Utils::Impl::exprEquality:
-            std::dynamic_pointer_cast<EqualityExpression>(expr.getExpr())->accept(*this);
+        case Utils::Impl::exprEquality:std::dynamic_pointer_cast<EqualityExpression>(expr.getExpr())->accept(*this);
             break;
-        case Utils::Impl::exprInequality:
-            std::dynamic_pointer_cast<InequalityExpression>(expr.getExpr())->accept(*this);
+        case Utils::Impl::exprInequality:std::dynamic_pointer_cast<InequalityExpression>(expr.getExpr())->accept(*this);
             break;
         case Utils::Impl::exprGreaterThan:
             std::dynamic_pointer_cast<GreaterThanExpression>(expr.getExpr())->accept(*this);
@@ -141,8 +135,7 @@ void LibStarch::Algorithm::XMLPrinter::visit(LibStarch::ValExpr& expr) {
         case Utils::Impl::exprGreaterOrEqual:
             std::dynamic_pointer_cast<GreaterOrEqualExpression>(expr.getExpr())->accept(*this);
             break;
-        case Utils::Impl::exprLessThan:
-            std::dynamic_pointer_cast<LessThanExpression>(expr.getExpr())->accept(*this);
+        case Utils::Impl::exprLessThan:std::dynamic_pointer_cast<LessThanExpression>(expr.getExpr())->accept(*this);
             break;
         case Utils::Impl::exprLessOrEqual:
             std::dynamic_pointer_cast<LessOrEqualExpression>(expr.getExpr())->accept(*this);
@@ -164,17 +157,16 @@ void LibStarch::Algorithm::XMLPrinter::visit(LibStarch::ValID& id) {
 }
 
 void LibStarch::Algorithm::XMLPrinter::valInserter(const std::string& type, const ValNode& val) {
-    std::stringstream exprXml;
-    std::string start, fin;
-    mkTags("<cqt:value type=\"" + type + "\">", "</cqt:value>", start, fin);
-    exprXml << start;
-    tab++;
-    val.asString(exprXml);
-    tab--;
-    exprXml << fin;
-    std::string s = exprXml.str();
-    Xml.insert(insertPos, s.begin(), s.end());
-    insertPos += s.length();
+    std::stringstream ss;
+    val.asString(ss);
+    std::string value = ss.str();
+    std::stringstream xml;
+    TAB_STREAM(xml, tab)
+    xml << "<cqt:value type=\"" << type << "\">"
+        << value.substr(value.find(' ') + 1, value.find(']') - value.find(' ') - 1)
+        << "</cqt:value>\n";
+    auto str = xml.str();
+    insertPos = Xml.insert(insertPos, str.begin(), str.end()) + str.length();
 }
 
 void LibStarch::Algorithm::XMLPrinter::visit(LibStarch::ASTForLoop& for_) {
@@ -190,65 +182,90 @@ void LibStarch::Algorithm::XMLPrinter::visit(LibStarch::ASTDoLoop& do_) {
 }
 
 void LibStarch::Algorithm::XMLPrinter::visit(LibStarch::AdditionExpression& expr) {
+    exprInserter(expr, "addition");
+}
+
+void LibStarch::Algorithm::XMLPrinter::exprInserter(const LibStarch::CExpression& expr,
+                                                    const std::string& exprName) {
     std::string start, fin;
-    std::string addXml = mkTags("<cqt:addition>", start, fin);
-    insert(addXml, start.length());
-    auto al = std::move(expr.getAnyLeft());
-    auto ar = std::move(expr.getAnyLeft());
-    tab++;
-    tab--;
+    std::string addXml = mkTags("<cqt:" + exprName + ">", start, fin);
+    this->insert(addXml, start.length());
+    auto al = expr.getAnyLeft();
+    auto ar = expr.getAnyRight();
+    this->tab++;
+    switch (al.type) {
+        case LibStarch::Utils::Impl::valValExpr:((LibStarch::ValExpr*) al.value)->accept(*this);
+            break;
+        case LibStarch::Utils::Impl::valValText:((LibStarch::ValText*) al.value)->accept(*this);
+            break;
+        case LibStarch::Utils::Impl::valValNumber:((LibStarch::ValNumber*) al.value)->accept(*this);
+            break;
+        case LibStarch::Utils::Impl::valValID:((LibStarch::ValID*) al.value)->accept(*this);
+            break;
+    }
+    switch (ar.type) {
+        case LibStarch::Utils::Impl::valValExpr:((LibStarch::ValExpr*) ar.value)->accept(*this);
+            break;
+        case LibStarch::Utils::Impl::valValText:((LibStarch::ValText*) ar.value)->accept(*this);
+            break;
+        case LibStarch::Utils::Impl::valValNumber:((LibStarch::ValNumber*) ar.value)->accept(*this);
+            break;
+        case LibStarch::Utils::Impl::valValID:((LibStarch::ValID*) ar.value)->accept(*this);
+            break;
+    }
+    this->tab--;
 }
 
 void LibStarch::Algorithm::XMLPrinter::visit(LibStarch::SubtractionExpression& expr) {
-
+    exprInserter(expr, "subtraction");
 }
 
 void LibStarch::Algorithm::XMLPrinter::visit(LibStarch::MultiplicationExpression& expr) {
-
+    exprInserter(expr, "multiplication");
 }
 
 void LibStarch::Algorithm::XMLPrinter::visit(LibStarch::DivisionExpression& expr) {
-
+    exprInserter(expr, "division");
 }
 
 void LibStarch::Algorithm::XMLPrinter::visit(LibStarch::ModuloExpression& expr) {
-
+    exprInserter(expr, "modulo");
 }
 
 void LibStarch::Algorithm::XMLPrinter::visit(LibStarch::ValueExpression& expr) {
-
+    exprInserter(expr, "value-expr");
 }
 
 void LibStarch::Algorithm::XMLPrinter::visit(LibStarch::NegateExpression& expr) {
-
+    exprInserter(expr, "negation");
 }
 
 void LibStarch::Algorithm::XMLPrinter::visit(LibStarch::TernaryExpression& expr) {
-
+    exprInserter(expr, "ternary");
 }
 
 void LibStarch::Algorithm::XMLPrinter::visit(LibStarch::EqualityExpression& expr) {
-
+    exprInserter(expr, "equality");
 }
 
 void LibStarch::Algorithm::XMLPrinter::visit(LibStarch::InequalityExpression& expr) {
-
+    exprInserter(expr, "inequality");
 }
 
 void LibStarch::Algorithm::XMLPrinter::visit(LibStarch::GreaterThanExpression& expr) {
-
+    exprInserter(expr, "greater-than");
 }
 
 void LibStarch::Algorithm::XMLPrinter::visit(LibStarch::GreaterOrEqualExpression& expr) {
-
+    exprInserter(expr, "greater-or-equal");
 }
 
 void LibStarch::Algorithm::XMLPrinter::visit(LibStarch::LessThanExpression& expr) {
-
+    exprInserter(expr, "less-than");
 }
 
 void LibStarch::Algorithm::XMLPrinter::visit(LibStarch::LessOrEqualExpression& expr) {
-
+    exprInserter(expr, "less-or-equal");
 }
 
 std::string LibStarch::Algorithm::XMLPrinter::mkTags(const std::string& tag, std::string& start, std::string& fin) {

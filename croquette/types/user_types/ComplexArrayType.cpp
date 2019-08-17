@@ -16,7 +16,7 @@ LibCqt::String LibCqt::ComplexArrayType::printEnd() const {
     return CQT_STRING(")");
 }
 
-LibCqt::ComplexArrayType::ComplexArrayType(CRf<LibCqt::Ptr<LibCqt::ComplexArrayType>> copy)
+LibCqt::ComplexArrayType::ComplexArrayType(const LibCqt::Ptr<LibCqt::ComplexArrayType>& copy)
         : ArrayArchetype(*copy) {}
 
 LibCqt::ComplexArrayType::ComplexArrayType(std::initializer_list<LibCqt::Ptr<LibCqt::AnyArchetype>> init)
@@ -35,13 +35,8 @@ LibCqt::ComplexArrayType::ComplexArrayType(LibCqt::ArrayArchetype<LibCqt::Comple
     : ArrayArchetype(cpa) {}
 //&!on
 
-LibCqt::ComplexArrayType::ComplexArrayType(CRf < std::vector<Raw < LibCqt::ComplexArrayType::T>>
-> init) {
-for (
-auto&& cell
-: init) {
-cells.
-push_back(mkPtr<T>(cell)
-);
-}
+LibCqt::ComplexArrayType::ComplexArrayType(const std::vector<LibCqt::ComplexArrayType::T>*& init) {
+    for (auto&& cell : *init) {
+        cells.push_back(mkPtr<T>(cell));
+    }
 }

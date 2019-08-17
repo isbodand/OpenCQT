@@ -67,7 +67,7 @@ namespace LibCqt {
 
   protected: // Miscellaneous protected methods
       template<class _T, class _U = _T>
-      explicit ArrayArchetype(Raw<ArrayArchetype<_T, _U>> ptr);
+      explicit ArrayArchetype(ArrayArchetype<_T, _U>* ptr);
 
   public: // Constructors & destructor
       /**
@@ -94,12 +94,12 @@ namespace LibCqt {
        * Const Copy Constructor
        * Default
        */
-      ArrayArchetype(CRf<ArrayArchetype> cp) = default;
+      ArrayArchetype(const ArrayArchetype& cp) = default;
       /**
        * Move Constructor
        * Default
        */
-      ArrayArchetype(RRf<ArrayArchetype> mv) noexcept = default;
+      ArrayArchetype(ArrayArchetype&& mv) noexcept = default;
       /**
        * Copies the values from a Ptr<> to
        * the value to be copied.
@@ -110,7 +110,7 @@ namespace LibCqt {
        * @see Ptr<T> in ImplementationTypes.hpp
        */
       template<class _T, class _U = _T>
-      explicit ArrayArchetype(CRf<Ptr<ArrayArchetype<_T, _U>>> ptr);
+      explicit ArrayArchetype(const Ptr<ArrayArchetype<_T, _U>>& ptr);
 
       /**
        * Destructor
@@ -123,12 +123,12 @@ namespace LibCqt {
        * Copy Assignment
        * Default
        */
-      ArrayArchetype& operator=(Ref<ArrayArchetype> cp) = default;
+      ArrayArchetype& operator=(ArrayArchetype& cp) = default;
       /**
        * Move Assignment
        * Default
        */
-      ArrayArchetype& operator=(RRf<ArrayArchetype> mv) noexcept = default;
+      ArrayArchetype& operator=(ArrayArchetype&& mv) noexcept = default;
 
       /**
        * Checks equality of Array by checking length,
@@ -152,7 +152,7 @@ namespace LibCqt {
        *
        * @param at The index of the item to return the reference to.
        */
-      Ref<Ptr<ConT>> operator[](std::size_t at);
+      Ptr<ConT>& operator[](std::size_t at);
 
   public: // Miscellaneous methods
       /**
@@ -217,18 +217,19 @@ namespace LibCqt {
        * Returns a const reference to the current
        * vector of Ptr<>-s to cells in the Array.
        */
-      CRf<std::vector<Ptr<ConT>>> getCells() const;
+      const std::vector<Ptr<ConT>>& getCells() const;
   };
   /////////////////////////////////////////////////////////////////////////////////////////////////
-    /// Pointer types
-    template<class T = ScalarArchetype, class U = T>
-    using ArrayArchetype_P = Ptr<ArrayArchetype<T, U>>;
-    template<class T = ScalarArchetype, class U = T>
-    using ArrayArchetype_R = Raw<ArrayArchetype<T, U>>;
+  /// Pointer types
+  template<class T = ScalarArchetype, class U = T>
+  using ArrayArchetype_P = Ptr<ArrayArchetype<T, U>>;
+  template<class T = ScalarArchetype, class U = T>
+  using ArrayArchetype_R = ArrayArchetype<T, U>*;
 }
 
 template<class T, class U, typename _1, typename _2>
-inline LibCqt::ArrayArchetype<T, U, _1, _2>::ArrayArchetype() : AnyArchetype(LibCqt::archArray), cells(0) {}
+inline LibCqt::ArrayArchetype<T, U, _1, _2>::ArrayArchetype()
+        : AnyArchetype(LibCqt::archArray), cells(0) {}
 
 template<class T, class U, typename _1, typename _2>
 inline LibCqt::ArrayArchetype<T, U, _1, _2>::ArrayArchetype(std::initializer_list<Ptr<T>> init)
@@ -284,7 +285,7 @@ inline LibCqt::String LibCqt::ArrayArchetype<T, U, _1, _2>::asString() const {
 }
 
 template<class T, class U, typename _1, typename _2>
-inline LibCqt::Ref<LibCqt::Ptr<T>> LibCqt::ArrayArchetype<T, U, _1, _2>::operator[](std::size_t at) {
+inline LibCqt::Ptr<T>& LibCqt::ArrayArchetype<T, U, _1, _2>::operator[](std::size_t at) {
     return cells[at];
 }
 
@@ -295,18 +296,19 @@ inline std::size_t LibCqt::ArrayArchetype<T, U, _1, _2>::size() {
 
 template<class T, class U, typename _1, typename _2>
 template<class _T, class _U>
-inline LibCqt::ArrayArchetype<T, U, _1, _2>::ArrayArchetype(CRf<LibCqt::Ptr<LibCqt::ArrayArchetype<_T, _U>>> ptr)
+inline LibCqt::ArrayArchetype<T, U, _1, _2>::ArrayArchetype(const LibCqt::Ptr<LibCqt::ArrayArchetype<_T, _U>>& ptr)
         : ArrayArchetype(*ptr) {
 }
 
 template<class T, class U, typename _1, typename _2>
-inline LibCqt::CRf<std::vector<LibCqt::Ptr<T>>> LibCqt::ArrayArchetype<T, U, _1, _2>::getCells() const {
+inline const std::vector<LibCqt::Ptr<T>>&
+LibCqt::ArrayArchetype<T, U, _1, _2>::getCells() const {
     return cells;
 }
 
 template<class T, class U, typename _1, typename _2>
 template<class _T, class _U>
-inline LibCqt::ArrayArchetype<T, U, _1, _2>::ArrayArchetype(LibCqt::Raw<LibCqt::ArrayArchetype<_T, _U>> ptr)
+inline LibCqt::ArrayArchetype<T, U, _1, _2>::ArrayArchetype(LibCqt::ArrayArchetype<_T, _U>* ptr)
         : ArrayArchetype(*ptr) {
 }
 
