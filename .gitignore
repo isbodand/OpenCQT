@@ -14,6 +14,7 @@ cmake-build-debug/
 ## IDE Files
 .idea/
 *.imp
+_Deparsed_XSubs.pm
 
 .vscode/
 .vs/
@@ -22,5 +23,18 @@ cmake-build-debug/
 compile_commands.json
 *.stackdump
 
+## Config'd
+starch/test/testmain.cpp
+starch/src/versioning.hpp
+starch/src/Utils.cpp
+
+croquette/test/testmain.cpp
+croquette/versioning.hpp
+
+src/versioning.hpp
+
 ## External Libraries
 libs
+*/libs
+boost_*/
+dox

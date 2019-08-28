@@ -12,7 +12,7 @@
 
 #include <limits>
 #include <boost/math/special_functions/next.hpp>
-#include "../Utils.hpp"
+#include "../src/Utils.hpp"
 
 using namespace LibStarch::Utils;
 using boost::math::float_next;

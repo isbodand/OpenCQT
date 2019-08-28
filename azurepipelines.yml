@@ -20,6 +20,6 @@ jobs:
     dependsOn: CreateBuildDir
     steps:
       - bash: cd build
-      - bash: cmake ..
+      - bash: utils ..
       - bash: make -j
       - bash: make test # sad

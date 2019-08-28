@@ -1,0 +1,31 @@
+//defines macros for program version
+#define OpenCQT_MAJOR @OpenCQT_VERSION_MAJOR@
+#define OpenCQT_MINOR @OpenCQT_VERSION_MINOR@
+#define OpenCQT_PATCH @OpenCQT_VERSION_PATCH@
+#define OpenCQT_VERSION "@OpenCQT_VERSION@"
+#define OpenCQT_WIDE_VERSION L"@OpenCQT_VERSION@"
+
+
+#include <string>
+
+namespace OpenCqt {
+  static std::string getVersion() {
+      return OpenCQT_VERSION;
+  }
+
+  static std::wstring getWVersion() {
+      return OpenCQT_WIDE_VERSION;
+  }
+
+#if defined(_WIN64) || defined(_WIN32)
+
+  static std::wstring getAutoVersion() {
+      return getWVersion();
+  }
+
+#else
+  static std::string getAutoVersion() {
+      return getVersion();
+  }
+#endif
+}

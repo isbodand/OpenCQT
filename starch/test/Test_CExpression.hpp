@@ -10,21 +10,22 @@
 
 #include <boost/test/included/unit_test.hpp>
 
-#include "../cexpr/impl/CExpressionImpl.hpp"
-#include "../cexpr/impl/AdditionExpressionImpl.hpp"
-#include "../cexpr/impl/SubtractionExpressionImpl.hpp"
-#include "../cexpr/impl/MultiplicationExpressionImpl.hpp"
-#include "../cexpr/impl/DivisionExpressionImpl.hpp"
-#include "../cexpr/impl/ModuloExpressionImpl.hpp"
-#include "../cexpr/impl/EqualityExpressionImpl.hpp"
-#include "../cexpr/impl/InequalityExpressionImpl.hpp"
-#include "../cexpr/impl/LessOrEqualExpressionImpl.hpp"
-#include "../cexpr/impl/GreaterThanExpressionImpl.hpp"
-#include "../cexpr/impl/LessThanExpressionImpl.hpp"
-#include "../cexpr/impl/GreaterOrEqualExpressionImpl.hpp"
-#include "../cexpr/impl/ValueExpressionImpl.hpp"
-#include "../cexpr/impl/NegateExpressionImpl.hpp"
-#include "../cexpr/impl/TernaryExpressionImpl.hpp"
+#include "../src/cexpr/impl/CExpressionImpl.hpp"
+#include "../src/cexpr/impl/AdditionExpressionImpl.hpp"
+#include "../src/cexpr/impl/SubtractionExpressionImpl.hpp"
+#include "../src/cexpr/impl/MultiplicationExpressionImpl.hpp"
+#include "../src/cexpr/impl/DivisionExpressionImpl.hpp"
+#include "../src/cexpr/impl/ModuloExpressionImpl.hpp"
+#include "../src/cexpr/impl/EqualityExpressionImpl.hpp"
+#include "../src/cexpr/impl/InequalityExpressionImpl.hpp"
+#include "../src/cexpr/impl/LessOrEqualExpressionImpl.hpp"
+#include "../src/cexpr/impl/GreaterThanExpressionImpl.hpp"
+#include "../src/cexpr/impl/LessThanExpressionImpl.hpp"
+#include "../src/cexpr/impl/GreaterOrEqualExpressionImpl.hpp"
+#include "../src/cexpr/impl/ValueExpressionImpl.hpp"
+#include "../src/cexpr/ValueExpression.hpp"
+#include "../src/cexpr/impl/NegateExpressionImpl.hpp"
+#include "../src/cexpr/impl/TernaryExpressionImpl.hpp"
 
 using namespace LibStarch;
 
@@ -182,14 +183,16 @@ BOOST_AUTO_TEST_CASE(Test_CExpression_NegateExpr) {
 }
 
 BOOST_AUTO_TEST_CASE(Test_CExpression_TernaryEvalsTrue) {
-    TernaryExpressionImpl expr(ValNumber(1), ValNumber(2), std::optional(CondNode(ValueExpressionImpl(ValNumber(1)))));
+    TernaryExpressionImpl expr(ValNumber(1), ValNumber(2),
+                               CondNode(ValueExpression::make(ValNumber(1))));
 
     BOOST_REQUIRE_NE(&expr, nullptr);
     BOOST_CHECK_EQUAL(expr.eval(), 1);
 }
 
 BOOST_AUTO_TEST_CASE(Test_CExpression_TernaryEvalsFalse) {
-    TernaryExpressionImpl expr(ValNumber(1), ValNumber(2), std::optional(CondNode(ValueExpressionImpl(ValNumber(0)))));
+    TernaryExpressionImpl expr(ValNumber(1), ValNumber(2),
+                               CondNode(ValueExpression::make(ValNumber(0))));
 
     BOOST_REQUIRE_NE(&expr, nullptr);
     BOOST_CHECK_EQUAL(expr.eval(), 2);

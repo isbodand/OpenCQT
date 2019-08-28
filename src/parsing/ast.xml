@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<cqt:program xmlns:cqt="https://isdevnet.com/opencqt"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://isdevnet.com/opencqt  ast.xsd">
+  <cqt:code>
+    <cqt:operation type="StepForward">
+      <cqt:value type="Expression">
+        <cqt:ternary>
+          <cqt:condition>
+            <cqt:value type="Expression">
+              <cqt:equality>
+                <cqt:value type="Expression">
+                  <cqt:division>
+                    <cqt:value type="Number">1.000000</cqt:value>
+                    <cqt:value type="Number">3.000000</cqt:value>
+                  </cqt:division>
+                </cqt:value>
+                <cqt:value type="Text">"42"</cqt:value>
+              </cqt:equality>
+            </cqt:value>
+          </cqt:condition>
+          <cqt:value type="Text">"1"</cqt:value>
+          <cqt:value type="Expression">
+            <cqt:addition>
+              <cqt:value type="Expression">
+                <cqt:greater-or-equal>
+                  <cqt:value type="Expression">
+                    <cqt:multiplication>
+                      <cqt:value type="Number">6.000000</cqt:value>
+                      <cqt:value type="Number">7.000000</cqt:value>
+                    </cqt:multiplication>
+                  </cqt:value>
+                  <cqt:value type="Text">"45"</cqt:value>
+                </cqt:greater-or-equal>
+              </cqt:value>
+              <cqt:value type="Text">"4"</cqt:value>
+            </cqt:addition>
+          </cqt:value>
+        </cqt:ternary>
+      </cqt:value>
+    </cqt:operation>
+    <cqt:operation type="Plus">
+      <cqt:value type="Expression">
+        <cqt:addition>
+          <cqt:value type="Text">"0"</cqt:value>
+          <cqt:value type="Number">2.000000</cqt:value>
+        </cqt:addition>
+      </cqt:value>
+    </cqt:operation>
+    <cqt:for-loop>
+      <cqt:condition>
+        <cqt:value type="Expression">
+          <cqt:less-than>
+            <cqt:value type="Identifier">$!</cqt:value>
+            <cqt:value type="Number">6.000000</cqt:value>
+          </cqt:less-than>
+        </cqt:value>
+      </cqt:condition>
+      <cqt:inner-code>
+        <cqt:operation type="Plus">
+          <cqt:value type="Number">1.000000</cqt:value>
+        </cqt:operation>
+        <cqt:operation type="Print">
+          <cqt:value type="Identifier">$!</cqt:value>
+          <cqt:constructor>
+            <cqt:type>CharacterScalar</cqt:type>
+            <cqt:value type="Number">32.000000</cqt:value>
+          </cqt:constructor>
+        </cqt:operation>
+      </cqt:inner-code>
+    </cqt:for-loop>
+    <cqt:for-loop>
+      <cqt:condition>
+        <cqt:value type="Expression">
+          <cqt:less-than>
+            <cqt:value type="Identifier">$!</cqt:value>
+            <cqt:value type="Number">6.000000</cqt:value>
+          </cqt:less-than>
+        </cqt:value>
+      </cqt:condition>
+      <cqt:inner-code>
+        <cqt:operation type="Plus">
+          <cqt:value type="Number">1.000000</cqt:value>
+        </cqt:operation>
+        <cqt:invocation identifier="say">
+          <cqt:arguments />
+        </cqt:invocation>
+      </cqt:inner-code>
+    </cqt:for-loop>
+    <cqt:macro identifier="say">.{$|{32}}</cqt:macro>
+  </cqt:code>
+</cqt:program>

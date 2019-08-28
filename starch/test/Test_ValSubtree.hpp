@@ -9,13 +9,13 @@
 #pragma ide diagnostic ignored "cert-err58-cpp"
 
 #include <boost/test/included/unit_test.hpp>
-#include "../val_subtrees/ValNode.hpp"
-#include "../val_subtrees/ValId.hpp"
-#include "../val_subtrees/ValNumber.hpp"
-#include "../val_subtrees/ValText.hpp"
-#include "../cexpr/impl/AdditionExpressionImpl.hpp"
-#include "../val_subtrees/ValExpr.hpp"
-#include "../cexpr/impl/ValueExpressionImpl.hpp"
+#include "../src/val_subtrees/ValNode.hpp"
+#include "../src/val_subtrees/ValId.hpp"
+#include "../src/val_subtrees/ValNumber.hpp"
+#include "../src/val_subtrees/ValText.hpp"
+#include "../src/cexpr/AdditionExpression.hpp"
+#include "../src/val_subtrees/ValExpr.hpp"
+#include "../src/cexpr/impl/ValueExpressionImpl.hpp"
 
 #include <string>
 
@@ -64,13 +64,13 @@ BOOST_AUTO_TEST_CASE(Test_ValSubtree_ValNodeEvaluationsWork) {
 }
 
 BOOST_AUTO_TEST_CASE(Test_ValSubtree_ValExprEvaluationWorks) {
-    ValExpr exp(AdditionExpressionImpl(ValNumber(1), ValText("2")));
+    ValExpr exp(AdditionExpression::make(ValNumber(1), ValText("2")));
 
     BOOST_CHECK_EQUAL(exp.eval(), 3);
 }
 
 BOOST_AUTO_TEST_CASE(Test_ValSubtree_ComplexishExpressionsEvaluate) {
-    ValExpr exp(AdditionExpressionImpl(ValExpr(AdditionExpressionImpl(ValNumber(1), ValText("1"))), ValNumber(2)));
+    ValExpr exp(AdditionExpression::make(ValExpr(AdditionExpression::make(ValNumber(1), ValText("1"))), ValNumber(2)));
 
     BOOST_CHECK_EQUAL(exp.eval(), 4);
 }
@@ -101,7 +101,7 @@ BOOST_AUTO_TEST_CASE(Test_ValSubtree_ValNumberPrintingWorks) {
 
 BOOST_AUTO_TEST_CASE(Test_ValSubtree_ValExprPrintingWorks) {
     std::stringstream ss;
-    ValExpr val(AdditionExpressionImpl(ValNumber(1), ValNumber(1)));
+    ValExpr val(AdditionExpression::make(ValNumber(1), ValNumber(1)));
     ss << val;
     std::string str = ss.str();
     BOOST_CHECK_EQUAL(str, "[ValExpr(2): [Plus(2) lhs: [ValNumber 1] rhs: [ValNumber 1] cond: [empty]]]");
@@ -111,7 +111,7 @@ BOOST_AUTO_TEST_CASE(Test_ValSubtree_AllValNodesAreCopyable) {
     ValNumber num = 54;
     ValID id = "fug";
     ValText txt = "45.5289";
-    ValExpr exp(AdditionExpressionImpl(ValNumber(1), ValText("2")));
+    ValExpr exp(AdditionExpression::make(ValNumber(1), ValText("2")));
 
     ValNumber num2(num);
     ValNumber num2o = num;

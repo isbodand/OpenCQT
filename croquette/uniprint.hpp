@@ -8,13 +8,15 @@
 #include <string>
 #include <sstream>
 
-#if (defined(_WIN64) || defined(_WIN32)) && !defined(_CQT_WINDOWS)
+#if (defined(_WIN64) || defined(_WIN32))
 
   #include <windows.h>
   #include <io.h>
   #include <fcntl.h>
 
-  #define _CQT_WINDOWS
+  #ifndef _CQT_WINDOWS
+    #define _CQT_WINDOWS
+  #endif
 #endif
 
 namespace LibCqt {

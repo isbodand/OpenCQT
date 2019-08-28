@@ -1,0 +1,32 @@
+#define LibStarch_MAJOR @LibStarch_VERSION_MAJOR@
+#define LibStarch_MINOR @LibStarch_VERSION_MINOR@
+#define LibStarch_BUILD_DATE "@LibStarch_VERSION_BUILD_DATE@"
+#define LibStarch_WBUILD_DATE L"@LibStarch_VERSION_BUILD_DATE@"
+#define LibStarch_VERSION "@LibStarch_VERSION@"
+#define LibStarch_WVERSION L"@LibStarch_VERSION@"
+
+
+#include <string>
+
+namespace LibStarch {
+  static std::wstring getWVersion() {
+      return LibStarch_WVERSION L" built on " LibStarch_WBUILD_DATE;
+  }
+
+  static std::string getVersion() {
+      return LibStarch_VERSION " built on " LibStarch_BUILD_DATE;
+  }
+
+#if defined(_WIN32) || defined(_WIN64)
+
+  static std::wstring getAutoVersion() {
+      return getWVersion();
+  }
+
+#else
+  static std::string getAutoVersion() {
+      return getVersion();
+  }
+#endif
+}
+

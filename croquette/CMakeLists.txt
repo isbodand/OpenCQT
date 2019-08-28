@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.10)
 
 set(CMAKE_CXX_STANDARD 17)
 project(libCroquette CXX)
@@ -13,8 +13,8 @@ if (NOT RELEASE)
 endif ()
 
 configure_file(
-        "${PROJECT_SOURCE_DIR}/versioning.hpp.in"
-        "${PROJECT_SOURCE_DIR}/versioning.hpp"
+        "../src/versioning.hpp.in"
+        "../src/versioning.hpp"
 )
 
 set(libCroquette_HEADERS

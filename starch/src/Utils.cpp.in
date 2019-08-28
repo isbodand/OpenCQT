@@ -1,0 +1,242 @@
+//
+// Created by tudom on 2019-05-29.
+//
+
+
+#include <cmath>
+#include <iostream>
+#include <new>
+#include <cstdlib>
+
+#include "Utils.hpp"
+
+#if ${CQT_BOOST_MATH_FOUND} == 1
+#define CQT_USE_BOOST_MATH
+#endif
+
+#ifdef CQT_USE_BOOST_MATH
+#include <boost/math/special_functions/relative_difference.hpp>
+#include <boost/math/special_functions/next.hpp>
+#else
+#include <limits>
+#include <utility>
+#endif
+
+namespace LibStarch::Utils {
+#ifdef CQT_USE_BOOST_MATH
+  using boost::math::epsilon_difference;
+  using boost::math::float_distance;
+#endif
+  namespace Impl {
+    ASTSubParams_::ASTSubParams_(long num)
+         : advanced(false),
+           val(num) {
+    }
+
+    ASTSubParams_::ValType::ValType()
+         : used(0),
+           val{0} {
+    }
+
+    ASTSubParams_::ValType::~ValType() {
+        if (used) {
+            delete (std::vector<std::string>*) val.vectorial;
+            std::free(val.vectorial);
+        }
+    }
+
+    ASTSubParams_::ValType::ValType(long scalar)
+         : used(0),
+           val{scalar} {
+    }
+
+    ASTSubParams_::ValType::ValType(std::initializer_list<std::string> vectorial)
+         : used(1),
+           val{0} {
+        val.vectorial = std::malloc(sizeof(std::vector<std::string>));
+        new(val.vectorial) std::vector<std::string>(vectorial);
+    }
+
+    ASTSubParams_::ValType& ASTSubParams_::ValType::operator=(long scalar) {
+        if (used) {
+            delete (std::vector<std::string>*) val.vectorial;
+            std::free(val.vectorial);
+        }
+        val.scalar = scalar;
+        return *this;
+    }
+
+    ASTSubParams_::ValType& ASTSubParams_::ValType::operator=(std::vector<std::string> vectorial) {
+        val.vectorial = std::malloc(sizeof(std::vector<std::string>));
+        new(val.vectorial) std::vector<std::string>(std::move(vectorial));
+        return *this;
+    }
+
+    ASTSubParams_::ASTSubParams_(std::initializer_list<std::string> str)
+         : advanced(true),
+           val(str) {
+    }
+
+    ASTTypeCtor_::ASTTypeCtor_(Types_ type, ValNode* val)
+         : type(type),
+           val(val) {}
+  }
+
+  template<class _1, class _2>
+  bool Impl::VoidExpr_<_1, _2>::eval() const { return false; }
+
+  template<class L, class R>
+  Impl::VoidExpr_<L, R>::operator bool() { return false; }
+
+  template<class L, class R>
+  Impl::VoidExpr_<L, R>::operator int() { return 0; }
+
+
+  bool deq(double a, double b) {
+#ifdef CQT_USE_BOOST_MATH
+      return !(float_distance(a, b) || epsilon_difference(a, b));
+#else
+      return std::fabs(a - b) <= std::numeric_limits<double>::epsilon();
+#endif
+  }
+
+  bool dne(double a, double b) {
+      return !deq(a, b);
+  }
+
+  bool dgt(double a, double b) {
+      return b - a < 0.0;
+  }
+
+  bool dlt(double a, double b) {
+      return a - b < 0.0;
+  }
+
+  bool dge(double a, double b) {
+      return !dlt(a, b);
+  }
+
+  bool dle(double a, double b) {
+      return !dgt(a, b);
+  }
+}
+
+std::string std::to_string(LibStarch::Utils::Type type) {
+    using namespace LibStarch::Utils;
+    switch (type) {
+        case Impl::typeTrueScalar:
+            return "TrueScalar";
+        case Impl::typeCharScalar:
+            return "CharacterScalar";
+        case Impl::typeFlatArray:
+            return "FlatArray";
+        case Impl::typeCompArray:
+            return "ComplexArray";
+        case Impl::typeHashMap:
+            return "HashMap";
+        case Impl::typeTreeMap:
+            return "TreeMap";
+        case Impl::typeReference:
+            return "Reference";
+        case Impl::typeFunction:
+            return "Function";
+    }
+    return "";
+}
+
+std::string std::to_string(LibStarch::Utils::Instruction type) {
+    using namespace LibStarch::Utils;
+    switch (type) {
+        case Impl::instPlus:
+            return "Plus";
+        case Impl::instMinus:
+            return "Minus";
+        case Impl::instStepForward:
+            return "StepForward";
+        case Impl::instStepBackward:
+            return "StepBackward";
+        case Impl::instStepInto:
+            return "StepInto";
+        case Impl::instStepOut:
+            return "StepOut";
+        case Impl::instPrint:
+            return "Print";
+        case Impl::instRead:
+            return "Read";
+        case Impl::instInvocation:
+            return "Invocation";
+    }
+    return "";
+}
+
+std::string std::to_string(LibStarch::AdditionExpression& expr) {
+    return "AdditionExpression";
+}
+
+std::string std::to_string(LibStarch::SubtractionExpression& expr) {
+    return "SubtractionExpression";
+}
+
+std::string std::to_string(LibStarch::MultiplicationExpression& expr) {
+    return "MultiplicationExpression";
+}
+
+std::string std::to_string(LibStarch::DivisionExpression& expr) {
+    return "DivisionExpression";
+}
+
+std::string std::to_string(LibStarch::ModuloExpression& expr) {
+    return "ModuloExpression";
+}
+
+std::string std::to_string(LibStarch::ValueExpression& expr) {
+    return "ValueExpression";
+}
+
+std::string std::to_string(LibStarch::NegateExpression& expr) {
+    return "NegateExpression";
+}
+
+std::string std::to_string(LibStarch::TernaryExpression& expr) {
+    return "TernaryExpression";
+}
+
+std::string std::to_string(LibStarch::EqualityExpression& expr) {
+    return "EqualityExpression";
+}
+
+std::string std::to_string(LibStarch::InequalityExpression& expr) {
+    return "InequalityExpression";
+}
+
+std::string std::to_string(LibStarch::GreaterThanExpression& expr) {
+    return "GreaterThanExpression";
+}
+
+std::string std::to_string(LibStarch::GreaterOrEqualExpression& expr) {
+    return "GreaterOrEqualExpression";
+}
+
+std::string std::to_string(LibStarch::LessThanExpression& expr) {
+    return "LessThanExpression";
+}
+
+std::string std::to_string(LibStarch::LessOrEqualExpression& expr) {
+    return "LessOrEqualExpression";
+}
+
+std::string std::to_string(LibStarch::ValExpr& val) {
+    return "ValExpr";
+}
+
+std::string std::to_string(LibStarch::ValText& val) {
+    return "ValText";
+}
+
+std::string std::to_string(LibStarch::ValNumber& val) {
+    return "ValNumber";
+}
+
+std::string std::to_string(LibStarch::ValID& val) {
+    return "ValID";
+}
