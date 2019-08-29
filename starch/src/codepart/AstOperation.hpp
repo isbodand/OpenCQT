@@ -5,6 +5,7 @@
 #pragma once
 
 #include <optional>
+#include <utility>
 #include "AstCodePart.hpp"
 #include "../Utils.hpp"
 #include "AstExtendedCodePart.hpp"
@@ -19,21 +20,25 @@ namespace LibStarch {
 
   class ASTOperation : public ASTCodePart,
                        public ASTExtendedCodePart {
+      class Builder;
       /// Interface
   public:
       [[nodiscard]] Instruction getInstr() const;
       [[nodiscard]] const ValNode& getRep() const;
       [[nodiscard]] ValNode& getRep();
       [[nodiscard]] const std::optional<TypeCtor>& getCtor() const;
+      [[nodiscard]] std::optional<TypeCtor>& getCtor();
       [[nodiscard]] const std::optional<ValID>& getInvId() const;
       [[nodiscard]] std::optional<ValID>& getInvId();
       [[nodiscard]] const std::vector<std::string>& getArgs() const;
       void accept(Visiting::Visitor& visitor) override;
 
+      static Builder getBuilder();
+
       /// Constructors
   public:
-      ASTOperation() = default;
-      ASTOperation(Instruction instr, Ptr<ValNode> rep = mkPtr<ValNumber>(1),
+      ASTOperation() = delete;
+      ASTOperation(Instruction instr, Ptr<ValNode> rep = ValNode::mkPtrNumber(1),
                    std::optional<TypeCtor> ctor = std::nullopt);
       ASTOperation(ValID id, std::vector<std::string> args);
       ASTOperation(const ASTOperation& cp) = delete;
@@ -50,10 +55,63 @@ namespace LibStarch {
 
       /// Fields
   private:
-      Instruction instr = (Instruction) 0;
+      Instruction instr;
       Ptr<ValNode> rep;
       std::optional<TypeCtor> ctor;
       std::optional<ValID> invId;
       std::vector<std::string> args;
+
+      /// Internals
+      class Builder {
+          class InstrBuilder;
+
+          class CallBuilder;
+
+          /// Interface
+      public:
+          InstrBuilder asInstruction(Instruction instr);
+          CallBuilder asFunctionCall(ValID id);
+
+          /// Internals
+      private:
+          class InstrBuilder {
+              /// Interface
+          public:
+              [[nodiscard]] ASTOperation build() const;
+
+              /// Lifecycle
+          public:
+              InstrBuilder(Instruction instr);
+
+              InstrBuilder& withRepetition(Ptr<ValNode> val);
+              InstrBuilder& withRepetition(ValNode* val);
+              InstrBuilder& withConstructor(TypeCtor ctor);
+              InstrBuilder& withConstructor(Utils::Type type, ValNode* val);
+
+              /// Fields
+          private:
+              Instruction instr;
+              Ptr<ValNode> rep = ValNode::mkPtrNumber(1);
+              std::optional<TypeCtor> _ctor = std::nullopt;
+          };
+
+          class CallBuilder {
+              /// Interface
+          public:
+              [[nodiscard]] ASTOperation build() const;
+
+              CallBuilder& addArgument(const std::string& arg);
+
+              /// Lifecycle
+          public:
+              CallBuilder(ValID id);
+
+              /// Fields
+          private:
+              ValID id;
+              std::vector<std::string> args;
+          };
+      };
   };
+
 }

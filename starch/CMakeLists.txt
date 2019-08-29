@@ -4,10 +4,10 @@ set(CMAKE_CXX_STANDARD 17)
 project(LibStarch)
 
 
-set(LibStarch_VERSION_MAJOR 0)
-set(LibStarch_VERSION_MINOR 1)
-set(LibStarch_VERSION_NOTE β)
-set(LibStarch_VERSION "${OpenCQT_VERSION_MAJOR}.${OpenCQT_VERSION_MINOR}-${LibStarch_VERSION_NOTE}")
+set(LibStarch_VERSION_MAJOR 1)
+set(LibStarch_VERSION_MINOR 0)
+set(LibStarch_VERSION_NOTE Moon)
+set(LibStarch_VERSION "${LibStarch_VERSION_MAJOR}.${LibStarch_VERSION_MINOR}-${LibStarch_VERSION_NOTE}")
 
 string(TIMESTAMP LibStarch_VERSION_BUILD_DATE "%Y-%m-%d at %H:%M:%S (%s)" UTC)
 
@@ -24,6 +24,9 @@ configure_file(
 )
 
 set(LibStarch_HEADERS
+        # Aggregate Header
+        starch.hpp
+        # Utils
         src/versioning.hpp
         src/Utils.hpp
         src/Visitor.hpp
@@ -33,6 +36,7 @@ set(LibStarch_HEADERS
         src/AstCode.hpp
         src/AstInnerCode.hpp
         src/CondNode.hpp
+        src/utils/Buildable.hpp
         # Classes for the Val* subtrees
         src/val_subtrees/ValNode.hpp
         src/val_subtrees/ValId.hpp
@@ -55,7 +59,7 @@ set(LibStarch_HEADERS
         src/cexpr/AdditionExpression.hpp
         src/cexpr/DivisionExpression.hpp
         src/cexpr/EqualityExpression.hpp
-        src/cexpr/Makeable.hpp
+        src/utils/Makeable.hpp
         src/cexpr/GreaterOrEqualExpression.hpp
         src/cexpr/GreaterThanExpression.hpp
         src/cexpr/InequalityExpression.hpp
@@ -90,6 +94,7 @@ set(LibStarch_HEADERS
         )
 
 set(LibStarch_SOURCES
+        # Utils
         src/Utils.cpp
         src/Visitor.cpp
         src/Visitable.cpp
@@ -98,6 +103,7 @@ set(LibStarch_SOURCES
         src/AstCode.cpp
         src/AstInnerCode.cpp
         src/CondNode.cpp
+        src/utils/Buildable.cpp
         # Classes for the Val* subtrees
         src/val_subtrees/ValNode.cpp
         src/val_subtrees/ValId.cpp
@@ -120,7 +126,7 @@ set(LibStarch_SOURCES
         src/cexpr/AdditionExpression.cpp
         src/cexpr/DivisionExpression.cpp
         src/cexpr/EqualityExpression.cpp
-        src/cexpr/Makeable.cpp
+        src/utils/Makeable.cpp
         src/cexpr/GreaterOrEqualExpression.cpp
         src/cexpr/GreaterThanExpression.cpp
         src/cexpr/InequalityExpression.cpp

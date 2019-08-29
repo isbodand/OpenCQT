@@ -21,8 +21,8 @@ set(PROJECT_HEADERS
         src/versioning.hpp
         #        src/parsing/Parser.cpp
         #        src/parsing/Parser.hpp
-        #        src/parsing/ParserGrammar.cpp
-        #        src/parsing/ParserGrammar.hpp
+        src/parsing/ParserGrammar.cpp
+        src/parsing/ParserGrammar.hpp
         )
 
 add_executable(ocqt ${PROJECT_SOURCES} ${PROJECT_HEADERS})

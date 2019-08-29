@@ -16,33 +16,46 @@ namespace LibStarch {
   class ValExpr;
 
   class CondNode {
-  public: // Methods
+      class Builder;
+
+      /// Interface
+  public:
       [[nodiscard]] bool eval() const;
       [[nodiscard]] const Ptr <ValNode>& getVal() const;
 
-  public: // Constructors & Destructor
-      CondNode() = default;
+      static Builder getBuilder();
+
+      /// Lifecycle
+  public:
+      CondNode() = delete;
       CondNode(ValNode* valNode);
 
       template<template<class, class> class E, class L, class R>
       CondNode(E<L, R>* expr)
-              : val(std::make_shared<ValExpr>(expr)) {}
+           : val(std::make_shared<ValExpr>(expr)) {}
 
-      CondNode(const CondNode& cp) = default;
-      CondNode(CondNode&& mv) noexcept = default;
-
-      ~CondNode() = default;
-
-  public: // Operators
-      CondNode& operator=(const CondNode& cp) = default;
-      CondNode& operator=(CondNode&& mv) noexcept = default;
-
+      /// Operators
+  public:
       friend std::ostream& operator<<(std::ostream& os, const CondNode& node);
 
-  private: // Fields
-      Ptr<ValNode> val = nullptr;
+      /// Fields
+  private:
+      Ptr <ValNode> val = nullptr;
 
-  private: // Methods
+      /// Internals
+  private:
+      class Builder {
+
+          [[nodiscard]] CondNode build() const;
+
+          Builder& withValue(ValNode* val);
+          template<template<class, class> class E, class L, class R>
+          Builder& withExpression(E<L, R> expr);
+
+          /// Fields
+      private:
+          ValNode* _val = nullptr;
+      };
   };
 
 }

@@ -5,7 +5,7 @@
 #pragma once
 
 #include "CExpression.hpp"
-#include "Makeable.hpp"
+#include "../utils/Makeable.hpp"
 
 namespace LibStarch {
   template<class>

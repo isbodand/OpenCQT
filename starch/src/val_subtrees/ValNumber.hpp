@@ -8,7 +8,7 @@
 #include "ValNode.hpp"
 
 namespace LibStarch {
-  class ValNumber : public ValNode {
+  class ValNumber final : public ValNode {
   public: // Methods
       [[nodiscard]] double getValue() const;
       [[nodiscard]] double eval() const override;

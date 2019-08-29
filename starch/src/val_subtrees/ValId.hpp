@@ -18,6 +18,7 @@ namespace LibStarch {
       [[nodiscard]] std::string getVal() const override;
 
   public: // Constructors & Destructor
+      ValID() = delete;
       ValID(std::string idName);
       ValID(const char* idName);
       ValID(const ValID& cp) = default;
@@ -28,9 +29,6 @@ namespace LibStarch {
   public: // Operators
       ValID& operator=(const ValID& cp) = default;
       ValID& operator=(ValID&& mv) noexcept = default;
-
-  private: // Private methods
-      ValID() = default;
 
   private: // Fields
       std::string idName;

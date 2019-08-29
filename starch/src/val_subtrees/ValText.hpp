@@ -9,7 +9,7 @@
 #include "ValNode.hpp"
 
 namespace LibStarch {
-  class ValText : public ValNode {
+  class ValText final : public ValNode {
   public: // Methods
       [[nodiscard]] const std::string& getValue() const;
       [[nodiscard]] double eval() const override;
@@ -18,6 +18,7 @@ namespace LibStarch {
       [[nodiscard]] std::string getVal() const override;
 
   public: // Constructors & Destructor
+      ValText() = delete;
       ValText(std::string value);
       ValText(const char* value);
       ValText(const ValText& cp) = default;
@@ -31,9 +32,6 @@ namespace LibStarch {
 
   private: // Fields
       std::string value;
-
-  private: // Methods
-      ValText() = default;
   };
 }
 

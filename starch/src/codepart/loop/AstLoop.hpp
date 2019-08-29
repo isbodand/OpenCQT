@@ -19,8 +19,9 @@ namespace LibStarch {
       [[nodiscard]] const ASTInnerCode& getCode() const;
 
       /// Lifecycle
+      ASTLoop() = delete;
+
   protected:
-      ASTLoop() = default;
       ASTLoop(CondNode cond, ASTInnerCode code);
       ASTLoop(const ASTLoop& cp) = default;
       ASTLoop(ASTLoop&& mv) noexcept = default;

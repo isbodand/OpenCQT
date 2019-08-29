@@ -15,7 +15,7 @@ namespace LibStarch {
   using Utils::mkPtr;
   using Utils::Ptr;
 
-  class ValExpr : public ValNode {
+  class ValExpr final : public ValNode {
   public: // Methods
       [[nodiscard]] double eval() const override;
       void asString(std::ostream& os) const override;
@@ -25,6 +25,7 @@ namespace LibStarch {
       [[nodiscard]] std::string getVal() const override;
 
   public: // Constructors & Destructor
+      ValExpr() = delete;
       template<class Expr>
       ValExpr(Expr* expr_);
       ValExpr(const ValExpr& cp) = default;
@@ -39,9 +40,6 @@ namespace LibStarch {
   private: // Fields
       Ptr <CExpression> expr;
       Utils::ExprType typ{};
-
-  private: // Methods
-      ValExpr() = default;
   };
 
   template<class Expr>
