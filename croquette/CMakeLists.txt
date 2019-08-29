@@ -13,55 +13,55 @@ if (NOT RELEASE)
 endif ()
 
 configure_file(
-        "../src/versioning.hpp.in"
-        "../src/versioning.hpp"
+        "${PROJECT_SOURCE_DIR}/src/versioning.hpp.in"
+        "${PROJECT_SOURCE_DIR}/src/versioning.hpp"
 )
 
 set(libCroquette_HEADERS
-        versioning.hpp
-        uniprint.hpp cqt.hpp
-        types/archetypes/AnyArchetype.hpp
-        types/archetypes/ArchetypeUtilities.hpp
-        types/archetypes/ArrayArchetype.hpp
-        types/archetypes/HashArchetype.hpp
-        types/archetypes/ReferenceArchetype.hpp
-        types/archetypes/ScalarArchetype.hpp
+        src/versioning.hpp
+        src/uniprint.hpp src/cqt.hpp
+        src/types/archetypes/AnyArchetype.hpp
+        src/types/archetypes/ArchetypeUtilities.hpp
+        src/types/archetypes/ArrayArchetype.hpp
+        src/types/archetypes/HashArchetype.hpp
+        src/types/archetypes/ReferenceArchetype.hpp
+        src/types/archetypes/ScalarArchetype.hpp
         # Types used as actual values in Croquette programs
         # Archetypes may show their stinking head, but
         # they are never instatiated by themselves
-        types/user_types/FlatArrayType.hpp          # archArray with only scalars
-        types/user_types/ComplexArrayType.hpp       # archArray with everything
-        types/user_types/TrueScalarType.hpp         # A archScalar number
-        types/user_types/CharacterScalarType.hpp    # A archScalar character implicitly number in calc
-        types/user_types/HashmapType.hpp            # A archHash
-        types/user_types/OrderedMapType.hpp         # A Map
+        src/types/user_types/FlatArrayType.hpp          # archArray with only scalars
+        src/types/user_types/ComplexArrayType.hpp       # archArray with everything
+        src/types/user_types/TrueScalarType.hpp         # A archScalar number
+        src/types/user_types/CharacterScalarType.hpp    # A archScalar character implicitly number in calc
+        src/types/user_types/HashmapType.hpp            # A archHash
+        src/types/user_types/OrderedMapType.hpp         # A Map
         # Casts between the concrete Types of the same Archetype
-        types/user_types/casts/ScalarCast.hpp
-        types/user_types/casts/ArrayCast.hpp
+        src/types/user_types/casts/ScalarCast.hpp
+        src/types/user_types/casts/ArrayCast.hpp
         # Misc.
-        types/user_types/EqualityOperators.hpp
+        src/types/user_types/EqualityOperators.hpp
         )
 
 set(libCroquette_SOURCES
-        uniprint.cpp cqt.cpp
-        types/archetypes/AnyArchetype.cpp
-        types/archetypes/ArrayArchetype.cpp
-        types/archetypes/HashArchetype.cpp
-        types/archetypes/ReferenceArchetype.cpp
-        types/archetypes/ScalarArchetype.cpp
-        types/archetypes/ArchetypeUtilities.cpp
+        src/uniprint.cpp src/cqt.cpp
+        src/types/archetypes/AnyArchetype.cpp
+        src/types/archetypes/ArrayArchetype.cpp
+        src/types/archetypes/HashArchetype.cpp
+        src/types/archetypes/ReferenceArchetype.cpp
+        src/types/archetypes/ScalarArchetype.cpp
+        src/types/archetypes/ArchetypeUtilities.cpp
 
-        types/user_types/FlatArrayType.cpp
-        types/user_types/ComplexArrayType.cpp
-        types/user_types/TrueScalarType.cpp
-        types/user_types/CharacterScalarType.cpp
-        types/user_types/HashmapType.cpp
-        types/user_types/OrderedMapType.cpp
+        src/types/user_types/FlatArrayType.cpp
+        src/types/user_types/ComplexArrayType.cpp
+        src/types/user_types/TrueScalarType.cpp
+        src/types/user_types/CharacterScalarType.cpp
+        src/types/user_types/HashmapType.cpp
+        src/types/user_types/OrderedMapType.cpp
 
-        types/user_types/casts/ScalarCast.cpp
-        types/user_types/casts/ArrayCast.cpp
+        src/types/user_types/casts/ScalarCast.cpp
+        src/types/user_types/casts/ArrayCast.cpp
 
-        types/user_types/EqualityOperators.cpp
+        src/types/user_types/EqualityOperators.cpp
         )
 
 add_library(cqt STATIC ${libCroquette_HEADERS} ${libCroquette_SOURCES})

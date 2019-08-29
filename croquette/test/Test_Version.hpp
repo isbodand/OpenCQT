@@ -11,7 +11,7 @@
 #include <boost/test/included/unit_test.hpp>
 
 #include "../versioning.hpp"
-#include "../cqt.hpp"
+#include "../src/cqt.hpp"
 
 using namespace LibCqt;
 

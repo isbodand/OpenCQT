@@ -10,7 +10,7 @@
 
 #include <boost/test/included/unit_test.hpp>
 
-#include "../cqt.hpp"
+#include "../src/cqt.hpp"
 #include "../types/ImplementationTypes.hpp"
 #include "../types/archetypes/AnyArchetype.hpp"
 

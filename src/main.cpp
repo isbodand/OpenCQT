@@ -30,14 +30,14 @@
 #include <infoparse/OptionsParser.hpp>
 #include <infoparse/versioning.hpp>
 // Croquette STD
-#include "../croquette/cqt.hpp"
-#include "../croquette/types/user_types/FlatArrayType.hpp"
-#include "../croquette/types/user_types/ComplexArrayType.hpp"
-#include "../croquette/types/archetypes/ArchetypeUtilities.hpp"
-#include "../croquette/types/user_types/CharacterScalarType.hpp"
-#include "../croquette/types/user_types/HashmapType.hpp"
-#include "../croquette/types/user_types/OrderedMapType.hpp"
-#include "../croquette/versioning.hpp"
+#include "../croquette/src/cqt.hpp"
+#include "../croquette/src/types/user_types/FlatArrayType.hpp"
+#include "../croquette/src/types/user_types/ComplexArrayType.hpp"
+#include "../croquette/src/types/archetypes/ArchetypeUtilities.hpp"
+#include "../croquette/src/types/user_types/CharacterScalarType.hpp"
+#include "../croquette/src/types/user_types/HashmapType.hpp"
+#include "../croquette/src/types/user_types/OrderedMapType.hpp"
+#include "../croquette/src/versioning.hpp"
 // OpenCQT
 #include "versioning.hpp"
 // LibStarch
