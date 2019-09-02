@@ -25,7 +25,7 @@ namespace LibStarch {
       [[nodiscard]] std::string getVal() const override;
 
   public: // Constructors & Destructor
-      ValExpr() = delete;
+      ValExpr() = default;
       template<class Expr>
       ValExpr(Expr* expr_);
       ValExpr(const ValExpr& cp) = default;
@@ -46,7 +46,7 @@ namespace LibStarch {
   inline ValExpr::ValExpr(Expr* expr_)
        : expr(expr_) {
       using namespace Utils;
-      std::string type(std::to_string(*expr_));
+      std::string type(std::to_string(expr_->getType()));
       if (type == "AdditionExpression") {
           typ = Impl::exprAddition;
       } else if (type == "SubtractionExpression") {

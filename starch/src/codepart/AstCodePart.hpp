@@ -9,4 +9,10 @@
 namespace LibStarch {
   class ASTCodePart : public ASTNode {
   };
+
+  class ASTExtendedCodePart : public ASTCodePart {
+  };
+
+  class ASTRestrictedCodePart : public ASTCodePart {
+  };
 }

@@ -43,6 +43,11 @@
 // LibStarch
 #include "../starch/src/versioning.hpp"
 
+#include <boost/spirit/include/qi.hpp>
+#include "parsing/ParserGrammar.hpp"
+
+namespace qi = boost::spirit::qi;
+namespace ascii = boost::spirit::ascii;
 namespace cqt = LibCqt;
 namespace ip = InfoParse;
 namespace ls = LibStarch;
@@ -52,11 +57,18 @@ namespace ls = LibStarch;
 
 int main(int argc, char** argv) {
     cqt::init();
+    using namespace std::string_literals;
+
+    auto code = R"(+#{56}%{say}>{$|{"A"}})"s;
+    ls::ASTRoot root(ls::ASTCode{});
+    qi::phrase_parse(code.begin(), code.end(),
+                     OpenCqt::Parse::CroquetteGrammar<std::string::iterator>(),
+                     ascii::space, root);
 
     ip::OptionsParser parser;
     parser.addOptions()
-                  ("help|h|?", help)
-                  ("version|v", version);
+               ("help|h|?", help)
+               ("version|v", version);
 
     auto files = parser.parse(argc, argv);
 

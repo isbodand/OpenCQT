@@ -19,18 +19,18 @@ namespace LibStarch {
       /// Interface
   public:
       void accept(Visiting::Visitor& visitor) override;
-      [[nodiscard]] std::vector<Ptr<ASTCodePart>>& getParts();
-      [[nodiscard]] const std::vector<Ptr<ASTCodePart>>& getParts() const;
+      [[nodiscard]] std::vector<Ptr<ASTRestrictedCodePart>>& getParts();
+      [[nodiscard]] const std::vector<Ptr<ASTRestrictedCodePart>>& getParts() const;
 
       /// Lifecycle
   public:
       ASTInnerCode() = default;
-      ASTInnerCode(std::initializer_list<Ptr<LibStarch::ASTCodePart>> parts);
-      ASTInnerCode(std::vector<Ptr<ASTCodePart>> parts);
+      ASTInnerCode(std::initializer_list<Ptr<LibStarch::ASTRestrictedCodePart>> parts);
+      ASTInnerCode(std::vector<Ptr<ASTRestrictedCodePart>> parts);
 
       /// Fields
   private:
-      std::vector<Ptr<ASTCodePart>> parts;
+      std::vector<Ptr<ASTRestrictedCodePart>> parts;
 
       /// Internals
   private:
@@ -41,11 +41,11 @@ namespace LibStarch {
 
           [[nodiscard]] ASTInnerCode operator()() const { return build(); }
 
-          Builder& addPart(Ptr<LibStarch::ASTCodePart>&& part);
+          Builder& addPart(Ptr<LibStarch::ASTRestrictedCodePart>&& part);
 
           /// Fields
       private:
-          std::vector<Ptr<LibStarch::ASTCodePart>> codes;
+          std::vector<Ptr<LibStarch::ASTRestrictedCodePart>> codes;
       };
   };
 }

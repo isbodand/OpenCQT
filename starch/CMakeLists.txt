@@ -3,13 +3,12 @@ cmake_minimum_required(VERSION 3.10)
 set(CMAKE_CXX_STANDARD 17)
 project(LibStarch)
 
-
 set(LibStarch_VERSION_MAJOR 1)
 set(LibStarch_VERSION_MINOR 0)
 set(LibStarch_VERSION_NOTE Moon)
 set(LibStarch_VERSION "${LibStarch_VERSION_MAJOR}.${LibStarch_VERSION_MINOR}-${LibStarch_VERSION_NOTE}")
 
-string(TIMESTAMP LibStarch_VERSION_BUILD_DATE "%Y-%m-%d at %H:%M:%S (%s)" UTC)
+string(TIMESTAMP LibStarch_VERSION_BUILD_DATE "%Y-%m-%d at %H:%M:%S (%s)")
 
 include(utils/load_libs.cmake)
 
@@ -43,14 +42,13 @@ set(LibStarch_HEADERS
         src/val_subtrees/ValText.hpp
         src/val_subtrees/ValNumber.hpp
         src/val_subtrees/ValExpr.hpp
-        # Classes for parts of (inner)?code
+        # Classes for parts of (inner)?
         src/codepart/AstCodePart.hpp
         src/codepart/AstOperation.hpp
         src/codepart/loop/AstLoop.hpp
         src/codepart/loop/AstForLoop.hpp
         src/codepart/loop/AstWhileLoop.hpp
         src/codepart/loop/AstDoLoop.hpp
-        src/codepart/AstExtendedCodePart.hpp
         src/codepart/def/AstDefinition.hpp
         src/codepart/def/AstSubDefinition.hpp
         src/codepart/def/AstMacroDefinition.hpp
@@ -111,13 +109,12 @@ set(LibStarch_SOURCES
         src/val_subtrees/ValNumber.cpp
         src/val_subtrees/ValExpr.cpp
         # Classes for parts of (inner)?code
-        src/codepart/AstCodePart.cpp
+        src/codepart/AstCodePart.hpp
         src/codepart/AstOperation.cpp
         src/codepart/loop/AstLoop.cpp
         src/codepart/loop/AstForLoop.cpp
         src/codepart/loop/AstWhileLoop.cpp
         src/codepart/loop/AstDoLoop.cpp
-        src/codepart/AstExtendedCodePart.cpp
         src/codepart/def/AstDefinition.cpp
         src/codepart/def/AstSubDefinition.cpp
         src/codepart/def/AstMacroDefinition.cpp

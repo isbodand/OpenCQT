@@ -57,6 +57,13 @@ namespace LibStarch::Utils {
         new(val.vectorial) std::vector<std::string>(vectorial);
     }
 
+    ASTSubParams_::ValType::ValType(std::vector<std::string> vectorial)
+         : used(1),
+           val{0} {
+        val.vectorial = std::malloc(sizeof(std::vector<std::string>));
+        new(val.vectorial) std::vector<std::string>(std::move(vectorial));
+    }
+
     ASTSubParams_::ValType& ASTSubParams_::ValType::operator=(long scalar) {
         if (used) {
             delete (std::vector<std::string>*) val.vectorial;
@@ -169,62 +176,6 @@ std::string std::to_string(LibStarch::Utils::Instruction type) {
     return "";
 }
 
-std::string std::to_string(LibStarch::AdditionExpression& expr) {
-    return "AdditionExpression";
-}
-
-std::string std::to_string(LibStarch::SubtractionExpression& expr) {
-    return "SubtractionExpression";
-}
-
-std::string std::to_string(LibStarch::MultiplicationExpression& expr) {
-    return "MultiplicationExpression";
-}
-
-std::string std::to_string(LibStarch::DivisionExpression& expr) {
-    return "DivisionExpression";
-}
-
-std::string std::to_string(LibStarch::ModuloExpression& expr) {
-    return "ModuloExpression";
-}
-
-std::string std::to_string(LibStarch::ValueExpression& expr) {
-    return "ValueExpression";
-}
-
-std::string std::to_string(LibStarch::NegateExpression& expr) {
-    return "NegateExpression";
-}
-
-std::string std::to_string(LibStarch::TernaryExpression& expr) {
-    return "TernaryExpression";
-}
-
-std::string std::to_string(LibStarch::EqualityExpression& expr) {
-    return "EqualityExpression";
-}
-
-std::string std::to_string(LibStarch::InequalityExpression& expr) {
-    return "InequalityExpression";
-}
-
-std::string std::to_string(LibStarch::GreaterThanExpression& expr) {
-    return "GreaterThanExpression";
-}
-
-std::string std::to_string(LibStarch::GreaterOrEqualExpression& expr) {
-    return "GreaterOrEqualExpression";
-}
-
-std::string std::to_string(LibStarch::LessThanExpression& expr) {
-    return "LessThanExpression";
-}
-
-std::string std::to_string(LibStarch::LessOrEqualExpression& expr) {
-    return "LessOrEqualExpression";
-}
-
 std::string std::to_string(LibStarch::ValExpr& val) {
     return "ValExpr";
 }
@@ -239,4 +190,37 @@ std::string std::to_string(LibStarch::ValNumber& val) {
 
 std::string std::to_string(LibStarch::ValID& val) {
     return "ValID";
+}
+
+std::string std::to_string(LibStarch::Utils::ExprType expr) {
+    switch (expr) {
+        case LibStarch::Utils::Impl::exprAddition:
+            return "AdditionExpression";
+        case LibStarch::Utils::Impl::exprSubtraction:
+            return "SubtractionExpression";
+        case LibStarch::Utils::Impl::exprMultiplication:
+            return "MultiplicationExpression";
+        case LibStarch::Utils::Impl::exprDivision:
+            return "DivisionExpression";
+        case LibStarch::Utils::Impl::exprModulo:
+            return "ModuloExpression";
+        case LibStarch::Utils::Impl::exprValue:
+            return "ValueExpression";
+        case LibStarch::Utils::Impl::exprNegate:
+            return "NegateExpression";
+        case LibStarch::Utils::Impl::exprTernary:
+            return "TernaryExpression";
+        case LibStarch::Utils::Impl::exprEquality:
+            return "EqualityExpression";
+        case LibStarch::Utils::Impl::exprInequality:
+            return "InequalityExpression";
+        case LibStarch::Utils::Impl::exprGreaterThan:
+            return "GreaterThanExpression";
+        case LibStarch::Utils::Impl::exprGreaterOrEqual:
+            return "GreaterOrEqualExpression";
+        case LibStarch::Utils::Impl::exprLessThan:
+            return "LessThanExpression";
+        case LibStarch::Utils::Impl::exprLessOrEqual:
+            return "LessOrEqualExpression";
+    }
 }

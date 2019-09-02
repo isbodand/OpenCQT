@@ -22,8 +22,8 @@ LibStarch::ValNode* LibStarch::ValNode::mkID(const char* idName) {
 }
 
 LibStarch::_Ptr<LibStarch::ValNode>
-LibStarch::ValNode::mkPtrID(std::string&& idName) {
-    return std::make_shared<ValID>(std::forward<std::string>(idName));
+LibStarch::ValNode::mkPtrID(const std::string& idName) {
+    return std::make_shared<ValID>(idName);
 }
 
 LibStarch::_Ptr<LibStarch::ValNode>
@@ -66,8 +66,8 @@ LibStarch::ValNode* LibStarch::ValNode::mkText(const char* idName) {
 }
 
 LibStarch::_Ptr<LibStarch::ValNode>
-LibStarch::ValNode::mkPtrText(std::string&& idName) {
-    return std::make_shared<ValText>(std::forward<std::string>(idName));
+LibStarch::ValNode::mkPtrText(const std::string& idName) {
+    return std::make_shared<ValText>(idName);
 }
 
 LibStarch::_Ptr<LibStarch::ValNode>

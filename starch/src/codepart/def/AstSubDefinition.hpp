@@ -20,7 +20,7 @@ namespace LibStarch {
 
       /// Lifecycle
   public:
-      ASTSubDefinition() = delete;
+      ASTSubDefinition() = default;
       ASTSubDefinition(const ValID& name, Utils::ASTSubParams params, ASTCode code);
 
       /// Fields

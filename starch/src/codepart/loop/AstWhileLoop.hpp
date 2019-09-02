@@ -10,7 +10,7 @@ namespace LibStarch {
   class ASTWhileLoop : public ASTLoop {
       /// Lifecycle
   public:
-      ASTWhileLoop() = delete;
+      ASTWhileLoop() = default;
       ASTWhileLoop(const CondNode& cond, const ASTInnerCode& code);
       ASTWhileLoop(const ASTWhileLoop& cp) = default;
       ASTWhileLoop(ASTWhileLoop&& mv) noexcept = default;

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "../AstExtendedCodePart.hpp"
+#include "../AstCodePart.hpp"
 #include "../../val_subtrees/ValId.hpp"
 
 namespace LibStarch {
@@ -16,6 +16,7 @@ namespace LibStarch {
 
       /// Lifecycle
   protected:
+      ASTDefinition() = default;
       ASTDefinition(ValID name);
 
       /// Fields

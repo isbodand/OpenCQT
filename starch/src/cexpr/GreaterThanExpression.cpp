@@ -7,3 +7,7 @@
 void LibStarch::GreaterThanExpression::accept(LibStarch::Visiting::Visitor& visitor) {
     visitor.visit(*this);
 }
+
+LibStarch::Utils::ExprType LibStarch::GreaterThanExpression::getType() const {
+    return Utils::Impl::exprGreaterThan;
+}

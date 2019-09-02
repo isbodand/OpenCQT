@@ -4,9 +4,9 @@
 
 #pragma once
 
+#include <type_traits>
 #include <initializer_list>
 #include "AstNode.hpp"
-#include "codepart/AstExtendedCodePart.hpp"
 #include "Utils.hpp"
 
 namespace LibStarch {
@@ -19,20 +19,32 @@ namespace LibStarch {
       /// Interface
   public:
       void accept(Visiting::Visitor& visitor) override;
-      [[nodiscard]] std::vector<Ptr<ASTExtendedCodePart>>& getParts();
-      [[nodiscard]] const std::vector<Ptr<ASTExtendedCodePart>>& getParts() const;
+      [[nodiscard]] std::vector<Ptr<ASTCodePart>>& getParts();
+      [[nodiscard]] const std::vector<Ptr<ASTCodePart>>& getParts() const;
 
       static Builder getBuilder();
 
       /// Lifecycle
   public:
       ASTCode() = default;
-      ASTCode(std::initializer_list<Ptr<LibStarch::ASTExtendedCodePart>> parts);
-      ASTCode(std::vector<Ptr<LibStarch::ASTExtendedCodePart>> parts);
+      template<
+           class CodeType,
+           typename = std::enable_if_t<
+                std::is_base_of_v<LibStarch::ASTCodePart, CodeType>
+           >
+      >
+      ASTCode(std::initializer_list<Ptr<CodeType>> parts);
+      template<
+           class CodeType,
+           typename = std::enable_if_t<
+                std::is_base_of_v<LibStarch::ASTCodePart, CodeType>
+           >
+      >
+      ASTCode(std::vector<Ptr<CodeType>> parts);
 
       /// Fields
   private:
-      std::vector<Ptr<ASTExtendedCodePart>> parts;
+      std::vector<Ptr<ASTCodePart>> parts;
 
       /// Internals
   private:
@@ -43,11 +55,11 @@ namespace LibStarch {
 
           [[nodiscard]] ASTCode operator()() const { return build(); }
 
-          Builder& addPart(Ptr<LibStarch::ASTExtendedCodePart>&& part);
+          Builder& addPart(Ptr<LibStarch::ASTCodePart>&& part);
 
           /// Fields
       private:
-          std::vector<Ptr<LibStarch::ASTExtendedCodePart>> codes;
+          std::vector<Ptr<LibStarch::ASTCodePart>> codes;
       };
   };
 }

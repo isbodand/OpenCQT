@@ -71,11 +71,16 @@ LibStarch::ASTOperation::Builder::asInstruction(Instruction instr) {
 
 LibStarch::ASTOperation::Builder::CallBuilder
 LibStarch::ASTOperation::Builder::asFunctionCall(LibStarch::ValID id) {
-    return CallBuilder(id);
+    return CallBuilder(std::move(id));
 }
 
 LibStarch::ASTOperation LibStarch::ASTOperation::Builder::InstrBuilder::build() const {
     return LibStarch::ASTOperation(instr, rep, _ctor);
+}
+
+LibStarch::Ptr<LibStarch::ASTOperation>
+LibStarch::ASTOperation::Builder::InstrBuilder::buildPtr() const {
+    return std::make_shared<LibStarch::ASTOperation>(instr, rep, _ctor);
 }
 
 LibStarch::ASTOperation::Builder::InstrBuilder::InstrBuilder(LibStarch::Instruction instr)

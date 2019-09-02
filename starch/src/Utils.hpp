@@ -12,7 +12,9 @@
 #include "val_subtrees/ValNode.hpp"
 
 #define trait class
-#define unless(x) if(!(x))
+#ifndef unless
+  #define unless(x) if(!(x))
+#endif
 
 namespace LibStarch::Utils {
   namespace Impl {
@@ -53,6 +55,11 @@ namespace LibStarch::Utils {
         valValNumber,
         valValID,
     };
+    struct Any_ {
+        const void* value;
+        Val_ type;
+    };
+
     // Sub Parameters
     struct ASTSubParams_ {
         struct ValType {
@@ -66,6 +73,7 @@ namespace LibStarch::Utils {
             ValType();
             ValType(long scalar);
             ValType(std::initializer_list<std::string> vectorial);
+            ValType(std::vector<std::string> vectorial);
 
             ValType& operator=(long scalar);
             ValType& operator=(std::vector<std::string> vectorial);
@@ -76,6 +84,7 @@ namespace LibStarch::Utils {
         bool advanced;
         ValType val;
 
+        ASTSubParams_() = default;
         ASTSubParams_(long num);
         ASTSubParams_(std::initializer_list<std::string> str);
     };
@@ -85,6 +94,7 @@ namespace LibStarch::Utils {
         Types_ type;
         std::shared_ptr<ValNode> val;
 
+        ASTTypeCtor_() = default;
         ASTTypeCtor_(Types_ type, ValNode* val);
     };
 
@@ -127,6 +137,7 @@ namespace LibStarch::Utils {
   using Instruction = Impl::Instruction_;
   using ValType = Impl::Val_;
   using ExprType = Impl::Expr_;
+  using Anything = Impl::Any_;
 
   bool deq(double a, double b);
   bool dne(double a, double b);
@@ -139,20 +150,7 @@ namespace LibStarch::Utils {
 namespace std {
   std::string to_string(LibStarch::Utils::Type type);
   std::string to_string(LibStarch::Utils::Instruction type);
-  std::string to_string(LibStarch::AdditionExpression& expr);
-  std::string to_string(LibStarch::SubtractionExpression& expr);
-  std::string to_string(LibStarch::MultiplicationExpression& expr);
-  std::string to_string(LibStarch::DivisionExpression& expr);
-  std::string to_string(LibStarch::ModuloExpression& expr);
-  std::string to_string(LibStarch::ValueExpression& expr);
-  std::string to_string(LibStarch::NegateExpression& expr);
-  std::string to_string(LibStarch::TernaryExpression& expr);
-  std::string to_string(LibStarch::EqualityExpression& expr);
-  std::string to_string(LibStarch::InequalityExpression& expr);
-  std::string to_string(LibStarch::GreaterThanExpression& expr);
-  std::string to_string(LibStarch::GreaterOrEqualExpression& expr);
-  std::string to_string(LibStarch::LessThanExpression& expr);
-  std::string to_string(LibStarch::LessOrEqualExpression& expr);
+  std::string to_string(LibStarch::Utils::ExprType expr);
   std::string to_string(LibStarch::ValExpr& val);
   std::string to_string(LibStarch::ValText& val);
   std::string to_string(LibStarch::ValNumber& val);

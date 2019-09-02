@@ -29,12 +29,12 @@ namespace LibStarch {
       static ValNode* mkText(std::string idName);
       static ValNode* mkText(const char* idName);
       // Smart pointer impl
-      static _Ptr<ValNode> mkPtrID(std::string&& idName);
+      static _Ptr<ValNode> mkPtrID(const std::string& idName);
       static _Ptr<ValNode> mkPtrID(const char* idName);
       template<class Expr>
       static _Ptr<ValNode> mkPtrExpr(Expr* expr_);
       static _Ptr<ValNode> mkPtrNumber(double value);
-      static _Ptr<ValNode> mkPtrText(std::string&& idName);
+      static _Ptr<ValNode> mkPtrText(const std::string& idName);
       static _Ptr<ValNode> mkPtrText(const char* idName);
 
       /// Lifecycle

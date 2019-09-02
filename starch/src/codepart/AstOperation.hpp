@@ -8,7 +8,6 @@
 #include <utility>
 #include "AstCodePart.hpp"
 #include "../Utils.hpp"
-#include "AstExtendedCodePart.hpp"
 #include "../val_subtrees/ValId.hpp"
 #include "../val_subtrees/ValNumber.hpp"
 
@@ -18,8 +17,7 @@ namespace LibStarch {
   using Utils::Instruction;
   using Utils::TypeCtor;
 
-  class ASTOperation : public ASTCodePart,
-                       public ASTExtendedCodePart {
+  class ASTOperation : public ASTRestrictedCodePart {
       class Builder;
       /// Interface
   public:
@@ -37,11 +35,11 @@ namespace LibStarch {
 
       /// Constructors
   public:
-      ASTOperation() = delete;
+      ASTOperation() = default;
       ASTOperation(Instruction instr, Ptr<ValNode> rep = ValNode::mkPtrNumber(1),
                    std::optional<TypeCtor> ctor = std::nullopt);
       ASTOperation(ValID id, std::vector<std::string> args);
-      ASTOperation(const ASTOperation& cp) = delete;
+      ASTOperation(const ASTOperation& cp) = default;
       ASTOperation(ASTOperation&& mv) noexcept = default;
 
       /// Destructor
@@ -52,6 +50,10 @@ namespace LibStarch {
   public:
       ASTOperation& operator=(const ASTOperation& cp) = delete;
       ASTOperation& operator=(ASTOperation&& mv) noexcept = default;
+
+      [[nodiscard]] explicit operator std::shared_ptr<ASTOperation>() const {
+          return std::make_shared<ASTOperation>(*this);// Copy that shit
+      }
 
       /// Fields
   private:
@@ -78,6 +80,7 @@ namespace LibStarch {
               /// Interface
           public:
               [[nodiscard]] ASTOperation build() const;
+              [[nodiscard]] Ptr<ASTOperation> buildPtr() const;
 
               /// Lifecycle
           public:

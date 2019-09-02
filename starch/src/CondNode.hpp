@@ -27,7 +27,7 @@ namespace LibStarch {
 
       /// Lifecycle
   public:
-      CondNode() = delete;
+      CondNode() = default;
       CondNode(ValNode* valNode);
 
       template<template<class, class> class E, class L, class R>

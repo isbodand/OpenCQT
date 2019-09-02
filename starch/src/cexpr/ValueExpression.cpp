@@ -7,3 +7,7 @@
 void LibStarch::ValueExpression::accept(LibStarch::Visiting::Visitor& visitor) {
     visitor.visit(*this);
 }
+
+LibStarch::Utils::ExprType LibStarch::ValueExpression::getType() const {
+    return Utils::Impl::exprValue;
+}

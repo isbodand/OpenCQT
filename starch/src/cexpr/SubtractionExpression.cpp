@@ -7,3 +7,7 @@
 void LibStarch::SubtractionExpression::accept(LibStarch::Visiting::Visitor& visitor) {
     visitor.visit(*this);
 }
+
+LibStarch::Utils::ExprType LibStarch::SubtractionExpression::getType() const {
+    return Utils::Impl::exprSubtraction;
+}

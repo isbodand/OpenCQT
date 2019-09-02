@@ -7,3 +7,7 @@
 void LibStarch::ModuloExpression::accept(LibStarch::Visiting::Visitor& visitor) {
     visitor.visit(*this);
 }
+
+LibStarch::Utils::ExprType LibStarch::ModuloExpression::getType() const {
+    return Utils::Impl::exprModulo;
+}

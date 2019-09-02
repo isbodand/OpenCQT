@@ -7,21 +7,18 @@
 #include <utility>
 #include "../AstCodePart.hpp"
 #include "../../CondNode.hpp"
-#include "../AstExtendedCodePart.hpp"
 #include "../../AstInnerCode.hpp"
 
 namespace LibStarch {
-  class ASTLoop : public ASTCodePart,
-                  public ASTExtendedCodePart {
+  class ASTLoop : public ASTRestrictedCodePart {
       /// Interface
   public:
       [[nodiscard]] const CondNode& getCond() const;
       [[nodiscard]] const ASTInnerCode& getCode() const;
 
       /// Lifecycle
-      ASTLoop() = delete;
-
   protected:
+      ASTLoop() = default;
       ASTLoop(CondNode cond, ASTInnerCode code);
       ASTLoop(const ASTLoop& cp) = default;
       ASTLoop(ASTLoop&& mv) noexcept = default;

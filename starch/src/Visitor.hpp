@@ -8,11 +8,12 @@ namespace LibStarch {
   //&!off
   class ASTRoot;
   // Codes
-  class ASTCodePart;
+  class ASTCode;
   class ASTInnerCode;
 
+  class ASTCodePart;
+  class ASTRestrictedCodePart;
   class ASTExtendedCodePart;
-  class ASTCode;
 
   // Loops
   class ASTForLoop;

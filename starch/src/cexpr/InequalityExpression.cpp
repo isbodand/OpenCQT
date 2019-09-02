@@ -7,3 +7,7 @@
 void LibStarch::InequalityExpression::accept(LibStarch::Visiting::Visitor& visitor) {
     visitor.visit(*this);
 }
+
+LibStarch::Utils::ExprType LibStarch::InequalityExpression::getType() const {
+    return Utils::Impl::exprInequality;
+}

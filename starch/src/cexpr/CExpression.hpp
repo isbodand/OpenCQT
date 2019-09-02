@@ -14,16 +14,13 @@
 namespace LibStarch {
   using Utils::Ptr;
   using Utils::mkPtr;
-  struct Any_ {
-      const void* value;
-      Utils::ValType type;
-  };
-  using Anything = Any_;
+  using Utils::Anything;
 
   class CExpression {
       /// Interface
   public:
       [[nodiscard]] virtual double eval() const = 0;
+      [[nodiscard]] virtual Utils::ExprType getType() const = 0;
       [[nodiscard]] virtual std::string getPrintName() const = 0;
       virtual void leftAsString(std::ostream& os) const = 0;
       virtual void rightAsString(std::ostream& os) const = 0;

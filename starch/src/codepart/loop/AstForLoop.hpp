@@ -26,7 +26,7 @@ namespace LibStarch {
 
       /// Lifecycle
   public:
-      ASTForLoop() = delete;
+      ASTForLoop() = default;
       ASTForLoop(const CondNode& cond, const ASTInnerCode& code,
                  std::optional<ASTInnerCode> init = std::nullopt,
                  std::optional<ASTInnerCode> step = std::nullopt);

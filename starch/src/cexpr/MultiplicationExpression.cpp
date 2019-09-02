@@ -7,3 +7,7 @@
 void LibStarch::MultiplicationExpression::accept(LibStarch::Visiting::Visitor& visitor) {
     visitor.visit(*this);
 }
+
+LibStarch::Utils::ExprType LibStarch::MultiplicationExpression::getType() const {
+    return Utils::Impl::exprMultiplication;
+}

@@ -28,7 +28,6 @@
 
 // Operations
 <operation> ::= "%{" <id> <macro-param-list> "}" // %{some_macro{param1}{param2}}
-              | "%{" <id> "}" <repeat>           // %{some_sub}#{69}
               | "%{" <id> "}"                    // %{some_sub}
               | <instr> <instr-param> <repeat>   // >{@$}#{some_sub}
               | <instr> <instr-param>            // >{#@}

@@ -19,5 +19,6 @@ namespace LibStarch {
                              public Visiting::Visitable {
   public:
       void accept(Visiting::Visitor& visitor) override;
+      Utils::ExprType getType() const override;
   };
 }

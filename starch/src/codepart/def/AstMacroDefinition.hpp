@@ -21,7 +21,7 @@ namespace LibStarch {
 
       /// Lifecycle
   public:
-      ASTMacroDefinition() = delete;
+      ASTMacroDefinition() = default;
       ASTMacroDefinition(const ValID& name, std::string text, std::vector<std::string> params);
 
       /// Fields

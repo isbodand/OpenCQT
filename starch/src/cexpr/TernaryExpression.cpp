@@ -7,3 +7,7 @@
 void LibStarch::TernaryExpression::accept(LibStarch::Visiting::Visitor& visitor) {
     visitor.visit(*this);
 }
+
+LibStarch::Utils::ExprType LibStarch::TernaryExpression::getType() const {
+    return Utils::Impl::exprTernary;
+}
