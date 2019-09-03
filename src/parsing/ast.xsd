@@ -1,0 +1,233 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="https://isdevnet.com/opencqt"
+           xmlns="https://isdevnet.com/opencqt"
+           elementFormDefault="qualified">
+
+  <!-- Elements -->
+  <xs:element name="program" type="program_type" />
+  <xs:element name="code" type="code_type" />
+  <xs:element name="inner-code" type="inner_type" />
+  <xs:element name="init-code" type="inner_type" />
+  <xs:element name="step-code" type="inner_type" />
+  <xs:element name="for-loop" type="for_type" />
+  <xs:element name="do-loop" type="loop_type" />
+  <xs:element name="while-loop" type="loop_type" />
+  <xs:element name="operation" type="operation_type" />
+  <xs:element name="invocation" type="inv_type" />
+  <xs:element name="arguments" type="args_type" />
+  <xs:element name="argument" type="arg_type" />
+  <xs:element name="macro" type="macro_type" />
+  <xs:element name="subroutine" type="sub_type" />
+  <xs:element name="constructor" type="ctor_type" />
+  <xs:element name="value" type="val_type" />
+  <xs:element name="type" type="type_t" />
+  <xs:element name="condition" type="condition_type" />
+  <!-- C-Expressions -->
+  <xs:element name="addition" type="c-expr_type" />
+  <xs:element name="subtraction" type="c-expr_type" />
+  <xs:element name="multiplication" type="c-expr_type" />
+  <xs:element name="division" type="c-expr_type" />
+  <xs:element name="modulo" type="c-expr_type" />
+  <xs:element name="value-expr" type="c-expr_type" />
+  <xs:element name="negation" type="c-expr_type" />
+  <xs:element name="ternary" type="ternary_type" />
+  <xs:element name="equality" type="c-expr_type" />
+  <xs:element name="inequality" type="c-expr_type" />
+  <xs:element name="greater-than" type="c-expr_type" />
+  <xs:element name="greater-or-equal" type="c-expr_type" />
+  <xs:element name="less-than" type="c-expr_type" />
+  <xs:element name="less-or-equal" type="c-expr_type" />
+
+  <!-- Types -->
+  <xs:complexType name="program_type">
+    <xs:all>
+      <xs:element ref="code" />
+    </xs:all>
+  </xs:complexType>
+
+  <xs:complexType name="code_type">
+    <xs:choice maxOccurs="unbounded">
+      <xs:element ref="operation" />
+      <xs:element ref="invocation" />
+      <xs:element ref="macro" />
+      <xs:element ref="subroutine" />
+      <xs:group ref="loop_type" />
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:complexType name="inner_type">
+    <xs:choice maxOccurs="unbounded">
+      <xs:element ref="operation" />
+      <xs:element ref="invocation" />
+      <xs:group ref="loop_type" />
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:complexType name="operation_type">
+    <xs:all>
+      <xs:element ref="constructor" minOccurs="0" />
+      <xs:element ref="value" />
+    </xs:all>
+    <xs:attribute name="type" type="op_type_t" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="ctor_type">
+    <xs:all>
+      <xs:element ref="type" />
+      <xs:element ref="value" />
+    </xs:all>
+  </xs:complexType>
+
+  <xs:complexType name="val_type">
+    <xs:sequence minOccurs="0">
+      <xs:group ref="c-expr" />
+      <xs:string>
+
+      </xs:string>
+    </xs:sequence>
+    <xs:simpleContent>
+      <xs:restriction base="xs:double" />
+      <xs:restriction base="xs:string" />
+    </xs:simpleContent>
+    <xs:attribute name="type" type="val_type_t" use="optional" />
+  </xs:complexType>
+
+  <xs:complexType name="c-expr_type">
+    <xs:sequence>
+      <xs:element ref="value" />
+      <xs:element ref="value" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ternary_type">
+    <xs:sequence>
+      <xs:element ref="condition" />
+      <xs:element ref="value" />
+      <xs:element ref="value" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="condition_type">
+    <xs:all>
+      <xs:element ref="value" />
+    </xs:all>
+  </xs:complexType>
+
+  <xs:complexType name="for_type">
+    <xs:simpleContent>
+      <xs:extension base="loop_type">
+        <xs:all>
+          <xs:element ref="step-code" minOccurs="0" />
+          <xs:element ref="init-code" minOccurs="0" />
+        </xs:all>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="loop_type">
+    <xs:all>
+      <xs:element ref="condition" />
+      <xs:element ref="inner-code" />
+    </xs:all>
+  </xs:complexType>
+
+  <xs:complexType name="macro_type" mixed="true">
+    <xs:attribute name="identifier" type="id_t" />
+  </xs:complexType>
+
+  <xs:complexType name="sub_type">
+    <xs:all>
+      <xs:element ref="inner-code" />
+    </xs:all>
+    <xs:attribute name="identifier" type="id_t" />
+  </xs:complexType>
+
+  <xs:complexType name="inv_type">
+    <xs:all>
+      <xs:element ref="arguments" />
+    </xs:all>
+    <xs:attribute name="identifier" type="id_t" />
+  </xs:complexType>
+
+  <xs:complexType name="args_type">
+    <xs:sequence maxOccurs="unbounded" minOccurs="0">
+      <xs:element ref="argument" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="arg_type">
+    <xs:restriction base="xs:string">
+      <xs:pattern value=".+" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="id_t">
+    <xs:restriction>
+      <xs:pattern value="[\w_'][\w\d_']*" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="val_type_t">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Expression" />
+      <xs:enumeration value="Number" />
+      <xs:enumeration value="Text" />
+      <xs:enumeration value="Identifier" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="op_type_t">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Plus" />
+      <xs:enumeration value="Minus" />
+      <xs:enumeration value="StepForward" />
+      <xs:enumeration value="StepBackward" />
+      <xs:enumeration value="StepInto" />
+      <xs:enumeration value="StepOut" />
+      <xs:enumeration value="Print" />
+      <xs:enumeration value="Read" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="type_t">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="TrueScalar" />
+      <xs:enumeration value="CharacterScalar" />
+      <xs:enumeration value="FlatArray" />
+      <xs:enumeration value="ComplexArray" />
+      <xs:enumeration value="HashMap" />
+      <xs:enumeration value="TreeMap" />
+      <xs:enumeration value="Reference" />
+      <xs:enumeration value="Function" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Groups -->
+  <xs:group name="loop_type">
+    <xs:choice>
+      <xs:element ref="for-loop" />
+      <xs:element ref="do-loop" />
+      <xs:element ref="while-loop" />
+    </xs:choice>
+  </xs:group>
+
+  <xs:group name="c-expr">
+    <xs:choice>
+      <xs:element ref="addition" />
+      <xs:element ref="subtraction" />
+      <xs:element ref="multiplication" />
+      <xs:element ref="division" />
+      <xs:element ref="modulo" />
+      <xs:element ref="value-expr" />
+      <xs:element ref="negation" />
+      <xs:element ref="ternary" />
+      <xs:element ref="equality" />
+      <xs:element ref="inequality" />
+      <xs:element ref="greater-than" />
+      <xs:element ref="greater-or-equal" />
+      <xs:element ref="less-than" />
+      <xs:element ref="less-or-equal" />
+    </xs:choice>
+  </xs:group>
+</xs:schema>
