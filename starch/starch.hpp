@@ -48,3 +48,21 @@
 #include "src/cexpr/NegateExpression.hpp"
 
 #include "src/cexpr/TernaryExpression.hpp"
+
+#include "src/cexpr/impl/AdditionExpressionImpl.hpp"
+#include "src/cexpr/impl/SubtractionExpressionImpl.hpp"
+#include "src/cexpr/impl/DivisionExpressionImpl.hpp"
+#include "src/cexpr/impl/ModuloExpressionImpl.hpp"
+#include "src/cexpr/impl/MultiplicationExpressionImpl.hpp"
+
+#include "src/cexpr/impl/EqualityExpressionImpl.hpp"
+#include "src/cexpr/impl/InequalityExpressionImpl.hpp"
+#include "src/cexpr/impl/GreaterThanExpressionImpl.hpp"
+#include "src/cexpr/impl/GreaterOrEqualExpressionImpl.hpp"
+#include "src/cexpr/impl/LessThanExpressionImpl.hpp"
+#include "src/cexpr/impl/LessOrEqualExpressionImpl.hpp"
+
+#include "src/cexpr/impl/ValueExpressionImpl.hpp"
+#include "src/cexpr/impl/NegateExpressionImpl.hpp"
+
+#include "src/cexpr/impl/TernaryExpressionImpl.hpp"

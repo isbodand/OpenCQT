@@ -4,9 +4,10 @@ About licensing:
 see the file `LICENSE.apache2'.
 
 2) Libraries used by OpenCQT are licensed under the followings:
- - Boost     -> `Boost License'
- - InfoParse -> `BSD 3-Clause'
- - TinyXML 2 -> `ZLib License'
+ - Boost      -> `Boost License'
+ - InfoParse  -> `BSD 3-Clause'
+ - LibStarch2 -> `BSD 3-Clause'
+ - TinyXML 2  -> `ZLib License'
 
 2.2) More information about the licenses can be found in the following files:
  - Apache License 2.0 -> `LICENSE.apache2'

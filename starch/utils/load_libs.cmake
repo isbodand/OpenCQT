@@ -6,6 +6,7 @@ set(LibStarch_EXTERNAL_LIBS_INC "${LibStarch_EXTERNAL_LIBS_DIR}/include")
 
 # TinyXML 2
 include(utils/mktinyxml.cmake)
+include_directories(${CMAKE_SOURCE_DIR}/libs/include)
 
 # Boost
 find_package(Boost)

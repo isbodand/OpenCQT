@@ -41,7 +41,9 @@
 // OpenCQT
 #include "versioning.hpp"
 // LibStarch
+#include "../starch/src/algorithm/XmlPrinter.hpp"
 #include "../starch/src/versioning.hpp"
+#include "../starch/starch.hpp"
 
 #include <boost/spirit/include/qi.hpp>
 #include "parsing/ParserGrammar.hpp"
@@ -50,7 +52,7 @@ namespace qi = boost::spirit::qi;
 namespace ascii = boost::spirit::ascii;
 namespace cqt = LibCqt;
 namespace ip = InfoParse;
-namespace ls = LibStarch;
+using namespace LibStarch;
 
 [[noreturn]] void help();
 [[noreturn]] void version();
@@ -59,13 +61,50 @@ int main(int argc, char** argv) {
     cqt::init();
     using namespace std::string_literals;
 
-    auto code = R"(+#{56}%{say}>{$|{"A"}})"s;
-    ls::ASTRoot root(ls::ASTCode{});
-    qi::phrase_parse(code.begin(), code.end(),
-                     OpenCqt::Parse::CroquetteGrammar<std::string::iterator>(),
-                     ascii::space, root);
+    ASTRoot root(ASTCode{
+         // >#{[((1/3)=="42")]?"1":(((6*7)>="45")+"4")}
+         std::static_pointer_cast<ASTExtendedCodePart>(mkPtr<ASTOperation>(
+              Utils::Impl::instStepForward,
+              mkPtr<ValExpr>(
+                   TernaryExpression::make(
+                        ValText("1"),
+                        ValExpr(
+                             AdditionExpression::make(
+                                  ValExpr(
+                                       GreaterOrEqualExpression::make(
+                                            ValExpr(
+                                                 MultiplicationExpression::make(
+                                                      ValNumber(6),
+                                                      ValNumber(7)
+                                                 )
+                                            ),
+                                            ValText("45")
+                                       )
+                                  ),
+                                  ValText("4")
+                             )),
+                        std::optional<CondNode>(
+                             EqualityExpression::make(
+                                  ValExpr(
+                                       DivisionExpression::make(
+                                            ValNumber(1),
+                                            ValNumber(3)
+                                       )
+                                  ),
+                                  ValText("42")
+                             )
+                        )
+                   )
+              )
+         ))
+    });
+
+    Algorithm::XMLPrinter xml;
+    xml.visit(root);
+    std::cout << xml.getXml() << std::endl;
 
     ip::OptionsParser parser;
+
     parser.addOptions()
                ("help|h|?", help)
                ("version|v", version);
@@ -90,7 +129,7 @@ void help() {
 void version() {
     CQT_STDOUT << CQT_STRING("OpenCQT v") << OpenCqt::getAutoVersion() << CQT_STRING(" built with:")
                << CQT_STRING("\n- CroquetteSTD v") << cqt::getVersion()
-               << CQT_STRING("\n- LibStarch v") << ls::getAutoVersion()
+               << CQT_STRING("\n- LibStarch v") << getAutoVersion()
                << CQT_STRING("\n- InfoParse v") << ip::getAutoVersion() << std::endl;
     std::exit(0);
 }

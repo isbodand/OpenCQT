@@ -1,20 +1,28 @@
 message(STATUS "Loading Libraries")
 
-# Libary loading options
-set(OpenCQT_EXTERNAL_LIBS_DIR libs)
-set(OpenCQT_EXTERNAL_LIBS_INC "${OpenCQT_EXTERNAL_LIBS_DIR}/include")
+set(CDepend_FILE "${CMAKE_SOURCE_DIR}/utils/InfoCDepend.cmake")
+
+file(DOWNLOAD
+        https://raw.githubusercontent.com/isbodand/InfoCDepend/master/InfoCDepend.cmake
+        "${CDepend_FILE}"
+        )
+
+include("${CDepend_FILE}")
 
 # Boost
-include(utils/mkboost.cmake)
+include(utils/mkboost.cmake) # Todo make InfoCDepend able to install Boost
+
 # InfoParse
-include(utils/mkip.cmake)
+GetDependency(InfoParse "https://github.com/isbodand/infoparse.git")
+
 # Croquette STD
-include(utils/mkstd.cmake)
+message(STATUS "Registering Library 'CroquetteSTD'")
+add_subdirectory(croquette)
+message(STATUS "Registering Library 'CroquetteSTD' - Done")
+
 # LibStarch
-include(utils/mkstarch.cmake)
+#GetDependency(LibStarch2 "https://github.com/isbodand/LibStarch2.git")
+add_subdirectory(starch)
 
-message(STATUS "Register external library headers")
-include_directories(${CMAKE_SOURCE_DIR}/${OpenCQT_EXTERNAL_LIBS_INC})
-message(STATUS "Register external library headers - Done")
-
+include_directories(libs/include)
 message(STATUS "Loading Libraries - Done")
